@@ -1,3 +1,1 @@
-Pera;Peric;pera@email.com;pera;pera
-Jovana;Jovanovic;jj@email.com;jovana;jj123
-Stojanka;Novakovic;st.nov@email.com;st.nov;100ja
+pera123;pera;Pera;Peric;MALE;11-11-2024;ADMINISTRATOR
