@@ -1,5 +1,8 @@
 package services;
 
+import java.time.LocalDate;
+import java.util.Collection;
+
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +18,9 @@ import javax.ws.rs.core.Response;
 
 import beans.User;
 import dao.UserDAO;
+import dto.UserDTO;
+import enums.Gender;
+import enums.Role;
 
 @Path("")
 public class LoginService {
@@ -32,6 +38,15 @@ public class LoginService {
 			String contextPath = ctx.getRealPath("");
 			ctx.setAttribute("userDAO", new UserDAO(contextPath));
 		}
+	}
+	
+	@GET
+	@Path("/get")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<User> getUsers()
+	{
+		UserDAO userDao = (UserDAO) ctx.getAttribute("userDAO");
+		return userDao.findAll();
 	}
 	
 	@OPTIONS
@@ -60,6 +75,21 @@ public class LoginService {
 	@Path("/logout")
 	public void logout(@Context HttpServletRequest request) {
 		request.getSession().invalidate();
+	}
+	
+	@POST
+	@Path("/customer")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public User registerCustomer(UserDTO userDTO)
+	{
+		UserDAO dao = (UserDAO) ctx.getAttribute("userDAO");
+		
+		LocalDate date = dao.convertToDate(userDTO.getDate());
+		Gender gender = dao.convertToGender(userDTO.getGender());
+		Role role = Role.CUSTOMER;
+		User user = new User(userDTO.getUsername(), userDTO.getPassword(), userDTO.getName(), userDTO.getLastname(), gender, date, role);
+		return dao.addUser(user);
 	}
 	
 	@GET

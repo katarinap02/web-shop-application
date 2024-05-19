@@ -18,8 +18,9 @@ import enums.Role;
 public class UserDAO {
 	
 	private HashMap<String, User> users = new HashMap<>();
+	String path = "";
 	
-	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	
 	public UserDAO()
 	{}
@@ -27,6 +28,7 @@ public class UserDAO {
 	public UserDAO(String contextPath)
 	{
 		loadUsers(contextPath);
+		path = contextPath;
 	}
 	
 	public Collection<User> findAll()
@@ -69,10 +71,19 @@ public class UserDAO {
 		}
 		
 		users.put(user.getUsername(), user);
+		saveUsers(path); //nisam uspela da sacuvam u fajl
 		return user;
 	}
 	
-	private Gender convertToGender(String input)
+	public LocalDate convertToDate(String date)
+	{
+
+		LocalDate local = LocalDate.parse(date, formatter);
+		return local;
+
+	}
+	
+	public Gender convertToGender(String input)
 	{
 		if (input == null) {
             throw new IllegalArgumentException("Input cannot be null");
@@ -85,7 +96,7 @@ public class UserDAO {
         }
 	}
 	
-	private Role convertToRole(String input)
+	public Role convertToRole(String input)
 	{
 		if (input == null) {
             throw new IllegalArgumentException("Input cannot be null");
