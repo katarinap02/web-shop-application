@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
  
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.StringTokenizer;
 
@@ -31,6 +32,34 @@ public class ChocolateDAO {
 		path = contextPath;
 	}
 	
+	public Collection<Chocolate> findAll()
+	{
+		return chocolates.values();
+	}
+	
+	public Chocolate findById(int id)
+	{
+		for(Chocolate c: chocolates.values())
+		{
+			if(c.getId() == id)
+				return c;
+		}
+		return null;
+	}
+	
+	public Chocolate addChocolate(Chocolate chocolate)
+	{
+		Integer maxId = -1;
+		for(int id : chocolates.keySet())
+		{
+			if(id > maxId)
+				maxId = id;
+		}
+		maxId++;
+		chocolate.setId(maxId);
+		chocolates.put(chocolate.getId(), chocolate);
+		return chocolate;
+	}
 	
 
 	private void loadChocolates(String contextPath) {
