@@ -17,6 +17,12 @@ public class Location {
 		this.longitude = longitude;
 		this.address = address;
 	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public double getLatitude() {
 		return latitude;
 	}

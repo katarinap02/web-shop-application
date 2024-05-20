@@ -1,0 +1,1 @@
+1;najlepse zelje;250.0;sa keksom;150.0;cokolada sa keksom;true;22

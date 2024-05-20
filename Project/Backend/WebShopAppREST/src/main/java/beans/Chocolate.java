@@ -2,7 +2,7 @@ package beans;
 
 public class Chocolate {
 	
-	private int id;
+	private int id; 
 	private String name;
 	private double price;
 	private String kind; //da li praviti enum, ima puno
@@ -12,7 +12,7 @@ public class Chocolate {
 	private String description;
 	private String imageUrl;
 	private Boolean status;
-    int number; // broj cokolada na stanju
+    private int number; // broj cokolada na stanju
 	public Chocolate() {
 		super();
 		// TODO Auto-generated constructor stub
