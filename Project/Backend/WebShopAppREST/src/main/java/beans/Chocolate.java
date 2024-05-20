@@ -2,10 +2,11 @@ package beans;
 
 public class Chocolate {
 	
+	private int id;
 	private String name;
 	private double price;
 	private String kind; //da li praviti enum, ima puno
-	private ChocolateFactory factory;
+	private int factoryId;
 	private String type; // opet ne znam da li enum, ima puno tipova
 	private double grams;
 	private String description;
@@ -16,19 +17,28 @@ public class Chocolate {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Chocolate(String name, double price, String kind, ChocolateFactory factory, String type, double grams,
+	public Chocolate(int id, String name, double price, String kind, int factoryId, String type, double grams,
 			String description, String imageUrl, Boolean status, int number) {
 		super();
+		this.id = id;
 		this.name = name;
 		this.price = price;
 		this.kind = kind;
-		this.factory = factory;
+		this.factoryId = factoryId;
 		this.type = type;
 		this.grams = grams;
 		this.description = description;
 		this.imageUrl = imageUrl;
 		this.status = status;
 		this.number = number;
+	}
+	
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 	public String getName() {
 		return name;
@@ -48,11 +58,11 @@ public class Chocolate {
 	public void setKind(String kind) {
 		this.kind = kind;
 	}
-	public ChocolateFactory getFactory() {
-		return factory;
+	public int getFactory() {
+		return factoryId;
 	}
-	public void setFactory(ChocolateFactory factory) {
-		this.factory = factory;
+	public void setFactory(int factoryId) {
+		this.factoryId = factoryId;
 	}
 	public String getType() {
 		return type;
