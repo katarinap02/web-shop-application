@@ -26,7 +26,7 @@ public class ChocolateFactoryService {
 		if(ctx.getAttribute("factoryDAO") == null)
 		{
 			String contextPath = ctx.getRealPath("");
-			ctx.setAttribute("factoryDAO", new ChocolateFactoryDAO());
+			ctx.setAttribute("factoryDAO", new ChocolateFactoryDAO(contextPath));
 		}
 	}
 	
