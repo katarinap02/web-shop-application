@@ -61,6 +61,7 @@ public class ChocolateFactoryDAO {
                         for (String chocolateId : chocolateIdTokens) {
                             chocolateIds.add(Integer.parseInt(chocolateId.trim()));
                         }
+                    }
 					
 					LocalTime startHour = LocalTime.parse(st.nextToken().trim(), formatter);
 					LocalTime endHour = LocalTime.parse(st.nextToken().trim(), formatter);
@@ -78,7 +79,7 @@ public class ChocolateFactoryDAO {
 				
 			}
 		} 
-		}catch (Exception ex) {
+		catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
 			if (in != null) {
@@ -89,6 +90,7 @@ public class ChocolateFactoryDAO {
 			}
 		}
 	}
+	
 	
 
 }

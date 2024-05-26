@@ -1,1 +1,3 @@
-0;Stark;;08:00:00;17:00:00;true;0;C:\Users\katar\Desktop\web\projekat\WebShop\Project\Backend\WebShopAppREST\pictures\logoStark.png;4
+0;Stark;;08:00:00;17:00:00;true;0;C:\Users\katar\Desktop\web\projekat\WebShop\Project\Backend\WebShopAppREST\pictures\logoStark.png;4.5
+1;Lannister;;09:00:00;18:00:00;false;1;C:\Users\katar\Desktop\web\projekat\WebShop\Project\Backend\WebShopAppREST\pictures\logoLannister.png;3.8
+2;Targaryen;;07:30:00;16:30:00;true;2;C:\Users\katar\Desktop\web\projekat\WebShop\Project\Backend\WebShopAppREST\pictures\logoTargaryen.png;4.2

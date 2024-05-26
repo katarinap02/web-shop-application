@@ -28,7 +28,6 @@ public class LoginService {
 	@Context
 	ServletContext ctx;
 	
-	public LoginService() {}
 	
 	@PostConstruct
 	public void init()

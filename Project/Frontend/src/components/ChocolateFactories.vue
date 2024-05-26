@@ -11,10 +11,12 @@
                 <th>Average rating</th>
             </tr>
             <tr v-for="b in factories" :key="b">
-                <td>{{b.logoUrl}}</td>
+                <td>
+            <img :src="b.logoUrl" alt="Factory Logo" style="width: 50px; height: 50px;">
+          </td>
                 <td>{{b.name}}</td>
-                <td>{{b.locationId}}</td>
-                <td>{{b.Rate}}</td>
+                <td>{{b.location}}</td>
+                <td>{{b.rate}}</td>
             </tr>
         </table>
     </div>
@@ -62,7 +64,7 @@ function loadFactories()
 
 .tabela th, td {
     border: 1px solid black;
-    max-width: 300px; 
+   width: auto;
 }
 
 .tabela td {

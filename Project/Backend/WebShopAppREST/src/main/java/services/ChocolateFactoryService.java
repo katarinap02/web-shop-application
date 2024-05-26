@@ -19,10 +19,6 @@ public class ChocolateFactoryService {
 	@Context
 	ServletContext ctx;
 
-	public ChocolateFactoryService() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
 	
 	@PostConstruct
 	public void init()
