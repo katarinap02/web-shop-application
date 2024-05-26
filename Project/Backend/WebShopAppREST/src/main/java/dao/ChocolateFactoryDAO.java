@@ -21,6 +21,10 @@ public class ChocolateFactoryDAO {
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 	
 	public ChocolateFactoryDAO(){	
+		ArrayList<Integer> list = new ArrayList<>();
+		WorkingHours hours = new WorkingHours(LocalTime.of(8, 0, 0), LocalTime.of(17, 0, 0));
+		factories.put(0, new ChocolateFactory(0, "Stark", list, hours, true, 0,
+				"https://upload.wikimedia.org/wikipedia/sr/d/de/%D0%A8%D1%82%D0%B0%D1%80%D0%BA_%28%D0%BB%D0%BE%D0%B3%D0%BE%2C_2022%29.png", 3.3)); 
 	}
 	
 	public ChocolateFactoryDAO(String contextPath)

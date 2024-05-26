@@ -3,18 +3,13 @@ package dao;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.StringTokenizer;
 
-import beans.ChocolateFactory;
 import beans.Location;
-import beans.WorkingHours;
+import beans.Product;
+
 
 public class LocationDAO {
 	
@@ -22,6 +17,7 @@ public class LocationDAO {
 	private String path = "";
 	
 	public LocationDAO(){	
+		locations.put(0, new Location(0, 45.5, 19.5, "Sutjeska 3 NoviSad 21000"));
 	}
 	
 	public LocationDAO(String contextPath)
@@ -33,6 +29,10 @@ public class LocationDAO {
 	public Collection<Location> findAll()
 	{
 		 return locations.values();
+	}
+	
+	public Location findById(int id) {
+		return locations.containsKey(id) ? locations.get(id) : null;
 	}
 	
 	private void loadLocations(String contextPath) {

@@ -10,13 +10,15 @@
                 <th>Location</th>
                 <th>Average rating</th>
             </tr>
-            <tr v-for="b in factories" :key="b">
+            <tr v-for="b in factories"  :key="b">
                 <td>
             <img :src="b.logoUrl" alt="Factory Logo" style="width: 50px; height: 50px;">
           </td>
                 <td>{{b.name}}</td>
-                <td>{{b.location}}</td>
+                <td>{{location.latitude }} {{location.longitude}} {{location.address}}</td>
                 <td>{{b.rate}}</td>
+                <td><button class="button" @click="loadLocation(b.id)">Show location</button></td>
+
             </tr>
         </table>
     </div>
@@ -29,10 +31,15 @@ import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 const factories = ref([]);
+const factoriesAdress = ref({logo: "", name: "", location: "", average: ""})
 const router = useRouter();
+const location = ref([]);
+const locationAdd = ref("");
+const pom = ref("");
 
 onMounted(() => {
     loadFactories();
+
 })
 
 function loadFactories()
@@ -41,12 +48,28 @@ function loadFactories()
         if(response.data != "")
         {
             factories.value = response.data;
-            console.log(response.data)
         }
         else {
             factories.value = [];
         }
     })
+}
+
+
+
+function loadLocation(idLocation) {
+        axios.get('http://localhost:8080/WebShopAppREST/rest/locations/id?location=' + idLocation)
+            .then(response => {
+                if (response.data !== "") {
+                    console.log(response.data);
+                    location.value = response.data;
+                    console.log(location.value.id);
+                    
+
+                } else {
+                    return "";
+                }
+            })
 }
 
 
@@ -70,6 +93,7 @@ function loadFactories()
 .tabela td {
     text-align: left;
 }
+
 
 
 

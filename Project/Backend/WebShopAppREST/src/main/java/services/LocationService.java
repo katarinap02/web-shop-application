@@ -7,14 +7,17 @@ import javax.servlet.ServletContext;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
-import beans.ChocolateFactory;
-import dao.ChocolateFactoryDAO;
+import beans.Chocolate;
+import beans.Location;
+import dao.ChocolateDAO;
+import dao.LocationDAO;
 
-@Path("/factories")
-public class ChocolateFactoryService {
+@Path("/locations")
+public class LocationService {
 	
 	@Context
 	ServletContext ctx;
@@ -23,21 +26,20 @@ public class ChocolateFactoryService {
 	@PostConstruct
 	public void init()
 	{
-		if(ctx.getAttribute("factoryDAO") == null)
+		if(ctx.getAttribute("locationDAO") == null)
 		{
 			String contextPath = ctx.getRealPath("");
-			ctx.setAttribute("factoryDAO", new ChocolateFactoryDAO());
+			ctx.setAttribute("locationDAO", new LocationDAO());
 		}
 	}
 	
 	@GET
-	@Path("/")
+	@Path("/id")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Collection<ChocolateFactory> getAll()
+	public Location getLocationById(@QueryParam("location") int id)
 	{
-		ChocolateFactoryDAO dao = (ChocolateFactoryDAO) ctx.getAttribute("factoryDAO");
-		return dao.findAll();
+		LocationDAO dao = (LocationDAO) ctx.getAttribute("locationDAO");
+		return dao.findById(id);
 	}
-	
 
 }
