@@ -2,12 +2,13 @@ import { createRouter, createWebHashHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
 import Login from '../views/LoginView.vue';
 import Register from '../views/RegisterView.vue';
+import Factory from '../views/ChocolateFactoriesView.vue';
 
 const routes = [
   {
     path: "/",
-    name: "home",
-    component: HomeView,
+    name: "factory",
+    component: Factory,
   },
   {
     path: '/login',

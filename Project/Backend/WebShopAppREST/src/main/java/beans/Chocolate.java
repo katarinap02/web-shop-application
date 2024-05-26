@@ -5,7 +5,7 @@ public class Chocolate {
 	private int id; 
 	private String name;
 	private double price;
-	private String kind; //da li praviti enum, ima puno
+	private String kind; //ne treba enum kad nije naglaseno tacno koliko ih ima,
 	private int factoryId;
 	private String type; // opet ne znam da li enum, ima puno tipova
 	private double grams;

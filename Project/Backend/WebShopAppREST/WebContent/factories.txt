@@ -1,0 +1,1 @@
+0;Stark;;08:00:00;17:00:00;true;0;C:\Users\katar\Desktop\web\projekat\WebShop\Project\Backend\WebShopAppREST\pictures\logoStark.png;4
