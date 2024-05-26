@@ -9,7 +9,7 @@ public class ChocolateFactory {
 	private ArrayList<Integer> chocolateIds;
 	private WorkingHours workingHours;
 	private Boolean isWorking;
-	private int locationId;
+	private Location location;
 	private String logoUrl;
 	private double Rate;
 	public ChocolateFactory() {
@@ -18,14 +18,14 @@ public class ChocolateFactory {
 		chocolateIds = new ArrayList<Integer>();
 	}
 	public ChocolateFactory(int id, String name, ArrayList<Integer> chocolateIds, WorkingHours workingHours, Boolean isWorking,
-			int locationId, String logoUrl, double rate) {
+			Location locationId, String logoUrl, double rate) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.chocolateIds = chocolateIds;
 		this.workingHours = workingHours;
 		this.isWorking = isWorking;
-		this.locationId = locationId;
+		this.location = locationId;
 		this.logoUrl = logoUrl;
 		Rate = rate;
 	}
@@ -61,11 +61,11 @@ public class ChocolateFactory {
 	public void setIsWorking(Boolean isWorking) {
 		this.isWorking = isWorking;
 	}
-	public int getLocation() {
-		return locationId;
+	public Location getLocation() {
+		return location;
 	}
-	public void setLocation(int location) {
-		this.locationId = location;
+	public void setLocation(Location location) {
+		this.location = location;
 	}
 	public String getLogoUrl() {
 		return logoUrl;

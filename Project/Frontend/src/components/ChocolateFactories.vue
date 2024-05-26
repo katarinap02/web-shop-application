@@ -15,9 +15,8 @@
             <img :src="b.logoUrl" alt="Factory Logo" style="width: 50px; height: 50px;">
           </td>
                 <td>{{b.name}}</td>
-                <td>{{location.latitude }} {{location.longitude}} {{location.address}}</td>
+                <td>{{b.location.latitude }} {{b.location.longitude }} {{b.location.address}}</td>
                 <td>{{b.rate}}</td>
-                <td><button class="button" @click="loadLocation(b.id)">Show location</button></td>
 
             </tr>
         </table>
@@ -33,9 +32,7 @@ import { useRouter } from 'vue-router';
 const factories = ref([]);
 const factoriesAdress = ref({logo: "", name: "", location: "", average: ""})
 const router = useRouter();
-const location = ref([]);
-const locationAdd = ref("");
-const pom = ref("");
+
 
 onMounted(() => {
     loadFactories();
@@ -57,20 +54,7 @@ function loadFactories()
 
 
 
-function loadLocation(idLocation) {
-        axios.get('http://localhost:8080/WebShopAppREST/rest/locations/id?location=' + idLocation)
-            .then(response => {
-                if (response.data !== "") {
-                    console.log(response.data);
-                    location.value = response.data;
-                    console.log(location.value.id);
-                    
 
-                } else {
-                    return "";
-                }
-            })
-}
 
 
 

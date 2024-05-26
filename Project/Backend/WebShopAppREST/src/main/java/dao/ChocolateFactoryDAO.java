@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.StringTokenizer;
 
 import beans.ChocolateFactory;
+import beans.Location;
 import beans.WorkingHours;
 
 public class ChocolateFactoryDAO {
@@ -23,7 +24,8 @@ public class ChocolateFactoryDAO {
 	public ChocolateFactoryDAO(){	
 		ArrayList<Integer> list = new ArrayList<>();
 		WorkingHours hours = new WorkingHours(LocalTime.of(8, 0, 0), LocalTime.of(17, 0, 0));
-		factories.put(0, new ChocolateFactory(0, "Stark", list, hours, true, 0,
+		Location location = new Location(0, 45.46, 19.2, "Sutjeska 3 NoviSad 21000");
+		factories.put(0, new ChocolateFactory(0, "Stark", list, hours, true, location,
 				"https://upload.wikimedia.org/wikipedia/sr/d/de/%D0%A8%D1%82%D0%B0%D1%80%D0%BA_%28%D0%BB%D0%BE%D0%B3%D0%BE%2C_2022%29.png", 3.3)); 
 	}
 	
@@ -71,12 +73,16 @@ public class ChocolateFactoryDAO {
 					LocalTime endHour = LocalTime.parse(st.nextToken().trim(), formatter);
 					WorkingHours working = new WorkingHours(startHour, endHour);
 					Boolean isWorking = Boolean.parseBoolean(st.nextToken().trim());
-					int locationId = Integer.parseInt(st.nextToken().trim());
+					int idLocation = Integer.parseInt(st.nextToken().trim());
+					double latitude = Double.parseDouble(st.nextToken().trim());
+					double longitude = Double.parseDouble(st.nextToken().trim());
+					String address = st.nextToken().trim();
+					Location location = new Location(idLocation, latitude, longitude, address);
 					String url = st.nextToken().trim();
 					double rate = Double.parseDouble(st.nextToken().trim());
 					
 					
-					factories.put(id, new ChocolateFactory(id, name, chocolateIds, working, isWorking, locationId, url, rate));
+					factories.put(id, new ChocolateFactory(id, name, chocolateIds, working, isWorking, location, url, rate));
 					
 				
 				}
