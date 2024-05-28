@@ -50,6 +50,7 @@
   import { useRouter, useRoute } from 'vue-router';
   
   const route = useRoute();
+  const router = useRouter();
   const chocolateId = ref(route.params.id);
   const chocolate = ref({ name: "", price: 0, kind: "", factory: -1, type: "", grams: 0, description: "", imageUrl: "", status: false, number: 0 });
   onMounted(() => { getByChocolateId(chocolateId); });
@@ -66,6 +67,9 @@
       event.preventDefault();    
      
       axios.post("http://localhost:8080/WebShopAppREST/rest/chocolates/" + chocolateId.value, this.chocolate)
-      .then(response => { console.log(response.data)});
+      .then(response => { console.log(response.data);
+      this.router.push({name: 'ShowFactory', params: { id: chocolate.value.factory } });
+       
+       });
   }
   </script>

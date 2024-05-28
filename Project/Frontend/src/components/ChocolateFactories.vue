@@ -10,7 +10,7 @@
                 <th>Location</th>
                 <th>Average rating</th>
             </tr>
-            <tr v-for="b in factories">
+            <tr v-for="b in factories" :key="b.id">
                 <td>
             <img :src="b.logoUrl" alt="Factory Logo" style="width: 50px; height: 50px;">
           </td>

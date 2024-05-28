@@ -45,6 +45,7 @@ import { ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 
 const route = useRoute();
+const router = useRouter();
 const factoryId = ref(route.params.id);
 const chocolate = ref({ name: "", price: 0, kind: "", factory: -1, type: "", grams: 0, description: "", imageUrl: "", status: false, number: 0 });
 
@@ -52,9 +53,13 @@ function addChocolate(event)
 {
     event.preventDefault();
     
-    this.chocolate.factory = factoryId;
+    this.chocolate.factory = factoryId.value;
    
     axios.post("http://localhost:8080/WebShopAppREST/rest/chocolates/", this.chocolate)
-    .then(response => {alert("Uslo"); console.log(response.data)});
+    .then(response => {alert("Uslo"); console.log(response.data); 
+       
+    });
+
+     this.router.push({name: 'ShowFactory', params: { id: factoryId.value } });
 }
 </script>

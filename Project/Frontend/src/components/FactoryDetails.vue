@@ -40,7 +40,7 @@
                 <th class="red">Ima na stanju</th>
             </tr>
 
-            <tr v-for="c in chocolates">
+            <tr v-for="c in chocolates" :key="c.id">
                 <td class="red">{{ c.name }}</td>
                 <td class="red">{{ c.price }}</td>
                 <td class="red">{{ c.kind }}</td>
@@ -51,9 +51,13 @@
                 <td class="red">{{ c.number }}</td>
                 <td class="red">{{ c.status }}</td>
                 <td><button v-on:click="goToUpdateChocolate(c.id)">Izmeni</button></td>
-                
             </tr>
         </table>
+        <div class="buttons"> 
+            <button class="add" type="button" @click.prevent="goToAdd()">Dodaj</button>
+            <button class="delete" >Obrisi</button>
+        </div>
+
 
     </div>
 
@@ -64,6 +68,7 @@
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
+
 
 const route = useRoute();
 const router = useRouter();
@@ -104,6 +109,12 @@ function goToUpdateChocolate(chocolateId)
 {
     this.router.push({ name: 'UpdateChocolate', params: { id: chocolateId } });
 }
+
+function goToAdd()
+{
+    this.router.push({ name: 'AddChocolate', params: { id: factoryId.value } });
+}
+
 </script>
 <style scoped>
 
@@ -118,6 +129,14 @@ div {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.buttons {
+    margin: 20px;
+    display: inline;
+}
+.add {
+    margin-right: 100px;
 }
 </style>
 
