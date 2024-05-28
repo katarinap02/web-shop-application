@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue';
 import Login from '../views/LoginView.vue';
 import Register from '../views/RegisterView.vue';
 import Factory from '../views/ChocolateFactoriesView.vue';
+import AddChocolate from '../views/AddChocolate.vue';
 
 const routes = [
   {
@@ -19,6 +20,11 @@ const routes = [
     path: '/register',
     name: 'register',
     component: Register
+  },
+  {
+    path: '/addchocolate/:id',
+    name: 'AddChocolate',
+    component: AddChocolate
   },
   {
     path: "/about",
