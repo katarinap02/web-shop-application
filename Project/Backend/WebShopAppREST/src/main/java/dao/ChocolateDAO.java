@@ -44,6 +44,13 @@ public class ChocolateDAO {
 		return null;
 	}
 	
+	public Chocolate deleteChocolate(int id)
+	{
+		Chocolate c = findById(id);
+		chocolates.remove(id);
+		return c;
+	}
+	
 	public Chocolate addChocolate(Chocolate chocolate)
 	{
 		Integer maxId = -1;

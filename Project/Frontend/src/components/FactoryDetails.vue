@@ -40,7 +40,7 @@
                 <th class="red">Ima na stanju</th>
             </tr>
 
-            <tr v-for="c in chocolates" :key="c.id">
+            <tr v-for="c in chocolates" :key="c.id" :class="{ selected: selectedChocolate && selectedChocolate.id === c.id }" @click="selectChocolate(c)" >
                 <td class="red">{{ c.name }}</td>
                 <td class="red">{{ c.price }}</td>
                 <td class="red">{{ c.kind }}</td>
@@ -55,7 +55,7 @@
         </table>
         <div class="buttons"> 
             <button class="add" type="button" @click.prevent="goToAdd()">Dodaj</button>
-            <button class="delete" >Obrisi</button>
+            <button class="delete" @click.prevent="deleteSelectedChocolate()">Obrisi selektovano</button>
         </div>
 
 
@@ -73,6 +73,7 @@ import { useRouter, useRoute } from 'vue-router';
 const route = useRoute();
 const router = useRouter();
 const factoryId = ref(route.params.id);
+const selectedChocolate = ref(null);
 const factory = ref({ "chocolates": [],
         "id": 0,
         "isWorking": false,
@@ -115,6 +116,26 @@ function goToAdd()
     this.router.push({ name: 'AddChocolate', params: { id: factoryId.value } });
 }
 
+function selectChocolate(chocolate)
+{
+    this.selectedChocolate = chocolate;
+    console.log(this.selectedChocolate);
+}
+
+function deleteSelectedChocolate()
+{
+    if(this.selectedChocolate != null)
+    {
+        axios.get('http://localhost:8080/WebShopAppREST/rest/chocolates/delete?id=' +  this.selectedChocolate.id).then(response =>
+        {
+            console.log(response.data);
+        }
+    )
+        getFactoryById(factoryId);
+        loadChocolates(factoryId);
+    }
+}
+
 </script>
 <style scoped>
 
@@ -137,6 +158,10 @@ div {
 }
 .add {
     margin-right: 100px;
+}
+
+.selected {
+    background-color: grey; /* Change to your desired highlight color */
 }
 </style>
 
