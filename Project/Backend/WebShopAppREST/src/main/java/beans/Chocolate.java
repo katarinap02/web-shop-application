@@ -6,7 +6,7 @@ public class Chocolate {
 	private String name;
 	private double price;
 	private String kind; //ne treba enum kad nije naglaseno tacno koliko ih ima,
-	private int factoryId;
+	private int factory;
 	private String type; // opet ne znam da li enum, ima puno tipova
 	private double grams;
 	private String description;
@@ -17,14 +17,14 @@ public class Chocolate {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Chocolate(int id, String name, double price, String kind, int factoryId, String type, double grams,
+	public Chocolate(int id, String name, double price, String kind, int factory, String type, double grams,
 			String description, String imageUrl, Boolean status, int number) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.price = price;
 		this.kind = kind;
-		this.factoryId = factoryId;
+		this.factory = factory;
 		this.type = type;
 		this.grams = grams;
 		this.description = description;
@@ -59,10 +59,10 @@ public class Chocolate {
 		this.kind = kind;
 	}
 	public int getFactory() {
-		return factoryId;
+		return factory;
 	}
-	public void setFactory(int factoryId) {
-		this.factoryId = factoryId;
+	public void setFactory(int factory) {
+		this.factory = factory;
 	}
 	public String getType() {
 		return type;

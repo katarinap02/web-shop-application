@@ -53,8 +53,10 @@ public class ChocolateDAO {
 		}
 		maxId++;
 		chocolate.setId(maxId);
+		chocolate.setNumber(0);
+		chocolate.setStatus(false);
 		chocolates.put(chocolate.getId(), chocolate);
-		saveChocolates(path);
+		//saveChocolates(path);
 		return chocolate;
 	}
 	

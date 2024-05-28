@@ -48,24 +48,15 @@ public class ChocolateService {
 	}
 	
 	@POST
-	@Path("/{id}")
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Chocolate addChocolate(@PathParam("id") int id, Chocolate chocolate) {
-		ChocolateDAO chocolateDao = (ChocolateDAO) ctx.getAttribute("chocolateDAO");
-		chocolate.setFactory(id);
-		chocolate.setNumber(0);
-		chocolate.setStatus(false);
-		return chocolateDao.addChocolate(chocolate);
-	}
-	
-	@OPTIONS
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
-	public boolean corsNewProduct()
+	public Chocolate addChocolate(Chocolate chocolate)
 	{
-		return true;
+		ChocolateDAO chocolateDao = (ChocolateDAO) ctx.getAttribute("chocolateDAO");
+		return chocolateDao.addChocolate(chocolate);
+		
 	}
+
 	
 	
 
