@@ -4,6 +4,7 @@ import Login from '../views/LoginView.vue';
 import Register from '../views/RegisterView.vue';
 import Factory from '../views/ChocolateFactoriesView.vue';
 import AddChocolate from '../views/AddChocolate.vue';
+import UpdateChocolate from '../views/UpdateChocolate.vue';
 
 const routes = [
   {
@@ -25,6 +26,11 @@ const routes = [
     path: '/addchocolate/:id',
     name: 'AddChocolate',
     component: AddChocolate
+  },
+  {
+    path: '/updatechocolate/:id',
+    name: 'UpdateChocolate',
+    component: UpdateChocolate
   },
   {
     path: "/about",

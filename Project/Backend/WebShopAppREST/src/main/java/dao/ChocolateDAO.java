@@ -56,8 +56,35 @@ public class ChocolateDAO {
 		chocolate.setNumber(0);
 		chocolate.setStatus(false);
 		chocolates.put(chocolate.getId(), chocolate);
-		//saveChocolates(path);
+		saveChocolates(path);
 		return chocolate;
+	}
+	
+	public Chocolate updateChocolate(String id, Chocolate chocolate)
+	{
+		int key = Integer.parseInt(id);
+		Chocolate c = chocolates.containsKey(key) ? chocolates.get(key) : null;
+		
+		if(c != null)
+		{
+			c.setName(chocolate.getName());
+			c.setPrice(chocolate.getPrice());
+			c.setKind(chocolate.getKind());
+			c.setType(chocolate.getType());
+			c.setGrams(chocolate.getGrams());
+			c.setDescription(chocolate.getDescription());
+			c.setImageUrl(chocolate.getImageUrl());
+			c.setNumber(chocolate.getNumber());
+			if(chocolate.getNumber() > 0)
+				c.setStatus(true);
+			else
+				c.setStatus(false);
+			
+			return c;
+		}
+		
+		return null;
+		
 	}
 	
 
