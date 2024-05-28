@@ -10,13 +10,15 @@
                 <th>Location</th>
                 <th>Average rating</th>
             </tr>
-            <tr v-for="b in factories"  :key="b">
+            <tr v-for="b in factories">
                 <td>
             <img :src="b.logoUrl" alt="Factory Logo" style="width: 50px; height: 50px;">
           </td>
                 <td>{{b.name}}</td>
                 <td>{{b.location.latitude }} {{b.location.longitude }} {{b.location.address}}</td>
                 <td>{{b.rate}}</td>
+
+                <td><button v-on:click="showFactory(b.id)">Prikazi</button></td>
 
             </tr>
         </table>
@@ -52,7 +54,10 @@ function loadFactories()
     })
 }
 
-
+function showFactory(factory)
+{
+    this.router.push({ name: 'ShowFactory', params: { id: factory } });
+}
 
 
 

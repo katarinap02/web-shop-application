@@ -80,6 +80,17 @@ public class ChocolateService {
 		
 	}
 	
+	@GET
+	@Path("/getfactoryId/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<Chocolate> getByFactoryId(@PathParam("id") int id)
+	{
+		
+		ChocolateDAO chocolateDao = (ChocolateDAO) ctx.getAttribute("chocolateDAO");
+		return chocolateDao.findByFactoryId(id);
+		
+		
+	}
 	
 	@OPTIONS
 	@Path("/")

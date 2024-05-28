@@ -11,7 +11,7 @@ public class ChocolateFactory {
 	private Boolean isWorking;
 	private Location location;
 	private String logoUrl;
-	private double Rate;
+	private double rate;
 	public ChocolateFactory() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -27,7 +27,7 @@ public class ChocolateFactory {
 		this.isWorking = isWorking;
 		this.location = locationId;
 		this.logoUrl = logoUrl;
-		Rate = rate;
+		this.rate = rate;
 	}
 	
 	
@@ -74,10 +74,10 @@ public class ChocolateFactory {
 		this.logoUrl = logoUrl;
 	}
 	public double getRate() {
-		return Rate;
+		return rate;
 	}
 	public void setRate(double rate) {
-		Rate = rate;
+		this.rate = rate;
 	}
 	
 	

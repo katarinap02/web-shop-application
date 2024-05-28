@@ -6,6 +6,7 @@ import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -37,6 +38,15 @@ public class ChocolateFactoryService {
 	{
 		ChocolateFactoryDAO dao = (ChocolateFactoryDAO) ctx.getAttribute("factoryDAO");
 		return dao.findAll();
+	}
+	
+	@GET
+	@Path("/getid/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ChocolateFactory getById(@PathParam("id") int id)
+	{
+		ChocolateFactoryDAO dao = (ChocolateFactoryDAO) ctx.getAttribute("factoryDAO");
+		return dao.findById(id);
 	}
 	
 

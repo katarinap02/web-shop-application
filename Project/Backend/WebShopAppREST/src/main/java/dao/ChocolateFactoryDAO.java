@@ -12,6 +12,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.StringTokenizer;
 
+import beans.Chocolate;
 import beans.ChocolateFactory;
 import beans.Location;
 import beans.WorkingHours;
@@ -99,6 +100,16 @@ public class ChocolateFactoryDAO {
 				catch (Exception e) { }
 			}
 		}
+	}
+
+	public ChocolateFactory findById(int id) {
+		// TODO Auto-generated method stub
+		for(ChocolateFactory f: factories.values())
+		{
+			if(f.getId() == id)
+				return f;
+		}
+		return null;
 	}
 	
 	

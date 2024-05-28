@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.StringTokenizer;
@@ -169,6 +170,17 @@ public class ChocolateDAO {
             }
         }
     }
+
+	public Collection<Chocolate> findByFactoryId(int id) {
+		// TODO Auto-generated method stub
+		ArrayList<Chocolate> tmpList = new ArrayList<>();
+		for(Chocolate c: chocolates.values())
+		{
+			if(c.getFactory() == id)
+				tmpList.add(c);
+		}
+		return tmpList;
+	}
 	
 	
 
