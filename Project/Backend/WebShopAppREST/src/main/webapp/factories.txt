@@ -1,1 +1,1 @@
-0;Stark;1,2,3;08:00:00;17:00:00;true;0;45.46;19.2;Sutjeska 3 NoviSad 21000;https://upload.wikimedia.org/wikipedia/sr/d/de/%D0%A8%D1%82%D0%B0%D1%80%D0%BA_%28%D0%BB%D0%BE%D0%B3%D0%BE%2C_2022%29.png;4.5
+0;Stark;0;08:00:00;17:00:00;true;0;45.46;19.2;Sutjeska 3 NoviSad 21000;https://upload.wikimedia.org/wikipedia/sr/d/de/%D0%A8%D1%82%D0%B0%D1%80%D0%BA_%28%D0%BB%D0%BE%D0%B3%D0%BE%2C_2022%29.png;-1

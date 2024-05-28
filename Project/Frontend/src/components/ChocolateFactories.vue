@@ -16,9 +16,9 @@
           </td>
                 <td>{{b.name}}</td>
                 <td>{{b.location.latitude }} {{b.location.longitude }} {{b.location.address}}</td>
-                <td>{{b.rate}}</td>
+                <td>{{ b.rate !== -1 ? b.rate : '' }}</td>
 
-                <td><button v-on:click="showFactory(b.id)">Prikazi</button></td>
+                <td><button v-on:click="showFactory(b.id)">Show</button></td>
 
             </tr>
         </table>

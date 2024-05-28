@@ -1,1 +1,1 @@
-1;najlepse zelje;250.0;sa keksom;150.0;cokolada sa keksom;true;22
+0;Najlepse zelje;250.0;with biscuits;0;chocolate with biscuits;150.0;tasty;https://najlepsezelje.com/wp-content/uploads/2020/01/mlecna-200g-31.5.png;true;0

@@ -52,6 +52,7 @@ public class ChocolateFactoryDAO {
 			in = new BufferedReader(new FileReader(file));
 			String line;
 			StringTokenizer st;
+			System.out.println("Loading from: " + file.getAbsolutePath());
 			while ((line = in.readLine()) != null) {
 				line = line.trim();
 				if (line.equals("") || line.indexOf('#') == 0)

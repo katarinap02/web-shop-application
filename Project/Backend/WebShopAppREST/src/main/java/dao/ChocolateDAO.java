@@ -1,5 +1,5 @@
 package dao;
-
+//import com.google.gson.*;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -20,6 +20,8 @@ import enums.Role;
 public class ChocolateDAO {
 	
 	private HashMap<Integer, Chocolate> chocolates = new HashMap<>();
+	
+//	Gson gson = new Gson();
 
 	private String path = "";
 	
@@ -104,6 +106,7 @@ public class ChocolateDAO {
 			in = new BufferedReader(new FileReader(file));
 			String line;
 			StringTokenizer st;
+			System.out.println("Loading from: " + file.getAbsolutePath());
 			while ((line = in.readLine()) != null) {
 				line = line.trim();
 				if (line.equals("") || line.indexOf('#') == 0)
@@ -141,42 +144,44 @@ public class ChocolateDAO {
 	}
 	
 	private void saveChocolates(String contextPath) {
-        BufferedWriter out = null;
-        try {
-            File file = new File(contextPath + "chocolates.txt");
-            out = new BufferedWriter(new FileWriter(file));
-            System.out.println(contextPath + "chocolates.txt");
-            for (Chocolate chocolate : chocolates.values()) {
-                StringBuilder sb = new StringBuilder();
-                sb.append(chocolate.getId()).append(";");
-                sb.append(chocolate.getName()).append(";");
-                sb.append(chocolate.getPrice()).append(";");
-                sb.append(chocolate.getKind()).append(";");
-                sb.append(chocolate.getFactory()).append(";");
-                sb.append(chocolate.getType()).append(";");
-                sb.append(chocolate.getGrams()).append(";");
-                sb.append(chocolate.getDescription()).append(";");
-                sb.append(chocolate.getImageUrl()).append(";");
-                sb.append(chocolate.getStatus()).append(";");               
-                sb.append(chocolate.getNumber()).append("\n");
+	    BufferedWriter out = null;
+	    try {
+	        File file = new File(contextPath + "/chocolates.txt");
+	        out = new BufferedWriter(new FileWriter(file));
+	        System.out.println("Saving to: " + file.getAbsolutePath());
+	        
+	        for (Chocolate chocolate : chocolates.values()) {
+	            StringBuilder sb = new StringBuilder();
+	            sb.append(chocolate.getId()).append(";");
+	            sb.append(chocolate.getName()).append(";");
+	            sb.append(chocolate.getPrice()).append(";");
+	            sb.append(chocolate.getKind()).append(";");
+	            sb.append(chocolate.getFactory()).append(";");
+	            sb.append(chocolate.getType()).append(";");
+	            sb.append(chocolate.getGrams()).append(";");
+	            sb.append(chocolate.getDescription()).append(";");
+	            sb.append(chocolate.getImageUrl()).append(";");
+	            sb.append(chocolate.getStatus()).append(";");               
+	            sb.append(chocolate.getNumber()).append("\n");
 
-                out.write(sb.toString());
-               
-                System.out.println(sb.toString());
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        } finally {
-            if (out != null) {
-                try {
-                    out.close();
-                    System.out.println("uslo");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
+	            out.write(sb.toString());
+	            System.out.println("Written: " + sb.toString());
+	        }
+	    } catch (Exception ex) {
+	        ex.printStackTrace();
+	    } finally {
+	        if (out != null) {
+	            try {
+	            	out.flush();
+	                out.close();
+	                System.out.println("BufferedWriter closed successfully.");
+	            } catch (Exception e) {
+	                e.printStackTrace();
+	            }
+	        }
+	    }
+	}
+
 
 	public Collection<Chocolate> findByFactoryId(int id) {
 		// TODO Auto-generated method stub

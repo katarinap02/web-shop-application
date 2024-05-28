@@ -5,19 +5,19 @@
     <div>
         <table>
             <tr>
-                <td>Lokacija: </td>
+                <td>Location: </td>
                 <td>{{factory.location.latitude }} {{factory.location.longitude }} {{factory.location.address}}</td>
             </tr>
             <tr>
-                <td>Ocena: </td>
-                <td>{{ factory.rate }}</td>
+                <td>Grade: </td>
+                <td>{{ factory.rate !== -1 ? factory.rate : '' }}</td>
             </tr>
             <tr>
                 <td>Status: </td>
-                <td>{{ factory.isWorking }}</td>
+                <td :id="factory.isWorking ? 'working' : 'not working'">{{ factory.isWorking ? 'working' : 'not working' }}</td>
             </tr>
             <tr>
-                <td>Radno vreme: </td>
+                <td>Working time: </td>
                 <td>{{ factory.workingHours.startHour }} - {{ factory.workingHours.endHour }} </td>
             </tr>
         </table>
@@ -29,16 +29,17 @@
         <h1>Cokolade</h1>
         <table id="tabelacokolada">
             <tr>
-                <th class="red">Naziv</th>
-                <th class="red">Cena</th>
-                <th class="red">Vrsta</th>
-                <th class="red">Tip</th>
-                <th class="red">Gramaza</th>
-                <th class="red">Opis</th>
-                <th class="red">Slika</th>
-                <th class="red">Kolicina</th>
-                <th class="red">Ima na stanju</th>
-            </tr>
+            <th class="red">Name</th>
+            <th class="red">Price</th>
+            <th class="red">Type</th>
+            <th class="red">Category</th>
+            <th class="red">Weight</th>
+            <th class="red">Description</th>
+            <th class="red">Image</th>
+            <th class="red">Amount</th>
+            <th class="red">In Stock</th>
+        </tr>
+
 
             <tr v-for="c in chocolates" :key="c.id" :class="{ selected: selectedChocolate && selectedChocolate.id === c.id }" @click="selectChocolate(c)" >
                 <td class="red">{{ c.name }}</td>
@@ -47,15 +48,17 @@
                 <td class="red">{{ c.type }}</td>
                 <td class="red">{{ c.grams }}</td>
                 <td class="red">{{ c.description }}</td>
-                <td class="red">{{ c.image }}</td>
+                <td>
+            <img :src="c.imageUrl" alt="ChocolateImage" style="width: 50px; height: 50px;">
+          </td>
                 <td class="red">{{ c.number }}</td>
-                <td class="red">{{ c.status }}</td>
-                <td><button v-on:click="goToUpdateChocolate(c.id)">Izmeni</button></td>
+                <td class="red" :id="c.status ? 'yes' : 'no'">{{ c.status ? 'yes' : 'no' }}</td>
+                <td><button v-on:click="goToUpdateChocolate(c.id)">Insert</button></td>
             </tr>
         </table>
         <div class="buttons"> 
-            <button class="add" type="button" @click.prevent="goToAdd()">Dodaj</button>
-            <button class="delete" @click.prevent="deleteSelectedChocolate()">Obrisi selektovano</button>
+            <button class="add" type="button" @click.prevent="goToAdd()">Add</button>
+            <button class="delete" @click="deleteSelectedChocolate()">Delete selected</button>
         </div>
 
 

@@ -1,42 +1,43 @@
 <template>
     <form name="cokoladaForma" @submit="updateChocolate($event)">
       <table>
-          <tr>
-              <td>Naziv:</td>
-              <td><input name="name" type="text" v-model="chocolate.name"></td>
-          </tr>
-          <tr>
-              <td>Cena:</td>
-              <td><input name="price" type="text" v-model="chocolate.price"></td>
-          </tr>
-          <tr>
-              <td>Vrsta:</td>
-              <td><input name="kind" type="text" v-model="chocolate.kind" ></td>
-          </tr>
-          <tr>
-              <td>Tip:</td>
-              <td><input name="type" type="text" v-model="chocolate.type"></td>
-          </tr>
-          <tr>
-              <td>Gramaza:</td>
-              <td><input name="grams" type="text" v-model="chocolate.grams"></td>
-          </tr>
-          <tr>
-              <td>Opis:</td>
-              <td><input name="text" type="text" v-model="chocolate.description"></td>
-          </tr>
-          <tr>
-              <td>Slika:</td>
-              <td><input name="image" type="text" v-model="chocolate.imageUrl"></td>
-          </tr>
-          <tr>
-            <td>Kolicina:</td>
-            <td><input name="number" type="text" v-model="chocolate.number"></td>
-        </tr>
-          <tr>
-              <td>    </td>
-              <td><button type="submit">Izmeni</button></td>
-          </tr>
+         <tr>
+    <td>Name:</td>
+    <td><input name="name" type="text" v-model="chocolate.name"></td>
+</tr>
+<tr>
+    <td>Price:</td>
+    <td><input name="price" type="text" v-model="chocolate.price"></td>
+</tr>
+<tr>
+    <td>Type:</td>
+    <td><input name="kind" type="text" v-model="chocolate.kind"></td>
+</tr>
+<tr>
+    <td>Category:</td>
+    <td><input name="type" type="text" v-model="chocolate.type"></td>
+</tr>
+<tr>
+    <td>Weight:</td>
+    <td><input name="grams" type="text" v-model="chocolate.grams"></td>
+</tr>
+<tr>
+    <td>Description:</td>
+    <td><input name="text" type="text" v-model="chocolate.description"></td>
+</tr>
+<tr>
+    <td>Image:</td>
+    <td><input name="image" type="text" v-model="chocolate.imageUrl"></td>
+</tr>
+<tr>
+    <td>Quantity:</td>
+    <td><input name="number" type="text" v-model="chocolate.number"></td>
+</tr>
+<tr>
+    <td></td>
+    <td><button type="submit">Update</button></td>
+</tr>
+
           
       </table>
       
