@@ -5,6 +5,7 @@ import java.util.Collection;
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.websocket.server.PathParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -46,10 +47,13 @@ public class ChocolateService {
 	}
 	
 	@POST
-	@Path("/")
+	@Path("/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Chocolate addChocolate(Chocolate chocolate) {
+	public Chocolate addChocolate(@PathParam("id") int id, Chocolate chocolate) {
 		ChocolateDAO chocolateDao = (ChocolateDAO) ctx.getAttribute("chocolateDAO");
+		chocolate.setFactory(id);
+		chocolate.setNumber(0);
+		chocolate.setStatus(false);
 		return chocolateDao.addChocolate(chocolate);
 	}
 	

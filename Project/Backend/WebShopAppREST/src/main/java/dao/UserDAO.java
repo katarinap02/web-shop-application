@@ -149,9 +149,9 @@ public class UserDAO {
 	private void saveUsers(String contextPath) {
         BufferedWriter out = null;
         try {
-            File file = new File(contextPath + "/users.txt");
+            File file = new File(contextPath + "users.txt");
             out = new BufferedWriter(new FileWriter(file));
-
+            System.out.println(contextPath + "users.txt");
             for (User user : users.values()) {
                 StringBuilder sb = new StringBuilder();
                 sb.append(user.getUsername()).append(";");
@@ -163,6 +163,8 @@ public class UserDAO {
                 sb.append(user.getRole().name()).append("\n");
 
                 out.write(sb.toString());
+               
+                System.out.println(sb.toString());
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -170,6 +172,7 @@ public class UserDAO {
             if (out != null) {
                 try {
                     out.close();
+                    System.out.println("uslo");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
