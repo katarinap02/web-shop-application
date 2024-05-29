@@ -1,5 +1,11 @@
 package services;
 
+import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URL;
+import java.net.URLDecoder;
+import java.nio.file.Paths;
+import java.security.CodeSource;
 import java.util.Collection;
 
 import javax.annotation.PostConstruct;
@@ -36,10 +42,15 @@ public class ChocolateService {
 	{
 		if(ctx.getAttribute("chocolateDAO") == null)
 		{
-			String contextPath = ctx.getRealPath("");
+			String eclipseLaunchPath = System.getProperty("user.dir");
+	        
+	        System.out.println("Path where Eclipse was launched from: " + eclipseLaunchPath);
+	        String contextPath = ctx.getRealPath("");
 			ctx.setAttribute("chocolateDAO", new ChocolateDAO(contextPath));
 		}
-	}
+	    }
+			
+	
 	
 	@GET
 	@Path("/")
