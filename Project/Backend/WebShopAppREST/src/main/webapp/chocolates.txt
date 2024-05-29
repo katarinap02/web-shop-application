@@ -1,1 +1,2 @@
 0;Najlepse zelje;250.0;with biscuits;0;chocolate with biscuits;150.0;tasty;https://najlepsezelje.com/wp-content/uploads/2020/01/mlecna-200g-31.5.png;true;0
+1;Kinder;100.0;za jelo;0;crna;40.0;za decu;https://media.istockphoto.com/id/186682188/photo/chocolate-bar-with-a-missing-bite-on-white-background.jpg?s=612x612&w=0&k=20&c=mOscVi0weT7rT5bKoFdSWGGZ6-Wt7dkV77ajV-rnk80=;false;0

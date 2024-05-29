@@ -68,13 +68,13 @@ function addChocolate(event)
     this.chocolateValid = chocolate.value;
 
 
-    if(!this.chocolateValid.name || this.chocolateValid.price <= 0 || !this.chocolateValid.kind 
-    || !this.chocolateValid.factory <= 0 || !this.chocolateValid.type || !this.chocolateValid.grams <= 0
-|| !this.chocolateValid.description || !this.chocolateValid.imageUrl)
+ //  if(!this.chocolateValid.name || this.chocolateValid.price <= 0 || !this.chocolateValid.kind 
+  //  || !this.chocolateValid.factory < 0 || !this.chocolateValid.type || !this.chocolateValid.grams <= 0
+//|| !this.chocolateValid.description || !this.chocolateValid.imageUrl)
 {
     errorMsg.value = "HasError";
 }
-else
+//else
 {
     
     axios.post("http://localhost:8080/WebShopAppREST/rest/chocolates/", this.chocolate)
