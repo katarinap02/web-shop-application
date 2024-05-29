@@ -50,6 +50,7 @@ public class ChocolateDAO {
 	{
 		Chocolate c = findById(id);
 		chocolates.remove(id);
+		saveChocolates(path);
 		return c;
 	}
 	
@@ -116,6 +117,7 @@ public class ChocolateDAO {
 			else
 				c.setStatus(false);
 			
+			saveChocolates(path);
 			return c;
 		}
 		
