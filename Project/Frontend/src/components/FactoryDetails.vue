@@ -26,7 +26,7 @@
     <br>
     
     <div>
-        <h1>Cokolade</h1>
+        <h1>Chocolates</h1>
         <table id="tabelacokolada">
             <tr>
             <th class="red">Name</th>
@@ -53,7 +53,7 @@
           </td>
                 <td class="red">{{ c.number }}</td>
                 <td class="red" :id="c.status ? 'yes' : 'no'">{{ c.status ? 'yes' : 'no' }}</td>
-                <td><button v-on:click="goToUpdateChocolate(c.id)">Insert</button></td>
+                <td><button v-on:click="goToUpdateChocolate(c.id)">Edit</button></td>
             </tr>
         </table>
         <div class="buttons"> 

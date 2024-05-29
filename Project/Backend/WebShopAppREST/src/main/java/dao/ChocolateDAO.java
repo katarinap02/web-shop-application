@@ -65,17 +65,43 @@ public class ChocolateDAO {
 		chocolate.setId(maxId);
 		chocolate.setNumber(0);
 		chocolate.setStatus(false);
-		chocolates.put(chocolate.getId(), chocolate);
-		saveChocolates(path);
-		return chocolate;
+		chocolate = validateChocolate(chocolate);
+		if(chocolate != null)
+		{
+			chocolates.put(chocolate.getId(), chocolate);
+			saveChocolates(path);
+			return chocolate;
+		}
+		else
+			return null;
+		
 	}
 	
+	private Chocolate validateChocolate(Chocolate chocolate) {
+		// TODO Auto-generated method stub
+		if(chocolate.getName().isEmpty())
+			return null;
+		if(chocolate.getType().isEmpty())
+			return null;
+		if(chocolate.getKind().isEmpty())
+			return null;
+		if(chocolate.getDescription().isEmpty())
+			return null;
+		if(chocolate.getImageUrl().isEmpty())
+			return null;
+		if(chocolate.getPrice() <=0 || chocolate.getGrams() <= 0 || chocolate.getNumber() < 0)
+			return null;
+		
+		return chocolate;
+	}
+
 	public Chocolate updateChocolate(String id, Chocolate chocolate)
 	{
 		int key = Integer.parseInt(id);
 		Chocolate c = chocolates.containsKey(key) ? chocolates.get(key) : null;
+		chocolate = validateChocolate(chocolate);
 		
-		if(c != null)
+		if(c != null && chocolate != null)
 		{
 			c.setName(chocolate.getName());
 			c.setPrice(chocolate.getPrice());

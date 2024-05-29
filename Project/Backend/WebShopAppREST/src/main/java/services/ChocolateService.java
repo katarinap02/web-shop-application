@@ -39,16 +39,17 @@ public class ChocolateService {
 	
 	@PostConstruct
 	public void init()
-	{
-		if(ctx.getAttribute("chocolateDAO") == null)
-		{
-			String eclipseLaunchPath = System.getProperty("user.dir");
-	        
-	        System.out.println("Path where Eclipse was launched from: " + eclipseLaunchPath);
-	        String contextPath = ctx.getRealPath("");
-			ctx.setAttribute("chocolateDAO", new ChocolateDAO(contextPath));
-		}
-	    }
+    {
+        if(ctx.getAttribute("chocolateDAO") == null)
+        {
+            String eclipseLaunchPath = System.getProperty("user.dir");
+            String finalPath = eclipseLaunchPath + "\\web\\WebShop\\Project\\Backend\\WebShopAppREST\\src\\main\\webapp\\";
+            System.out.println("Combined path: " + finalPath);
+            String contextPath = ctx.getRealPath("");
+            System.out.println("Combined path: " + contextPath);
+            ctx.setAttribute("chocolateDAO", new ChocolateDAO(finalPath));
+        }
+     }
 			
 	
 	
