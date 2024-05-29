@@ -70,9 +70,10 @@ const errorMsg = ref("NoError");
   {
       event.preventDefault();    
       this.chocolateValid = chocolate.value;
-      if(!this.chocolateValid.name || this.chocolateValid.price <= 0 || !this.chocolateValid.kind 
-    || !this.chocolateValid.factory <= 0 || !this.chocolateValid.type || !this.chocolateValid.grams <= 0
-|| !this.chocolateValid.description || !this.chocolateValid.imageUrl || this.chocolateValid.number < 0)
+      alert(this.chocolateValid.price.value);
+      if(!this.chocolateValid.name || this.chocolateValid.price.value <= 0 || !this.chocolateValid.kind 
+    || this.chocolateValid.factory.value < 0 || !this.chocolateValid.type || this.chocolateValid.grams.value <= 0
+|| !this.chocolateValid.description || !this.chocolateValid.imageUrl)
 {
     errorMsg.value = "HasError";
 }

@@ -7,7 +7,7 @@
 </tr>
 <tr>
     <td>Price:</td>
-    <td><input name="price" type="text" v-model="chocolate.price" :class = "{'error':chocolateValid.price <= 0}"></td>
+    <td><input name="price" type="number" v-model="chocolate.price" :class = "{'error':chocolateValid.price <= 0}"></td>
 </tr>
 <tr>
     <td>Type:</td>
@@ -19,7 +19,7 @@
 </tr>
 <tr>
     <td>Weight:</td>
-    <td><input name="grams" type="text" v-model="chocolate.grams" :class = "{'error':chocolateValid.grams <= 0}"></td>
+    <td><input name="grams" type="number" v-model="chocolate.grams" :class = "{'error':chocolateValid.grams <= 0}"></td>
 </tr>
 <tr>
     <td>Description:</td>
@@ -53,12 +53,7 @@ const chocolate = ref({ name: "", price: 0, kind: "", factory: -1, type: "", gra
 const chocolateValid = ref({ name: "a", price: 1, kind: "a", factory: 0, type: "a", grams: 1, description: "a", imageUrl: "a", status: false, number: 0 });
 const errorMsg = ref("NoError");
 
-function hasEmptyFields(object)
-{
-    const isEmpty = value => value === "" || value === null || value === undefined;
 
-    return Object.values(object).some(isEmpty);
-}
 function addChocolate(event)
 {
     event.preventDefault();
@@ -66,19 +61,20 @@ function addChocolate(event)
     
     this.chocolate.factory = factoryId.value;
     this.chocolateValid = chocolate.value;
-
-
- //  if(!this.chocolateValid.name || this.chocolateValid.price <= 0 || !this.chocolateValid.kind 
-  //  || !this.chocolateValid.factory < 0 || !this.chocolateValid.type || !this.chocolateValid.grams <= 0
-//|| !this.chocolateValid.description || !this.chocolateValid.imageUrl)
+  
+    
+   if(!this.chocolateValid.name || this.chocolateValid.price < 0 || !this.chocolateValid.kind 
+    || this.chocolateValid.factory < 0 || !this.chocolateValid.type || this.chocolateValid.grams < 0
+|| !this.chocolateValid.description || !this.chocolateValid.imageUrl)
 {
+   
     errorMsg.value = "HasError";
 }
-//else
+else
 {
     
     axios.post("http://localhost:8080/WebShopAppREST/rest/chocolates/", this.chocolate)
-    .then(response => {alert("Uslo"); console.log(response.data); 
+    .then(response => {console.log(response.data); 
        
     });
 
