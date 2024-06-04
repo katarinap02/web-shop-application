@@ -23,5 +23,6 @@ import Navbar from '@/components/basic-components/Navbar.vue';
     flex-direction: column;
     margin-top: 70px;
     align-items: center;
+    
    }
 </style>

@@ -34,7 +34,7 @@
 <style scoped>
 
 nav {
-    background: #381d11 !important;
+    background: #5a086a !important;
     
 }
 nav a:hover{
@@ -57,7 +57,7 @@ nav a:hover{
 .search-btn
 {
     background: antiquewhite;
-    color:  #381d11;
+    color:  #5a086a;
     font-weight: bold;
     border: antiquewhite;
 }

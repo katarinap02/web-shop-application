@@ -70,13 +70,16 @@ function showFactory(factory)
 
 <style scoped>
 
-
+template {
+    height: 100%;
+}
 
 .tabela {
 	color: #381d11;
 	background-color: wheat;
 	border-collapse: collapse;
 	width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
     width: 60%;
@@ -84,16 +87,17 @@ function showFactory(factory)
     
 }
 
+
 .tabela th,
 .tabela td {
 	padding: 8px;
-	text-align: left;
+	text-align: center;
 	border-bottom: 1px solid #ddd;
     font-size: larger;
 }
 
 .tabela th {
-	background-color: #381d11;
+	background-color: #5a086a;
     color: antiquewhite;
     text-align: center;
 }
@@ -107,8 +111,8 @@ function showFactory(factory)
 }
 
 .show-btn{
-    background-color: #381d11;
-    border: #381d11;
+    background-color: #5a086a;
+    border: #5a086a;
 }
 
 </style>

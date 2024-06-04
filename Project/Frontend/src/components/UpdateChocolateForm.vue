@@ -1,5 +1,5 @@
 <template>
-    <form name="cokoladaForma" @submit="updateChocolate($event)">
+    <form name="cokoladaForma" @submit="updateChocolate($event)" class="cokoladaForma">
       <table>
         <tr>
         <td>Name:</td>
@@ -90,6 +90,12 @@ else
   }
   </script>
   <style scoped>
+
+    .cokoladaForma{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
   .error{
       border: 2px solid red;

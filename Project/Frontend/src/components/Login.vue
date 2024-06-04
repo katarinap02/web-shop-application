@@ -84,7 +84,7 @@ function Register(event)
     padding: 0.5rem;
     border: none;
     border-radius: 10px;
-    background-color: #007bff;
+    background-color: #5a086a;
     color: white;
     cursor: pointer;
     margin-top: 50px;

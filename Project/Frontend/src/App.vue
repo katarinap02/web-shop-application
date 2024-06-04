@@ -14,6 +14,14 @@ import HelloWorld from './components/HelloWorld.vue'
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  
+  background-image: url('../pictures/background7.jpg');
+  background-size: cover; 
+  background-repeat: no-repeat; 
+  background-position: center center; 
+  min-height: 100vh;
+  
+
 }
 
 nav {

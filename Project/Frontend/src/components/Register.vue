@@ -37,21 +37,7 @@
             <button type="submit" class="submit">Register</button>
         </form>
         <table>
-        <table id="tabelaKnjiga">
-				<thead style="background-color: aqua;">
-					<tr>
-						<th style="font-weight: bold;">Username</th>
-						<th style="font-weight: bold;">Password</th>
-                        <th style="font-weight: bold;">Date</th>
-					</tr>
-				</thead>
-
-				<tr v-for="b in books">
-					<td>{{ b.username }}</td>
-					<td>{{ b.gender }}</td>
-					<td>{{ b.birthDate }}</td>
-				</tr>
-			</table>
+       
     </table>
     <p>{{ error }}</p>
     </div>
@@ -127,70 +113,65 @@ function RegisterNew(event)
 
 <style scoped>
 
-
-
 .form {
-    margin: 0 auto;
-    max-width: 560px;
-    background: white;
-    text-align: left;
-    border-radius: 10px;
+  margin: 0 auto;
+  max-width: 540px;
+  background: white;
+  text-align: left;
+  border-radius: 10px;
+  padding: 20px; /* Add padding for better appearance */
 }
 
 .form label {
-    color: #aaa;
-    display: inline-block;
-    margin: 18px 0 13px;
-    font-size: 0.8em;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-weight: bold;
+  color: #aaa;
+  display: inline-block;
+  margin: 13px 0 10px;
+  font-size: 0.8em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: bold;
 }
 
 .form input {
-    padding: 10px 6px;
-    box-sizing: border-box;
-    border: none;
-    border-bottom: 1px solid #ddd;
-    color: #555;
-    display: block;
-    width: 100%;
+  padding: 10px 6px;
+  box-sizing: border-box;
+  border: none;
+  border-bottom: 1px solid #ddd;
+  color: #555;
+  display: block;
+  width: 100%;
 }
 
-.form input[type = "radio"]{
-    display: inline-block;
-    width: 30px;
-    margin: 30px 10px 0 0;
-    position: relative
-    top 2px;
-    
+.form input[type="radio"] {
+  display: inline-block;
+  width: 30px;
+  margin: 30px 10px 0 0;
+  position: relative;
+  top: 2px;
 }
-
-
 
 .form > .submit {
-    padding: 0.5rem;
-    border: none;
-    border-radius: 10px;
-    background-color: #007bff;
-    color: white;
-    cursor: pointer;
-    margin-top: 50px;
-    width: 100%;
-    height: 40px;
-    font-size: 0.8em;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-weight: bold;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 10px;
+  background-color: #5a086a;
+  color: white;
+  cursor: pointer;
+  margin-top: 30px;
+  width: 100%;
+  height: 40px;
+  font-size: 0.8em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: bold;
 }
 
 .form > .submit:hover {
-    background-color: #0056b3;
+  background-color: #0056b3;
 }
 
-
 p, a {
-    display: block;
+  display: block;
 }
 
 
