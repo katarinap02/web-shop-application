@@ -131,11 +131,12 @@ function deleteSelectedChocolate()
     {
         axios.get('http://localhost:8080/WebShopAppREST/rest/chocolates/delete?id=' +  this.selectedChocolate.id).then(response =>
         {
+            getFactoryById(factoryId);
+            loadChocolates(factoryId);
             console.log(response.data);
         }
     )
-        getFactoryById(factoryId);
-        loadChocolates(factoryId);
+        
     }
 }
 
