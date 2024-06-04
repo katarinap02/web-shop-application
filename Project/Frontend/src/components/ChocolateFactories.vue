@@ -2,13 +2,14 @@
     <div class="tabela">
         <table>
             <tr>
-                <th colspan="4">Chocolate factories</th>
+                <th colspan="5">Chocolate factories</th>
             </tr>
             <tr>
                 <th>Logo</th>
                 <th>Name</th>
                 <th>Location</th>
                 <th>Average rating</th>
+                <th> </th>
             </tr>
             <tr v-for="b in factories" :key="b.id">
                 <td>
@@ -18,7 +19,7 @@
                 <td>{{b.location.latitude }} {{b.location.longitude }} {{b.location.address}}</td>
                 <td>{{ b.rate !== -1 ? b.rate : '' }}</td>
 
-                <td><button v-on:click="showFactory(b.id)">Show</button></td>
+                <td><button class="btn btn-success show-btn" v-on:click="showFactory(b.id)">Show</button></td>
 
             </tr>
         </table>
@@ -69,21 +70,45 @@ function showFactory(factory)
 
 <style scoped>
 
-.tabela table {
-    border: 1px solid black;
-    margin: auto;
+
+
+.tabela {
+	color: #381d11;
+	background-color: wheat;
+	border-collapse: collapse;
+	width: 100%;
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    
+    
 }
 
-.tabela th, td {
-    border: 1px solid black;
-   width: auto;
-}
-
+.tabela th,
 .tabela td {
-    text-align: left;
+	padding: 8px;
+	text-align: left;
+	border-bottom: 1px solid #ddd;
+    font-size: larger;
 }
 
+.tabela th {
+	background-color: #381d11;
+    color: antiquewhite;
+    text-align: center;
+}
 
+.tabela tr:nth-child(even) {
+	background-color: #444;
+}
 
+.tabela tr:hover {
+	background-color: beige;
+}
+
+.show-btn{
+    background-color: #381d11;
+    border: #381d11;
+}
 
 </style>
