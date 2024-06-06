@@ -102,9 +102,6 @@ template {
     text-align: center;
 }
 
-.tabela tr:nth-child(even) {
-	background-color: #444;
-}
 
 .tabela tr:hover {
 	background-color: beige;

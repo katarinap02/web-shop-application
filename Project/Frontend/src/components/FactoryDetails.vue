@@ -9,7 +9,7 @@
                 <td>{{factory.location.latitude }} {{factory.location.longitude }} {{factory.location.address}}</td>
             </tr>
             <tr>
-                <td>Grade: </td>
+                <td>Rate: </td>
                 <td>{{ factory.rate !== -1 ? factory.rate : '' }}</td>
             </tr>
             <tr>
@@ -27,7 +27,7 @@
     
     <div>
         <h1>Chocolates</h1>
-        <table id="tabelacokolada">
+        <table class="tabela" id="tabelacokolada">
             <tr>
             <th class="red">Name</th>
             <th class="red">Price</th>
@@ -59,6 +59,22 @@
         <div class="buttons"> 
             <button class="add" type="button" @click.prevent="goToAdd()">Add</button>
             <button class="delete" @click="deleteSelectedChocolate()">Delete selected</button>
+        </div>
+
+        <div class="comments-div">
+            <h1>Comments</h1>
+            <table class="comments">
+                <tr>
+                    <th>Comment</th>
+                    <th>Rate</th>
+                </tr>
+                <tr v-for="c in comments">
+                    <td>{{ c.commentText }}</td>
+                    <td>{{ c.rate }}</td>
+
+                </tr>
+            </table>
+
         </div>
 
 
@@ -95,13 +111,21 @@ const factory = ref({ "chocolates": [],
         }});
 
 const chocolates = ref([]);
+const comments = ref([]);
 
-onMounted(() => {  getFactoryById(factoryId); loadChocolates(factoryId);})
+onMounted(() => {  getFactoryById(factoryId); loadChocolates(factoryId); loadComments(factoryId)})
 
 function loadChocolates(factoryId)
 {
     axios.get("http://localhost:8080/WebShopAppREST/rest/chocolates/getfactoryId/" + factoryId.value)
     .then(response => {chocolates.value = response.data; console.log(response.data);})
+}
+
+function loadComments(factoryId)
+{
+    axios.get("http://localhost:8080/WebShopAppREST/rest/comments/" + factoryId.value)
+    .then(response => {comments.value = response.data; console.log(response.data);})
+
 }
 function getFactoryById(factoryId)
 {
@@ -142,6 +166,21 @@ function deleteSelectedChocolate()
 
 </script>
 <style scoped>
+
+.comments{
+    border: 1px solid black;
+    width: 100%;
+    text-align: center;
+}
+
+.comments th{
+    border: 1px solid black;
+
+}
+
+.comments td{
+    border-right: 1px solid black;;
+}
 
 #tabelacokolada{
     border: 1px solid black;
