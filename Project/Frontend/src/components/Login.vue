@@ -14,6 +14,7 @@
         </form>
         <p>{{errorMessage}}</p>
         <a href="" @click="Register($event)">Register</a>
+        <a href="" @click.prevent="getUser()">User</a>
     </div>
 </template>
 
@@ -25,18 +26,31 @@ import { useRouter } from "vue-router";
 const username = ref('');
 const password = ref('');
 const errorMessage = ref('');
+const user = ref('');
 const router = useRouter();
+
 
 const login = () => {
     axios.post('http://localhost:8080/WebShopAppREST/rest/login', {username: username.value, password: password.value})
     .then(response => {
-        errorMessage.value = '';
+        errorMessage.value = 'Succesfuly loged into account.';
+        console.log(response.data);
+        //localStorage.setItem('token', response.data);
+        user.value = response.data;
+         localStorage.setItem('userData', JSON.stringify(response.data));
     })
     .catch(error => {
         errorMessage.value = 'This user does not exists. Please register if you do not have account.';
         console.error(error);
+        localStorage.setItem('userData', JSON.stringify(""));
     });
     
+}
+
+function getUser(){
+    const userData = JSON.parse(localStorage.getItem('userData'));
+    console.log(userData);
+
 }
 
 function Register(event)

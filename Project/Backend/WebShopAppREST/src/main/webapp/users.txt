@@ -1,1 +1,2 @@
-pera123;pera;Pera;Peric;MALE;2024-11-11;ADMINISTRATOR
+pera123;pera;Pera;Pera;MALE;2024-11-11;ADMINISTRATOR
+natasa;natke;Natasa;Natasa;FEMALE;2002-08-02;MANAGER

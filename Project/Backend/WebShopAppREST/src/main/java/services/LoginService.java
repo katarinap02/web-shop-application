@@ -1,5 +1,6 @@
 package services;
 
+import java.io.Console;
 import java.time.LocalDate;
 import java.util.Collection;
 
@@ -8,6 +9,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.OPTIONS;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -17,10 +19,12 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import beans.User;
+import dao.ChocolateDAO;
 import dao.UserDAO;
 import dto.UserDTO;
 import enums.Gender;
 import enums.Role;
+import utils.TokenUtils;
 
 @Path("")
 public class LoginService {
@@ -31,13 +35,17 @@ public class LoginService {
 	
 	@PostConstruct
 	public void init()
-	{
-		if(ctx.getAttribute("userDAO") == null)
-		{
-			String contextPath = ctx.getRealPath("");
-			ctx.setAttribute("userDAO", new UserDAO(contextPath));
-		}
-	}
+    {
+        if(ctx.getAttribute("userDAO") == null)
+        {
+            String eclipseLaunchPath = System.getProperty("user.dir");
+            String finalPath = eclipseLaunchPath + "\\web\\WebShop\\Project\\Backend\\WebShopAppREST\\src\\main\\webapp\\";
+            System.out.println("Combined path: " + finalPath);
+            String contextPath = ctx.getRealPath("");
+            System.out.println("Combined path: " + contextPath);
+            ctx.setAttribute("userDAO", new UserDAO(finalPath));
+        }
+     }
 	
 	@GET
 	@Path("/get")
@@ -56,6 +64,23 @@ public class LoginService {
 	}
 	
 	@POST
+	@Path("/login1")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response login(User user) {
+	    UserDAO userDao = (UserDAO) ctx.getAttribute("userDAO");
+	    User loggedUser = userDao.find(user.getUsername(), user.getPassword());
+	    if (loggedUser == null) {
+	        return Response.status(Response.Status.UNAUTHORIZED)
+	                       .entity("{\"error\": \"Invalid username and/or password\"}")
+	                       .build();
+	    }
+	    String token = TokenUtils.generateToken(user.getUsername());
+	    System.out.println("Hello, world!");
+	    return Response.ok().entity("{\"token\": \"" + token + "\"}").build();
+	}
+	
+	@POST
 	@Path("/login")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
@@ -66,7 +91,10 @@ public class LoginService {
 			return Response.status(400).entity("Invalid username and/or password").build();
 		}
 		request.getSession().setAttribute("user", loggedUser);
-		return Response.status(200).build();
+		
+		return Response.status(Response.Status.OK)
+                .entity(loggedUser)
+                .build();
 	}
 	
 	
@@ -91,9 +119,39 @@ public class LoginService {
 		return dao.addUser(user);
 	}
 	
+	@POST
+	@Path("/manager")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public User registerManager(UserDTO userDTO)
+	{
+		UserDAO dao = (UserDAO) ctx.getAttribute("userDAO");
+		
+		LocalDate date = dao.convertToDate(userDTO.getDate());
+		Gender gender = dao.convertToGender(userDTO.getGender());
+		Role role = Role.MANAGER;
+		User user = new User(userDTO.getUsername(), userDTO.getPassword(), userDTO.getName(), userDTO.getLastname(), gender, date, role);
+		return dao.addUser(user);
+	}
+	
+	@GET
+    @Path("/currentUser1")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getCurrentUser(@HeaderParam("Authorization") String token) {
+        if (token == null || !TokenUtils.validateToken(token)) {
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        }
+        String username = TokenUtils.getUsernameFromToken(token);
+        UserDAO userDao = (UserDAO) ctx.getAttribute("userDAO");
+        User user = userDao.findByUsername(username);
+        if (user == null) {
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        }
+        return Response.ok().entity(user).build();
+    }
+	
 	@GET
 	@Path("/currentUser")
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public User login(@Context HttpServletRequest request) {
 		return (User) request.getSession().getAttribute("user");

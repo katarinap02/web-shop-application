@@ -68,7 +68,7 @@
                     <th>Comment</th>
                     <th>Rate</th>
                 </tr>
-                <tr v-for="c in comments">
+                <tr v-for="c in comments" :key="c">
                     <td>{{ c.commentText }}</td>
                     <td>{{ c.rate }}</td>
 

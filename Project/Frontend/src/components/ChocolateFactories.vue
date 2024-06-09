@@ -35,7 +35,7 @@ import { useRouter } from 'vue-router';
 const factories = ref([]);
 const factoriesAdress = ref({logo: "", name: "", location: "", average: ""})
 const router = useRouter();
-
+const user = ref('');
 
 onMounted(() => {
     loadFactories();
@@ -52,6 +52,7 @@ function loadFactories()
         else {
             factories.value = [];
         }
+        user.value = JSON.parse(localStorage.getItem('userData'));
     })
 }
 

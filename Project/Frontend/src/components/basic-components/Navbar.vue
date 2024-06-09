@@ -2,8 +2,11 @@
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
           <img src="/images/chocolateFactoryLogo.svg" id="logo"/>
-          
-          <a class="navbar-brand navbar-title" href="#">Chocolate factory</a>
+          <div class="pom">
+          <a class="navbar-brand navbar-title" href="#">Chocolate factory</a> <br>
+          <h2 class="role" v-if="!user">UNREGISTERED</h2>
+          <h2 class="role" v-else>{{ user.role }}</h2>
+          </div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -12,14 +15,18 @@
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="#">Home</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#/register">Register</a>
+              <li v-if="!user">
+                  <a class="nav-link" href="#/register">Register</a>
+              </li>
+              <li v-else-if="user.role === 'ADMINISTRATOR'">
+                  <a class="nav-link" href="#/register">Create_Manager</a>
               </li>
              
               <li class="nav-item">
                 <a class="nav-link" href="#/login">Log in</a>
               </li>
             </ul>
+            
             <form class="d-flex" role="search">
               <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
               <button class="btn btn-success search-btn" type="submit">Search</button>
@@ -29,6 +36,21 @@
       </nav>
 </template>
 <script setup>
+import axios from 'axios';
+import { onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
+
+const user = ref('');
+
+onMounted(() => {
+    loadUser();
+
+})
+
+function loadUser(){
+    user.value = JSON.parse(localStorage.getItem('userData'));
+
+}
 
 </script>
 <style scoped>
@@ -54,12 +76,21 @@ nav a:hover{
     font-size: x-large;
 }
 
+.role {
+  color: antiquewhite !important;
+  font-size: 12px;
+}
+
 .search-btn
 {
     background: antiquewhite;
     color:  #5a086a;
     font-weight: bold;
     border: antiquewhite;
+}
+
+.pom {
+  margin-top: 22px;
 }
 
 

@@ -71,7 +71,7 @@ public class UserDAO {
 		}
 		
 		users.put(user.getUsername(), user);
-		saveUsers(path); //nisam uspela da sacuvam u fajl
+		saveUsers(path); 
 		return user;
 	}
 	
