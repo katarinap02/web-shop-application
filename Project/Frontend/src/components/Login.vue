@@ -31,7 +31,7 @@ const router = useRouter();
 
 
 const login = () => {
-    axios.post('http://localhost:8080/WebShopAppREST/rest/login1', {username: username.value, password: password.value})
+    axios.post('http://localhost:8080/WebShopAppREST/rest/login', {username: username.value, password: password.value})
     .then(response => {
         errorMessage.value = 'Succesfuly loged into account.';
         console.log(response.data);
