@@ -21,6 +21,9 @@
               <li v-else-if="user.role === 'ADMINISTRATOR'">
                   <a class="nav-link" href="#/register">Create_Manager</a>
               </li>
+              <li v-else-if="user.role === 'MANAGER'">
+                  <a class="nav-link" href="#/register">Create_Worker</a>
+              </li>
              
               <li class="nav-item">
                 <a class="nav-link" href="#/login">Log in</a>
