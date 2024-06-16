@@ -19,14 +19,17 @@
                   <a class="nav-link" href="#/register">Register</a>
               </li>
               <li v-else-if="user.role === 'ADMINISTRATOR'">
-                  <a class="nav-link" href="#/register">Create_Manager</a>
+                  <a class="nav-link" href="#/register">Create Manager</a>
               </li>
               <li v-else-if="user.role === 'MANAGER'">
-                  <a class="nav-link" href="#/register">Create_Worker</a>
+                  <a class="nav-link" href="#/register">Create Worker</a>
               </li>
              
-              <li class="nav-item">
+              <li class="nav-item" v-if="!user">
                 <a class="nav-link" href="#/login">Log in</a>
+              </li>
+              <li class="nav-item" v-else-if="user.role === 'ADMINISTRATOR' || 'MANAGER'">
+                <a class="nav-link" href="#/" @click.prevent="logOut">Log out</a>
               </li>
             </ul>
             
@@ -53,6 +56,13 @@ onMounted(() => {
 function loadUser(){
     user.value = JSON.parse(localStorage.getItem('userData'));
 
+}
+
+function logOut()
+{
+    localStorage.setItem('userData', JSON.stringify(""));
+    loadUser();
+    window.location.reload();
 }
 
 </script>

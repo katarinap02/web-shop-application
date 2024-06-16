@@ -1,8 +1,10 @@
 package dao;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -34,6 +36,47 @@ public class ChocolateFactoryDAO {
 	{
 		loadFactories(contextPath);
 		path = contextPath;
+	}
+	
+	public ChocolateFactory addFactory(ChocolateFactory factory)
+	{
+		Integer maxId = -1;
+		for(int id : factories.keySet())
+		{
+			if(id > maxId)
+				maxId = id;
+		}
+		maxId++;
+		factory.setId(maxId);
+		factory.setChocolates(new ArrayList<Integer>()); //proveriti da li radi
+		factory.setIsWorking(false);
+		factory.setRate(0);
+		factory = validateFactory(factory);
+		if(factory != null)
+		{
+			factories.put(factory.getId(), factory);
+			saveFactory(path);
+			return factory;
+		}
+		else
+			return null;
+		
+	}
+	
+	private ChocolateFactory validateFactory(ChocolateFactory fc) {
+		// TODO Auto-generated method stub
+		if(fc.getName().isEmpty())
+			return null;
+		if(fc.getLocation().getAddress().isEmpty())
+			return null;
+		if(fc.getWorkingHours().getStartHour().isAfter(fc.getWorkingHours().getEndHour()))
+			return null;
+		if(fc.getLogoUrl().isEmpty())
+			return null;
+		if(fc.getRate() < 0)
+			return null;
+		
+		return fc;
 	}
 	
 	public Collection<ChocolateFactory> findAll()
@@ -101,6 +144,64 @@ public class ChocolateFactoryDAO {
 				catch (Exception e) { }
 			}
 		}
+	}
+	
+	private void saveFactory(String contextPath) {
+	    BufferedWriter out = null;
+	    try {
+	        File file = new File(contextPath + "/factories.txt");
+	        out = new BufferedWriter(new FileWriter(file));
+	        System.out.println("Saving to: " + file.getAbsolutePath());
+	        
+	        for (ChocolateFactory factory : factories.values()) {
+	            StringBuilder sb = new StringBuilder();
+	            sb.append(factory.getId()).append(";");
+	            sb.append(factory.getName()).append(";");
+	            
+	            ArrayList<Integer> chocolates = factory.getChocolates();
+	            for (int i = 0; i < chocolates.size(); i++) {
+	                sb.append(chocolates.get(i));
+	                if (i < chocolates.size() - 1) {
+	                    sb.append(",");
+	                }
+	            }
+	            sb.append(";");
+	            
+	            // Working hours
+	            WorkingHours wr = factory.getWorkingHours();
+	            sb.append(wr.getStartHour()).append(";");
+	            sb.append(wr.getEndHour()).append(";");
+	            
+	            // IsWorking flag
+	            sb.append(factory.getIsWorking()).append(";");
+	            
+	            // Location
+	            Location location = factory.getLocation();
+	            sb.append(location.getId()).append(";");
+	            sb.append(location.getLatitude()).append(";");
+	            sb.append(location.getLongitude()).append(";");
+	            sb.append(location.getAddress()).append(";");
+	            
+	            // URL and rate
+	            sb.append(factory.getLogoUrl()).append(";");
+	            sb.append(factory.getRate());
+
+	            out.write(sb.toString());
+	            System.out.println("Written: " + sb.toString());
+	        }
+	    } catch (Exception ex) {
+	        ex.printStackTrace();
+	    } finally {
+	        if (out != null) {
+	            try {
+	            	out.flush();
+	                out.close();
+	                System.out.println("BufferedWriter closed successfully.");
+	            } catch (Exception e) {
+	                e.printStackTrace();
+	            }
+	        }
+	    }
 	}
 
 	public ChocolateFactory findById(int id) {
