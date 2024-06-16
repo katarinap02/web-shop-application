@@ -6,7 +6,7 @@
           <template v-if="user && user.role === 'ADMINISTRATOR'" >
             <div class="header-content">
               <span class="title">Chocolate factories</span>
-              <a href="/create-new" class="create">create new</a>
+              <a href="#/createFactory" class="create">create new</a>
             </div>
           </template>
           <template v-else>

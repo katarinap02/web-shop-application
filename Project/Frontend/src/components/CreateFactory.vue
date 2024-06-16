@@ -1,34 +1,36 @@
 <template>
-  <form name="fabrikaForma" @submit="addChocolate($event)" class="cokoladaForma">
+  <form name="fabrikaForma" @submit="addFactory($event)" class="fabrikaForma">
     <table>
         <tr>
     <td>Name:</td>
-    <td><input name="name" type="text" v-model="chocolate.name" :class = "{'error':chocolateValid.name === ''}"></td>
+    <td><input name="name" type="text" v-model="factory.name" :class = "{'error':factoryValid.name === ''}"></td>
 </tr>
 <tr>
-    <td>Price:</td>
-    <td><input name="price" type="number" v-model="chocolate.price" :class = "{'error':chocolateValid.price <= 0}"></td>
+    <td>Latitude:</td>
+    <td><input name="latitude" type="text" v-model="factory.location.latitude" ></td>
 </tr>
 <tr>
-    <td>Type:</td>
-    <td><input name="kind" type="text" v-model="chocolate.kind" :class = "{'error':chocolateValid.kind === ''}"></td>
+    <td>Longitude:</td>
+    <td><input name="longitude" type="text" v-model="factory.location.longitude" ></td>
 </tr>
 <tr>
-    <td>Category:</td>
-    <td><input name="type" type="text" v-model="chocolate.type" :class = "{'error':chocolateValid.type === ''}"></td>
-</tr>
-<tr>
-    <td>Weight:</td>
-    <td><input name="grams" type="number" v-model="chocolate.grams" :class = "{'error':chocolateValid.grams <= 0}"></td>
-</tr>
-<tr>
-    <td>Description:</td>
-    <td><input name="text" type="text" v-model="chocolate.description" :class = "{'error':chocolateValid.description === ''}"></td>
+    <td>Address:</td>
+    <td><input name="address" type="text" v-model="factory.location.address" :class = "{'error':factoryValid.location.address === ''}"></td>
 </tr>
 <tr>
     <td>Image:</td>
-    <td><input name="image" type="text" v-model="chocolate.imageUrl" :class = "{'error':chocolateValid.imageUrl === ''}"></td>
+    <td><input name="image" type="text" v-model="factory.logoUrl" :class = "{'error':factoryValid.logoUrl === ''}"></td>
 </tr>
+<tr>
+    <td>Start Hour:</td>
+    <td><input name="start" type="time" v-model="factory.workingHours.startHour"></td>
+</tr>
+<tr>
+    <td>End Hour:</td>
+    <td><input name="end" type="time" v-model="factory.workingHours.endHour"></td>
+</tr>
+
+
 <tr>
     <td></td>
     <td><button type="submit">Add</button></td>
@@ -48,23 +50,31 @@ import { useRouter, useRoute } from 'vue-router';
 
 const route = useRoute();
 const router = useRouter();
-const chocolate = ref({ name: "", price: 0, kind: "", factory: -1, type: "", grams: 0, description: "", imageUrl: "", status: false, number: 0 });
-const chocolateValid = ref({ name: "a", price: 1, kind: "a", factory: 0, type: "a", grams: 1, description: "a", imageUrl: "a", status: false, number: 0 });
+const factory = ref({ name: "",workingHours: {
+    startHour: "08:00",
+    endHour: "15:00"
+  }, isWorking: false, location: {
+    latitude: 0,
+    longitude: 0,
+    address: ""
+  }, logoUrl: "", rate: 0});
+const factoryValid = ref({ name: "a", isWorking: false,  location: {
+    latitude: 0,
+    longitude: 0,
+    address: "a"
+  }, logoUrl: "a", rate: -1.0});
 const errorMsg = ref("NoError");
 
 
-function addChocolate(event)
+function addFactory(event)
 {
     event.preventDefault();
     
     
-    this.chocolate.factory = factoryId.value;
-    this.chocolateValid = chocolate.value;
+    this.factoryValid = factory.value;
   
     
-   if(!this.chocolateValid.name || this.chocolateValid.price < 0 || !this.chocolateValid.kind 
-    || this.chocolateValid.factory < 0 || !this.chocolateValid.type || this.chocolateValid.grams < 0
-|| !this.chocolateValid.description || !this.chocolateValid.imageUrl)
+   if(!this.factoryValid.name || !this.factoryValid.logoUrl || !this.factoryValid.location.address)
 {
    
     errorMsg.value = "HasError";
@@ -72,12 +82,12 @@ function addChocolate(event)
 else
 {
     
-    axios.post("http://localhost:8080/WebShopAppREST/rest/chocolates/", this.chocolate)
+    axios.post("http://localhost:8080/WebShopAppREST/rest/factories/add", this.factory, this.location, this.workingHours)
     .then(response => {console.log(response.data); 
        
     });
 
-     this.router.push({name: 'ShowFactory', params: { id: factoryId.value } });
+    router.push("/");
 
     
 

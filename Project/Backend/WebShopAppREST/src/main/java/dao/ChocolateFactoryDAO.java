@@ -22,7 +22,7 @@ import beans.WorkingHours;
 public class ChocolateFactoryDAO {
 	private HashMap<Integer, ChocolateFactory> factories = new HashMap<>();
 	private String path = "";
-	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
 	
 	public ChocolateFactoryDAO(){	
 		ArrayList<Integer> list = new ArrayList<>();
@@ -50,7 +50,7 @@ public class ChocolateFactoryDAO {
 		factory.setId(maxId);
 		factory.setChocolates(new ArrayList<Integer>()); //proveriti da li radi
 		factory.setIsWorking(false);
-		factory.setRate(0);
+		factory.setRate(-1.0);
 		factory = validateFactory(factory);
 		if(factory != null)
 		{
@@ -72,8 +72,6 @@ public class ChocolateFactoryDAO {
 		if(fc.getWorkingHours().getStartHour().isAfter(fc.getWorkingHours().getEndHour()))
 			return null;
 		if(fc.getLogoUrl().isEmpty())
-			return null;
-		if(fc.getRate() < 0)
 			return null;
 		
 		return fc;
@@ -184,7 +182,7 @@ public class ChocolateFactoryDAO {
 	            
 	            // URL and rate
 	            sb.append(factory.getLogoUrl()).append(";");
-	            sb.append(factory.getRate());
+	            sb.append(factory.getRate()).append("\n");
 
 	            out.write(sb.toString());
 	            System.out.println("Written: " + sb.toString());

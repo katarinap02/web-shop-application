@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -14,6 +15,8 @@ import javax.ws.rs.core.MediaType;
 
 import beans.Chocolate;
 import beans.ChocolateFactory;
+import beans.Location;
+import beans.WorkingHours;
 import dao.ChocolateDAO;
 import dao.ChocolateFactoryDAO;
 
@@ -50,6 +53,7 @@ public class ChocolateFactoryService {
 	@POST
 	@Path("/add")
 	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
 	public ChocolateFactory addFactory(ChocolateFactory factory)
 	{
 		ChocolateFactoryDAO dao = (ChocolateFactoryDAO) ctx.getAttribute("factoryDAO");
