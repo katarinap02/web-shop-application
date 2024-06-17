@@ -144,7 +144,7 @@ public class ChocolateFactoryDAO {
 		}
 	}
 	
-	private void saveFactory(String contextPath) {
+	public void saveFactory(String contextPath) {
 	    BufferedWriter out = null;
 	    try {
 	        File file = new File(contextPath + "/factories.txt");
