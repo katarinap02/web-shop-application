@@ -120,7 +120,7 @@ public class LoginService {
 	}
 	
 	@POST
-	@Path("/manager")
+	@Path("/manager") //kreira novog menagera ako je ulogovan radnik
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public User registerManager(UserDTO userDTO)
@@ -130,6 +130,21 @@ public class LoginService {
 		LocalDate date = dao.convertToDate(userDTO.getDate());
 		Gender gender = dao.convertToGender(userDTO.getGender());
 		Role role = Role.MANAGER;
+		User user = new User(userDTO.getUsername(), userDTO.getPassword(), userDTO.getName(), userDTO.getLastname(), gender, date, role);
+		return dao.addUser(user);
+	}
+	
+	@POST //kreira novog radnika ako je ulogovan menadzer
+	@Path("/worker")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public User registerWorker(UserDTO userDTO)
+	{
+		UserDAO dao = (UserDAO) ctx.getAttribute("userDAO");
+		
+		LocalDate date = dao.convertToDate(userDTO.getDate());
+		Gender gender = dao.convertToGender(userDTO.getGender());
+		Role role = Role.WORKER;
 		User user = new User(userDTO.getUsername(), userDTO.getPassword(), userDTO.getName(), userDTO.getLastname(), gender, date, role);
 		return dao.addUser(user);
 	}

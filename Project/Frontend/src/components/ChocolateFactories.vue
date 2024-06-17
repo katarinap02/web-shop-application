@@ -2,7 +2,17 @@
     <div class="tabela">
         <table>
             <tr>
-                <th colspan="5">Chocolate factories</th>
+                <th colspan="5">
+          <template v-if="user && user.role === 'ADMINISTRATOR'" >
+            <div class="header-content">
+              <span class="title">Chocolate factories</span>
+              <a href="#/createFactory" class="create">create new</a>
+            </div>
+          </template>
+          <template v-else>
+            Chocolate factories
+          </template>
+        </th>
             </tr>
             <tr>
                 <th>Logo</th>
@@ -39,6 +49,7 @@ const user = ref('');
 
 onMounted(() => {
     loadFactories();
+    
 
 })
 
@@ -88,13 +99,38 @@ template {
     
 }
 
+.header-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-.tabela th,
+
+.title {
+  flex-grow: 1; 
+  text-align: center;
+  margin-left: 100px;
+}
+
+.tabela th{
+    padding: 8px;
+	text-align: center;
+	border-bottom: 1px solid #ddd;
+    font-size: larger;
+    
+}
 .tabela td {
 	padding: 8px;
 	text-align: center;
 	border-bottom: 1px solid #ddd;
     font-size: larger;
+}
+
+.tabela .create {
+    text-decoration: none;
+    background-color: #5a086a;
+    color: antiquewhite;
+    margin-left: auto; 
 }
 
 .tabela th {

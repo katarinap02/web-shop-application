@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1>
-    {{ !defaultUser ? 'Register' : defaultUser.role === 'ADMINISTRATOR' ? 'Create Manager' : '' }}
+     {{ !defaultUser ? 'Register' : (defaultUser.role === 'ADMINISTRATOR' ? 'Create Manager' : (defaultUser.role === 'MANAGER' ? 'Create Worker' : '')) }}
         </h1>
         <form class = "form" v-on:submit="RegisterNew($event)">
             <div>
@@ -36,7 +36,7 @@
                 <label for="birthdate">Birthdate:</label>
                 <input type="date" id="birthdate" v-model="user.date">
             </div>
-            <button type="submit" class="submit">{{ !defaultUser ? 'Register' : defaultUser.role === 'ADMINISTRATOR' ? 'Create ' : '' }}</button>
+            <button type="submit" class="submit">{{ !defaultUser ? 'Register' : defaultUser.role === 'ADMINISTRATOR' || 'MANAGER' ? 'Create ' : '' }}</button>
         </form>
         <table>
        
@@ -119,6 +119,21 @@ function RegisterNew(event)
         });
 
     }
+    else if(this.password1 === this.password2 && this.password1 !== "" && defaultUser.value.role === "MANAGER") {
+        this.user.password = this.password1;
+        axios.post("http://localhost:8080/WebShopAppREST/rest/worker", this.user)
+        .then(response => {
+            if(response.data != "")
+            {
+                router.push('/')
+                loadBooks();
+            }
+            
+            
+        });
+
+    }
+
     else {
         error.value = "Password is not correct.";
     }

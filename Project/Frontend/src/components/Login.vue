@@ -14,7 +14,7 @@
         </form>
         <p>{{errorMessage}}</p>
         <a href="" @click="Register($event)">Register</a>
-        <a href="" @click.prevent="getUser()">User</a>
+        <a href="" @click.prevent="goHome()">Home</a>
     </div>
 </template>
 
@@ -51,6 +51,11 @@ function getUser(){
     const userData = JSON.parse(localStorage.getItem('userData'));
     console.log(userData);
 
+}
+
+function goHome()
+{
+    router.push("/");
 }
 
 function Register(event)
