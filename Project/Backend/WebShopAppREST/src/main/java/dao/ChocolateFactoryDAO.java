@@ -63,6 +63,14 @@ public class ChocolateFactoryDAO {
 		
 	}
 	
+	public ChocolateFactory deleteById(int id)
+	{
+		ChocolateFactory c = findById(id);
+		factories.remove(id);
+		saveFactory(path);
+		return c;
+	}
+	
 	private ChocolateFactory validateFactory(ChocolateFactory fc) {
 		// TODO Auto-generated method stub
 		if(fc.getName().isEmpty())
@@ -105,7 +113,7 @@ public class ChocolateFactoryDAO {
 					
 					ArrayList<Integer> chocolateIds = new ArrayList<>();
                     String chocolateIdsToken = st.nextToken().trim();
-                    if (!chocolateIdsToken.isEmpty()) {
+                    if (!chocolateIdsToken.isEmpty() && chocolateIdsToken.equals("-1")) {
                         String[] chocolateIdTokens = chocolateIdsToken.split(",");
                         for (String chocolateId : chocolateIdTokens) {
                             chocolateIds.add(Integer.parseInt(chocolateId.trim()));
@@ -157,6 +165,11 @@ public class ChocolateFactoryDAO {
 	            sb.append(factory.getName()).append(";");
 	            
 	            ArrayList<Integer> chocolates = factory.getChocolates();
+	            if(chocolates.isEmpty())
+	            {
+	            	sb.append(-1).append(";");
+	            }
+	            else {
 	            for (int i = 0; i < chocolates.size(); i++) {
 	                sb.append(chocolates.get(i));
 	                if (i < chocolates.size() - 1) {
@@ -164,6 +177,7 @@ public class ChocolateFactoryDAO {
 	                }
 	            }
 	            sb.append(";");
+	            }
 	            
 	            // Working hours
 	            WorkingHours wr = factory.getWorkingHours();
@@ -185,7 +199,7 @@ public class ChocolateFactoryDAO {
 	            sb.append(factory.getRate()).append("\n");
 
 	            out.write(sb.toString());
-	            System.out.println("Written: " + sb.toString());
+	            
 	        }
 	    } catch (Exception ex) {
 	        ex.printStackTrace();

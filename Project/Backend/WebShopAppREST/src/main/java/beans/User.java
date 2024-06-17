@@ -14,9 +14,9 @@ public class User {
 	Gender gender;
 	LocalDate birthDate;
 	Role role;
+	ChocolateFactory factory; //ovo je uglavon null tako da nemoj da radis neprovereni get
 	//ArrayList<Shopping> shoppings; 
 	//Basket basket;
-	//ChocolateFactory factory;
 	//int points;
 	// CustomerRole role;
 	
@@ -27,7 +27,7 @@ public class User {
 	}
 	
 	public User(String username, String password, String name, String surname, Gender gender,
-			LocalDate birthDate, Role role) {
+			LocalDate birthDate, Role role, ChocolateFactory fc) {
 		super();
 		this.username = username;
 		this.password = password;
@@ -36,7 +36,16 @@ public class User {
 		this.gender = gender;
 		this.birthDate = birthDate;
 		this.role = role;
+		factory = fc;
 	}
+	public ChocolateFactory getFactory() {
+		return factory;
+	}
+
+	public void setFactory(ChocolateFactory factory) {
+		this.factory = factory;
+	}
+
 	public String getUsername() {
 		return username;
 	}

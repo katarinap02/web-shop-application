@@ -13,7 +13,7 @@
             <button type="submit" class="submit">Login</button>
         </form>
         <p>{{errorMessage}}</p>
-        <a href="" @click="Register($event)">Register</a>
+        <a href="" @click="Register($event)" >Register</a>
         <a href="" @click.prevent="goHome()">Home</a>
     </div>
 </template>

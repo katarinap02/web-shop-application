@@ -67,7 +67,7 @@ const error = ref('')
 const books = ref([]);
 const defaultUser = ref('');
 
-const user = ref({username: "", password: "", name: "", lastname: "", gender: "", date: ""});
+const user = ref({username: "", password: "", name: "", surname: "", gender: "", date: ""});
 
 function loadBooks() {
         axios.get('http://localhost:8080/WebShopAppREST/rest/get')

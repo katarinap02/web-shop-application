@@ -29,11 +29,22 @@
     <td>End Hour:</td>
     <td><input name="end" type="time" v-model="factory.workingHours.endHour"></td>
 </tr>
+<tr>
+    <td>Maganer</td>
+    <td v-if="managers">
+        <select name="manager" id="manager" v-model="mainManager">
+            <option v-for="manager in managers" :key="manager.username" :value="manager">
+                {{ manager.name }} {{ manager.surname }}
+            </option>
+        </select>
+    </td>
+    <td v-if="!managers"><button class="reg_btn" @click.prevent="createWithManager()">New</button></td>
+</tr>
 
 
 <tr>
     <td></td>
-    <td><button type="submit">Add</button></td>
+    <button type="submit" class="submit">Create</button>
 </tr>
 
     </table>
@@ -45,7 +56,7 @@
 <script setup>
 
 import axios from 'axios';
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 
 const route = useRoute();
@@ -65,6 +76,28 @@ const factoryValid = ref({ name: "a", isWorking: false,  location: {
   }, logoUrl: "a", rate: -1.0});
 const errorMsg = ref("NoError");
 
+const managers = ref('');
+const mainManager = ref(null);
+const factoryReturn = ref('');
+
+onMounted(() => {
+    loadManagers();
+})
+
+function loadManagers()
+{
+    axios.get('http://localhost:8080/WebShopAppREST/rest/getManagers').then(response => {
+        if(response.data != "")
+        {
+            managers.value = response.data;
+          //  console.log(response.data)
+        }
+        else {
+            managers.value = '';
+        }
+    })
+}
+
 
 function addFactory(event)
 {
@@ -82,12 +115,24 @@ function addFactory(event)
 else
 {
     
-    axios.post("http://localhost:8080/WebShopAppREST/rest/factories/add", this.factory, this.location, this.workingHours)
+    axios.post("http://localhost:8080/WebShopAppREST/rest/factories/add", this.factory)
     .then(response => {console.log(response.data); 
+    factoryReturn.value = response.data;
+    console.log(this.factoryReturn.id)
        
     });
 
-    router.push("/");
+    axios.get("http://localhost:8080/WebShopAppREST/rest/editManager?factory=" + factoryReturn.value.id + "&manager=" + mainManager.value.username)
+    .then(response => {
+        console.log(response.data);
+    })
+    .catch(error => {
+        console.error('Error editing manager:', error);
+    });
+    
+    
+
+   // router.push("/");
 
     
 
@@ -99,13 +144,62 @@ else
 
 <style scoped>
 
-.fabrikaForma{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.fabrikaForma {
+    margin: 0 auto;
+    max-width: 420px;
+    background: white;
+    text-align: left;
+    border-radius: 10px;
+    padding: 40px;
+}
+
+.fabrikaForma td {
+    color: #aaa;
+    display: inline-block;
+    margin: 25px 0 15px;
+    font-size: 0.8em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: bold;
+
+}
+
+.fabrikaForma input {
+    padding: 2px 6px;
+    box-sizing: border-box;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    color: #555;
+    display: block;
+    width: 100%;
 }
 
 .error{
     border: 2px solid red;
+}
+
+.fabrikaForma button {
+    padding: 0.5rem;
+    border: none;
+    border-radius: 10px;
+    background-color: #5a086a;
+    color: white;
+    cursor: pointer;
+    width: 100%;
+    height: 40px;
+    font-size: 0.8em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: bold;
+}
+
+.fabrikaForma button:hover {
+    background-color: #0056b3;
+}
+
+.fabrikaForma .reg_btn
+{
+    height: 30px;
+    margin: 5px;
 }
 </style>
