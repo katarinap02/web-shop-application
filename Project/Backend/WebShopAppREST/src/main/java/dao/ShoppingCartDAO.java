@@ -31,7 +31,7 @@ public class ShoppingCartDAO {
 		// TODO Auto-generated method stub
 		BufferedReader in = null;
 		try {
-			File file = new File(contextPath + "/customer_roles.txt");
+			File file = new File(contextPath + "/shopping_carts.txt");
 			in = new BufferedReader(new FileReader(file));
 			String line;
 			StringTokenizer st;
