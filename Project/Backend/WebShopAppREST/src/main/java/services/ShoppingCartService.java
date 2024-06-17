@@ -11,6 +11,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import beans.CustomerRole;
+import beans.ShoppingCart;
 import dao.CustomerRoleDAO;
 import dao.ShoppingCartDAO;
 
