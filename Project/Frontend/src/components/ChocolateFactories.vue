@@ -22,7 +22,7 @@
                 <th>Average rating</th>
                 <th> </th>
             </tr>
-            <tr v-for="b in factories" :key="b.id">
+            <tr v-for="b in factories" :key="b.id" :class="{ selected: selectedFactory && selectedFactory.id === b.id }" @click="selectFactory(b)">
                 <td>
             <img :src="b.logoUrl" alt="Factory Logo" style="width: 50px; height: 50px;">
           </td>
@@ -34,6 +34,11 @@
 
             </tr>
         </table>
+        
+    </div>
+    <div v-if="user.role === 'ADMINISTRATOR'">
+    <button class="btn btn-success press-btn" @click.prevent="goToCreateFactory()">Create factory</button>
+    <button class="btn btn-success press-btn" @click="deleteSelectedFactory()">Delete factory</button>
     </div>
 
    
@@ -45,7 +50,7 @@ import axios from 'axios';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
-const factories = ref([]);
+const factories = ref('');
 const factoriesAdress = ref({logo: "", name: "", location: "", average: ""})
 const router = useRouter();
 const user = ref('');
@@ -63,6 +68,7 @@ function loadUser(){
 
 
 onMounted(() => {loadUser();})
+const selectedFactory = ref(null);
 
 onMounted(() => {
     loadFactories();
@@ -92,7 +98,7 @@ function loadFactories()
             factories.value = response.data;
         }
         else {
-            factories.value = [];
+            factories.value = '';
         }
         user.value = JSON.parse(localStorage.getItem('userData'));
     })
@@ -105,6 +111,31 @@ function showFactory(factory)
         this.router.push({ name: 'ShowFactory', params: { id: factory } });
    
     
+}
+
+function goToCreateFactory()
+{
+    this.router.push({ name: 'CreateFactory' });
+}
+
+function selectFactory(factory)
+{
+    this.selectedFactory = factory;
+    console.log(this.selectedFactory);
+}
+
+function deleteSelectedFactory()
+{
+    if(this.selectedFactory != null)
+    {
+        axios.get('http://localhost:8080/WebShopAppREST/rest/factories/delete?id=' +  this.selectedFactory.id).then(response =>
+        {
+            loadFactories();
+            console.log(response.data);
+        }
+    )
+        
+    }
 }
 
 
@@ -182,6 +213,17 @@ template {
 .show-btn{
     background-color: #5a086a;
     border: #5a086a;
+}
+
+.press-btn{
+    background-color: #5a086a;
+    border: #5a086a;
+    width: 130px;
+    margin: 30px;
+}
+
+.selected {
+    background-color: rgb(245, 195, 128); /* Change to your desired highlight color */
 }
 
 </style>

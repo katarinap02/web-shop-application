@@ -2,15 +2,18 @@ package dao;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.Console;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.StringTokenizer;
+import java.util.StringTokenizer;import javax.lang.model.element.ModuleElement.UsesDirective;
 
+import beans.ChocolateFactory;
 import beans.User;
 import enums.Gender;
 import enums.Role;
@@ -18,6 +21,7 @@ import enums.Role;
 public class UserDAO {
 	
 	private HashMap<String, User> users = new HashMap<>();
+	private ChocolateFactoryDAO factoryDAO;
 	String path = "";
 	
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -29,11 +33,31 @@ public class UserDAO {
 	{
 		loadUsers(contextPath);
 		path = contextPath;
+		factoryDAO = new ChocolateFactoryDAO(path);
 	}
 	
 	public Collection<User> findAll()
 	{
 		return users.values();
+	}
+	
+	public Collection<User> findManagers()
+	{
+		loadUsers(path);
+		ArrayList<User> managers = new ArrayList<>();
+		for(User u : users.values())
+		{
+			if(u.getRole() == Role.MANAGER && u.getFactory() == null)
+			{
+				managers.add(u);
+			}
+			else
+			{
+				System.out.println(u.getUsername());
+			}
+		}
+		
+		return managers;
 	}
 	
 	public User findByUsername(String username)
@@ -75,6 +99,39 @@ public class UserDAO {
 		return user;
 	}
 	
+	public User editManager(User user, ChocolateFactory factory ,int id)
+	{
+		System.out.println(id);
+		if(factory == null)
+			return null;
+		for(User u : users.values())
+		{
+			if(user.getUsername().equals(u.getUsername()))
+			{
+				System.out.println(id);
+				u.setFactory(factory);
+				saveUsers(path);
+				return u;
+			}
+		}
+		return null;
+	}
+	
+	public void deleteChocolateId(int id) {
+		
+		for(User u: users.values())
+		{
+			if(u.getFactory() != null)
+			{
+				if(u.getFactory().getId() == id)
+				{
+					u.setFactory(null);
+				}
+			}
+		}
+		saveUsers(path);
+	}
+	
 	public LocalDate convertToDate(String date)
 	{
 
@@ -109,6 +166,16 @@ public class UserDAO {
         }
 	}
 	
+	public ChocolateFactory convertToFactory(int id)
+	{
+		if(id == -1)
+			return null;
+		ChocolateFactory factory = factoryDAO.findById(id);
+		return factory;
+		
+		
+	}
+	
 	private void loadUsers(String contextPath) {
 		BufferedReader in = null;
 		try {
@@ -129,8 +196,12 @@ public class UserDAO {
 					Gender gender = convertToGender(st.nextToken().trim());
 					LocalDate birthdate = LocalDate.parse(st.nextToken().trim(), formatter);
 					Role role = convertToRole(st.nextToken().trim());
+					int factoryId = Integer.parseInt(st.nextToken().trim());
+					ChocolateFactory factory = convertToFactory(factoryId);
 					
-				users.put(username, new User(username, password, firstName, lastName, gender, birthdate, role));
+					User user = new User(username, password, firstName, lastName, gender, birthdate, role);
+					user.setFactory(factory);
+				users.put(username, user);
 				}
 				
 			}
@@ -157,10 +228,14 @@ public class UserDAO {
                 sb.append(user.getUsername()).append(";");
                 sb.append(user.getPassword()).append(";");
                 sb.append(user.getName()).append(";");
-                sb.append(user.getName()).append(";");
+                sb.append(user.getSurname()).append(";");
                 sb.append(user.getGender().name()).append(";");
                 sb.append(user.getBirthDate().format(formatter)).append(";");
-                sb.append(user.getRole().name()).append("\n");
+                sb.append(user.getRole().name()).append(";");
+                if(user.getFactory() != null)
+                sb.append(user.getFactory().getId()).append("\n");
+                else 
+                	sb.append(-1).append("\n");
 
                 out.write(sb.toString());
                
@@ -179,5 +254,7 @@ public class UserDAO {
             }
         }
     }
+
+	
 
 }

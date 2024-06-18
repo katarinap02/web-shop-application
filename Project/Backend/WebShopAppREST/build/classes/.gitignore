@@ -2,4 +2,10 @@
 /dao/
 /services/
 /utils/
+<<<<<<< HEAD
+/dao/
+/beans/
+/dto/
+=======
 /enums/
+>>>>>>> 68ba3dab3b504f71d2897eb47c5385496fd87c4a

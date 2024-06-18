@@ -14,13 +14,17 @@ import javax.ws.rs.OPTIONS;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import beans.ChocolateFactory;
 import beans.User;
 import dao.ChocolateDAO;
+import dao.ChocolateFactoryDAO;
 import dao.UserDAO;
+import dto.ManagerFactoryDTO;
 import dto.UserDTO;
 import enums.Gender;
 import enums.Role;
@@ -44,6 +48,15 @@ public class LoginService {
             String contextPath = ctx.getRealPath("");
             System.out.println("Combined path: " + contextPath);
             ctx.setAttribute("userDAO", new UserDAO(finalPath));
+        }
+        if(ctx.getAttribute("factoryDAO") == null)
+        {
+            String eclipseLaunchPath = System.getProperty("user.dir");
+            String finalPath = eclipseLaunchPath + "\\web\\WebShop\\Project\\Backend\\WebShopAppREST\\src\\main\\webapp\\";
+            System.out.println("Combined path: " + finalPath);
+            String contextPath = ctx.getRealPath("");
+            System.out.println("Combined path: " + contextPath);
+            ctx.setAttribute("factoryDAO", new ChocolateFactoryDAO(finalPath));
         }
      }
 	
@@ -115,12 +128,12 @@ public class LoginService {
 		LocalDate date = dao.convertToDate(userDTO.getDate());
 		Gender gender = dao.convertToGender(userDTO.getGender());
 		Role role = Role.CUSTOMER;
-		User user = new User(userDTO.getUsername(), userDTO.getPassword(), userDTO.getName(), userDTO.getLastname(), gender, date, role);
+		User user = new User(userDTO.getUsername(), userDTO.getPassword(), userDTO.getName(), userDTO.getSurname(), gender, date, role);
 		return dao.addUser(user);
 	}
 	
 	@POST
-	@Path("/manager") //kreira novog menagera ako je ulogovan radnik
+	@Path("/manager") //kreira novog menagera ako je ulogovan administrator
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public User registerManager(UserDTO userDTO)
@@ -130,8 +143,33 @@ public class LoginService {
 		LocalDate date = dao.convertToDate(userDTO.getDate());
 		Gender gender = dao.convertToGender(userDTO.getGender());
 		Role role = Role.MANAGER;
-		User user = new User(userDTO.getUsername(), userDTO.getPassword(), userDTO.getName(), userDTO.getLastname(), gender, date, role);
+		User user = new User(userDTO.getUsername(), userDTO.getPassword(), userDTO.getName(), userDTO.getSurname(), gender, date, role);
 		return dao.addUser(user);
+	}
+	
+	@POST
+	@Path("/editManager") //izmena menadzera
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public User editManager(ManagerFactoryDTO dto)
+	{
+		UserDAO dao = (UserDAO) ctx.getAttribute("userDAO");
+		ChocolateFactoryDAO factoryDao = (ChocolateFactoryDAO) ctx.getAttribute("factoryDAO");
+		ChocolateFactory factory = factoryDao.findById(dto.getFactoryId());
+		User user = dao.findByUsername(dto.getManagerUsername());
+		System.out.println(dto.getFactoryId());
+		System.out.println(dto.getManagerUsername());
+		return dao.editManager(user, factory, dto.getFactoryId());
+		
+	}
+	
+	@GET
+	@Path("/getManagers") //dobavlja sve menadzere koji nemaju fabriku
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<User> getManagers()
+	{
+		UserDAO userDao = (UserDAO) ctx.getAttribute("userDAO");
+		return userDao.findManagers();
 	}
 	
 	@POST //kreira novog radnika ako je ulogovan menadzer
@@ -145,7 +183,7 @@ public class LoginService {
 		LocalDate date = dao.convertToDate(userDTO.getDate());
 		Gender gender = dao.convertToGender(userDTO.getGender());
 		Role role = Role.WORKER;
-		User user = new User(userDTO.getUsername(), userDTO.getPassword(), userDTO.getName(), userDTO.getLastname(), gender, date, role);
+		User user = new User(userDTO.getUsername(), userDTO.getPassword(), userDTO.getName(), userDTO.getSurname(), gender, date, role);
 		return dao.addUser(user);
 	}
 	

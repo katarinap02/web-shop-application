@@ -50,9 +50,10 @@
 
 import axios from "axios";
 import { onMounted, ref } from "vue";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 
 const router = useRouter();
+const route = useRoute();
 onMounted(() => {
     loadBooks();
 })
@@ -67,7 +68,12 @@ const error = ref('')
 const books = ref([]);
 const defaultUser = ref('');
 
-const user = ref({username: "", password: "", name: "", lastname: "", gender: "", date: ""});
+const user = ref({username: "", password: "", name: "", surname: "", gender: "", date: ""});
+
+const managerFactory = ref({factoryId: -1, managerUsername: ''})
+const factoryId = ref(route.query.id || -1);
+
+
 
 function loadBooks() {
         axios.get('http://localhost:8080/WebShopAppREST/rest/get')
@@ -111,8 +117,15 @@ function RegisterNew(event)
         .then(response => {
             if(response.data != "")
             {
-                router.push('/')
+                if(factoryId !== -1)
+                {
+                    this.managerFactory.factoryId = factoryId;
+                    this.managerFactory.managerUsername = this.user.username;
+                    axios.post("http://localhost:8080/WebShopAppREST/rest/editManager", this.managerFactory)
+                }
+                    
                 loadBooks();
+                router.push('/')
             }
             
             

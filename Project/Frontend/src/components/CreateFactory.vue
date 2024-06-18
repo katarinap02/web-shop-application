@@ -29,11 +29,22 @@
     <td>End Hour:</td>
     <td><input name="end" type="time" v-model="factory.workingHours.endHour"></td>
 </tr>
+<tr>
+    <td>Maganer</td>
+    <td v-if="managers">
+        <select name="manager" id="manager" v-model="mainManager">
+            <option v-for="manager in managers" :key="manager.username" :value="manager">
+                {{ manager.name }} {{ manager.surname }}
+            </option>
+        </select>
+    </td>
+    
+</tr>
 
 
 <tr>
     <td></td>
-    <td><button type="submit">Add</button></td>
+    <button type="submit" class="submit">Create</button>
 </tr>
 
     </table>
@@ -45,7 +56,7 @@
 <script setup>
 
 import axios from 'axios';
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 
 const route = useRoute();
@@ -65,6 +76,30 @@ const factoryValid = ref({ name: "a", isWorking: false,  location: {
   }, logoUrl: "a", rate: -1.0});
 const errorMsg = ref("NoError");
 
+const managers = ref('');
+const mainManager = ref(null);
+const factoryReturn = ref('');
+const managerFactory = ref({factoryId: -1, managerUsername: ''})
+
+onMounted(() => {
+    loadManagers();
+})
+
+function loadManagers()
+{
+    axios.get('http://localhost:8080/WebShopAppREST/rest/getManagers').then(response => {
+        if(response.data != "" && response.data.length > 0)
+        {
+            managers.value = response.data;
+            mainManager.value = managers.value[0];
+           
+        }
+        else {
+            managers.value = '';
+        }
+    })
+}
+
 
 function addFactory(event)
 {
@@ -79,15 +114,45 @@ function addFactory(event)
    
     errorMsg.value = "HasError";
 }
+else if(this.managers.length == 0)
+{
+    axios.post("http://localhost:8080/WebShopAppREST/rest/factories/add", this.factory)
+    .then(response => {
+        console.log(response.data);
+        this.factoryReturn = response.data;
+        router.push({ path: '/register', query: { id: this.factoryReturn.id } });
+        })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
 else
 {
     
-    axios.post("http://localhost:8080/WebShopAppREST/rest/factories/add", this.factory, this.location, this.workingHours)
-    .then(response => {console.log(response.data); 
-       
-    });
+    axios.post("http://localhost:8080/WebShopAppREST/rest/factories/add", this.factory)
+    .then(response => {
+        console.log(response.data);
+        this.factoryReturn = response.data; // Ensure this.factoryReturn is assigned properly
 
-    router.push("/");
+        // Update managerFactory with id and username
+        this.managerFactory.factoryId = this.factoryReturn.id;
+        this.managerFactory.managerUsername = this.mainManager.username;
+        console.log(this.managerFactory);
+        if(this.managers.length > 0)
+        // Make the second axios post request within this then block to ensure it waits for the first one to complete
+        return axios.post("http://localhost:8080/WebShopAppREST/rest/editManager", this.managerFactory);
+    })
+    .then(response => {
+        console.log(response.data);
+        router.push("/");
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+    
+    
+
+    
 
     
 
@@ -99,13 +164,62 @@ else
 
 <style scoped>
 
-.fabrikaForma{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.fabrikaForma {
+    margin: 0 auto;
+    max-width: 420px;
+    background: white;
+    text-align: left;
+    border-radius: 10px;
+    padding: 40px;
+}
+
+.fabrikaForma td {
+    color: #aaa;
+    display: inline-block;
+    margin: 25px 0 15px;
+    font-size: 0.8em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: bold;
+
+}
+
+.fabrikaForma input {
+    padding: 2px 6px;
+    box-sizing: border-box;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    color: #555;
+    display: block;
+    width: 100%;
 }
 
 .error{
     border: 2px solid red;
+}
+
+.fabrikaForma button {
+    padding: 0.5rem;
+    border: none;
+    border-radius: 10px;
+    background-color: #5a086a;
+    color: white;
+    cursor: pointer;
+    width: 100%;
+    height: 40px;
+    font-size: 0.8em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: bold;
+}
+
+.fabrikaForma button:hover {
+    background-color: #0056b3;
+}
+
+.fabrikaForma .reg_btn
+{
+    height: 30px;
+    margin: 5px;
 }
 </style>
