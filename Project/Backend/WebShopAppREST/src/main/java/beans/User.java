@@ -15,7 +15,7 @@ public class User {
 	LocalDate birthDate;
 	Role role;
 	//ArrayList<Shopping> shoppings; 
-	//Basket basket;
+	//int cartId;
 	//ChocolateFactory factory;
 	//int points;
 	// CustomerRole role;
@@ -36,7 +36,9 @@ public class User {
 		this.gender = gender;
 		this.birthDate = birthDate;
 		this.role = role;
+	
 	}
+
 	public String getUsername() {
 		return username;
 	}

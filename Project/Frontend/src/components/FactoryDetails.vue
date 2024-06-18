@@ -53,12 +53,17 @@
           </td>
                 <td class="red">{{ c.number }}</td>
                 <td class="red" :id="c.status ? 'yes' : 'no'">{{ c.status ? 'yes' : 'no' }}</td>
-                <td><button v-on:click="goToUpdateChocolate(c.id)">Edit</button></td>
+                <td><button v-if="user.role==='MANAGER'" v-on:click="goToUpdateChocolate(c.id)">Edit</button></td>
+                
+              
+                <td><button v-if="user.role==='CUSTOMER'" v-on:click="addToCart(c.id)">Add to cart</button></td>
+             
             </tr>
         </table>
         <div class="buttons"> 
-            <button class="add" type="button" @click.prevent="goToAdd()">Add</button>
-            <button class="delete" @click="deleteSelectedChocolate()">Delete selected</button>
+            <button v-if="user.role==='MANAGER'" class="add" type="button" @click.prevent="goToAdd()">Add</button>
+            <button v-if="user.role==='MANAGER'" class="delete" @click="deleteSelectedChocolate()">Delete selected</button>
+            <button v-if="user.role==='CUSTOMER'" class="delete" @click="deleteSelectedChocolate()">View cart</button>
         </div>
 
         <div class="comments-div">
@@ -89,6 +94,18 @@ import { onMounted, ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 
 
+const user = ref('');
+
+onMounted(() => {
+    loadUser();
+
+})
+
+function loadUser(){
+    user.value = JSON.parse(localStorage.getItem('userData'));
+
+}
+
 const route = useRoute();
 const router = useRouter();
 const factoryId = ref(route.params.id);
@@ -109,11 +126,20 @@ const factory = ref({ "chocolates": [],
             "endHour": "",
             "startHour": ""
         }});
-
+const shoppingCart = ref({
+    "chocolateIds": [
+        -1
+    ],
+    "customerName": "",
+    "id": 0,
+    "price": 0.0,
+    "isOpened": false,
+    "factoryId": -1
+});
 const chocolates = ref([]);
 const comments = ref([]);
 
-onMounted(() => {  getFactoryById(factoryId); loadChocolates(factoryId); loadComments(factoryId)})
+onMounted(() => {  getFactoryById(factoryId);  loadChocolates(factoryId); loadComments(factoryId)})
 
 function loadChocolates(factoryId)
 {
@@ -147,6 +173,25 @@ function selectChocolate(chocolate)
 {
     this.selectedChocolate = chocolate;
     console.log(this.selectedChocolate);
+}
+function openCart()
+{
+    
+  
+}
+
+function addToCart(chocolateId)
+{
+      
+      
+    axios.get('http://localhost:8080/WebShopAppREST/rest/carts/' + user.value.username)
+    .then(response => { shoppingCart.value = response.data;  this.router.push({name: 'AddToCart', params: {id: chocolateId, cartId: shoppingCart.value.id}}); console.log(response.data);})
+    
+   
+    
+    
+    
+    
 }
 
 function deleteSelectedChocolate()

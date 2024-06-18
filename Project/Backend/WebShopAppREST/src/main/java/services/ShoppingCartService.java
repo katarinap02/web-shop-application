@@ -5,8 +5,11 @@ import java.util.Collection;
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
@@ -45,6 +48,43 @@ public class ShoppingCartService {
 	{
 		ShoppingCartDAO dao = (ShoppingCartDAO) ctx.getAttribute("shoppingCartDAO");
 		return dao.findAll();
+	}
+	
+	@POST
+	@Path("/")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ShoppingCart openCart(ShoppingCart cart) {
+		ShoppingCartDAO dao = (ShoppingCartDAO) ctx.getAttribute("shoppingCartDAO");
+		return dao.openCart(cart);
+	}
+	
+	@POST
+	@Path("/addtocart")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ShoppingCart addToCart(@QueryParam("cartId") String cartId, @QueryParam("chocolateId") String chocolateId, @QueryParam("amount") String amount, @QueryParam("price") String price)
+	{
+		ShoppingCartDAO dao = (ShoppingCartDAO) ctx.getAttribute("shoppingCartDAO");
+		return dao.addToCart(Integer.parseInt(cartId), Integer.parseInt(chocolateId), Integer.parseInt(amount), Double.parseDouble(price));
+		
+	}
+	
+	@GET
+	@Path("/{username}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ShoppingCart findOpenedCart(@PathParam("username") String username)
+	{
+		ShoppingCartDAO dao = (ShoppingCartDAO) ctx.getAttribute("shoppingCartDAO");
+		return dao.findOpenedCart(username);
+	}
+	
+	@GET
+	@Path("/emptycarts")
+	@Produces(MediaType.APPLICATION_JSON)
+	public void emptyCarts()
+	{
+		ShoppingCartDAO dao = (ShoppingCartDAO) ctx.getAttribute("shoppingCartDAO");
+		dao.emptyOutCarts();
+		
 	}
 
 }

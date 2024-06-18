@@ -1,3 +1,4 @@
 steva;s123;Stevan;Stevan;MALE;2023-05-24;WORKER
 pera123;pera;Pera;Pera;MALE;2024-11-11;ADMINISTRATOR
 natasa;natke;Natasa;Natasa;FEMALE;2002-08-02;MANAGER
+zika123;zika;Zika;Zika;MALE;1992-01-13;CUSTOMER
