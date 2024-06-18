@@ -20,7 +20,7 @@ import enums.Role;
 public class ChocolateDAO {
 	
 	private HashMap<Integer, Chocolate> chocolates = new HashMap<>();
-	
+	//private ChocolateFactoryDAO dao = new ChocolateFactoryDAO();
 //	Gson gson = new Gson();
 
 	private String path = "";
@@ -71,6 +71,7 @@ public class ChocolateDAO {
 		{
 			chocolates.put(chocolate.getId(), chocolate);
 			saveChocolates(path);
+			
 			return chocolate;
 		}
 		else
