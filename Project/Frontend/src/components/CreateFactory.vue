@@ -38,7 +38,7 @@
             </option>
         </select>
     </td>
-    <td v-if="!managers"><button class="reg_btn" @click.prevent="createWithManager()">New</button></td>
+    
 </tr>
 
 
@@ -88,9 +88,10 @@ onMounted(() => {
 function loadManagers()
 {
     axios.get('http://localhost:8080/WebShopAppREST/rest/getManagers').then(response => {
-        if(response.data != "")
+        if(response.data != "" && response.data.length > 0)
         {
             managers.value = response.data;
+            mainManager.value = managers.value[0];
            
         }
         else {
@@ -113,6 +114,18 @@ function addFactory(event)
    
     errorMsg.value = "HasError";
 }
+else if(this.managers.length == 0)
+{
+    axios.post("http://localhost:8080/WebShopAppREST/rest/factories/add", this.factory)
+    .then(response => {
+        console.log(response.data);
+        this.factoryReturn = response.data;
+        router.push({ path: '/register', query: { id: this.factoryReturn.id } });
+        })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
 else
 {
     
@@ -125,7 +138,7 @@ else
         this.managerFactory.factoryId = this.factoryReturn.id;
         this.managerFactory.managerUsername = this.mainManager.username;
         console.log(this.managerFactory);
-
+        if(this.managers.length > 0)
         // Make the second axios post request within this then block to ensure it waits for the first one to complete
         return axios.post("http://localhost:8080/WebShopAppREST/rest/editManager", this.managerFactory);
     })

@@ -21,7 +21,8 @@ const routes = [
   {
     path: '/register',
     name: 'register',
-    component: Register
+    component: Register,
+    props: route => ({ id: route.query.id })
   },
   {
     path: '/addchocolate/:id',

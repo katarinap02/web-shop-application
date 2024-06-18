@@ -21,7 +21,7 @@ import enums.Role;
 public class UserDAO {
 	
 	private HashMap<String, User> users = new HashMap<>();
-	private ChocolateFactoryDAO factoryDAO = new ChocolateFactoryDAO();
+	private ChocolateFactoryDAO factoryDAO;
 	String path = "";
 	
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -33,6 +33,7 @@ public class UserDAO {
 	{
 		loadUsers(contextPath);
 		path = contextPath;
+		factoryDAO = new ChocolateFactoryDAO(path);
 	}
 	
 	public Collection<User> findAll()
@@ -42,11 +43,18 @@ public class UserDAO {
 	
 	public Collection<User> findManagers()
 	{
+		loadUsers(path);
 		ArrayList<User> managers = new ArrayList<>();
 		for(User u : users.values())
 		{
 			if(u.getRole() == Role.MANAGER && u.getFactory() == null)
+			{
 				managers.add(u);
+			}
+			else
+			{
+				System.out.println(u.getUsername());
+			}
 		}
 		
 		return managers;
@@ -158,9 +166,8 @@ public class UserDAO {
         }
 	}
 	
-	public ChocolateFactory convertToFactory(String input)
+	public ChocolateFactory convertToFactory(int id)
 	{
-		int id = Integer.parseInt(input);
 		if(id == -1)
 			return null;
 		ChocolateFactory factory = factoryDAO.findById(id);
@@ -189,9 +196,12 @@ public class UserDAO {
 					Gender gender = convertToGender(st.nextToken().trim());
 					LocalDate birthdate = LocalDate.parse(st.nextToken().trim(), formatter);
 					Role role = convertToRole(st.nextToken().trim());
-					ChocolateFactory factory = convertToFactory(st.nextToken().trim());
+					int factoryId = Integer.parseInt(st.nextToken().trim());
+					ChocolateFactory factory = convertToFactory(factoryId);
 					
-				users.put(username, new User(username, password, firstName, lastName, gender, birthdate, role, factory));
+					User user = new User(username, password, firstName, lastName, gender, birthdate, role);
+					user.setFactory(factory);
+				users.put(username, user);
 				}
 				
 			}

@@ -27,7 +27,7 @@ public class User {
 	}
 	
 	public User(String username, String password, String name, String surname, Gender gender,
-			LocalDate birthDate, Role role, ChocolateFactory fc) {
+			LocalDate birthDate, Role role) {
 		super();
 		this.username = username;
 		this.password = password;
@@ -36,7 +36,7 @@ public class User {
 		this.gender = gender;
 		this.birthDate = birthDate;
 		this.role = role;
-		factory = fc;
+		factory = null;
 	}
 	public ChocolateFactory getFactory() {
 		return factory;

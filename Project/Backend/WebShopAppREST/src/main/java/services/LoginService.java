@@ -128,7 +128,7 @@ public class LoginService {
 		LocalDate date = dao.convertToDate(userDTO.getDate());
 		Gender gender = dao.convertToGender(userDTO.getGender());
 		Role role = Role.CUSTOMER;
-		User user = new User(userDTO.getUsername(), userDTO.getPassword(), userDTO.getName(), userDTO.getLastname(), gender, date, role, null);
+		User user = new User(userDTO.getUsername(), userDTO.getPassword(), userDTO.getName(), userDTO.getSurname(), gender, date, role);
 		return dao.addUser(user);
 	}
 	
@@ -143,7 +143,7 @@ public class LoginService {
 		LocalDate date = dao.convertToDate(userDTO.getDate());
 		Gender gender = dao.convertToGender(userDTO.getGender());
 		Role role = Role.MANAGER;
-		User user = new User(userDTO.getUsername(), userDTO.getPassword(), userDTO.getName(), userDTO.getLastname(), gender, date, role, null);
+		User user = new User(userDTO.getUsername(), userDTO.getPassword(), userDTO.getName(), userDTO.getSurname(), gender, date, role);
 		return dao.addUser(user);
 	}
 	
@@ -164,7 +164,7 @@ public class LoginService {
 	}
 	
 	@GET
-	@Path("/getManagers") //dobavlja sve menadzere
+	@Path("/getManagers") //dobavlja sve menadzere koji nemaju fabriku
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<User> getManagers()
 	{
@@ -183,7 +183,7 @@ public class LoginService {
 		LocalDate date = dao.convertToDate(userDTO.getDate());
 		Gender gender = dao.convertToGender(userDTO.getGender());
 		Role role = Role.WORKER;
-		User user = new User(userDTO.getUsername(), userDTO.getPassword(), userDTO.getName(), userDTO.getLastname(), gender, date, role, null);
+		User user = new User(userDTO.getUsername(), userDTO.getPassword(), userDTO.getName(), userDTO.getSurname(), gender, date, role);
 		return dao.addUser(user);
 	}
 	
