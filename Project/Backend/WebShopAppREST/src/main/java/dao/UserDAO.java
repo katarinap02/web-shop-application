@@ -31,9 +31,11 @@ public class UserDAO {
 	
 	public UserDAO(String contextPath)
 	{
-		loadUsers(contextPath);
 		path = contextPath;
 		factoryDAO = new ChocolateFactoryDAO(path);
+		loadUsers(contextPath);
+		
+		
 	}
 	
 	public Collection<User> findAll()
@@ -43,7 +45,7 @@ public class UserDAO {
 	
 	public Collection<User> findManagers()
 	{
-		loadUsers(path);
+		//loadUsers(path);
 		ArrayList<User> managers = new ArrayList<>();
 		for(User u : users.values())
 		{
@@ -71,6 +73,12 @@ public class UserDAO {
 	}
 	
 	public User find(String username, String password) {
+		
+		for(User u: users.values())
+		{
+			System.out.println(u.getUsername());
+		}
+		
 		if (!users.containsKey(username)) {
 			return null;
 		}
