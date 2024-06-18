@@ -79,6 +79,7 @@ const errorMsg = ref("NoError");
 const managers = ref('');
 const mainManager = ref(null);
 const factoryReturn = ref('');
+const managerFactory = ref({factoryId: -1, managerUsername: ''})
 
 onMounted(() => {
     loadManagers();
@@ -90,7 +91,7 @@ function loadManagers()
         if(response.data != "")
         {
             managers.value = response.data;
-          //  console.log(response.data)
+           
         }
         else {
             managers.value = '';
@@ -116,23 +117,29 @@ else
 {
     
     axios.post("http://localhost:8080/WebShopAppREST/rest/factories/add", this.factory)
-    .then(response => {console.log(response.data); 
-    factoryReturn.value = response.data;
-    console.log(this.factoryReturn.id)
-       
-    });
-
-    axios.get("http://localhost:8080/WebShopAppREST/rest/editManager?factory=" + factoryReturn.value.id + "&manager=" + mainManager.value.username)
     .then(response => {
         console.log(response.data);
+        this.factoryReturn = response.data; // Ensure this.factoryReturn is assigned properly
+
+        // Update managerFactory with id and username
+        this.managerFactory.factoryId = this.factoryReturn.id;
+        this.managerFactory.managerUsername = this.mainManager.username;
+        console.log(this.managerFactory);
+
+        // Make the second axios post request within this then block to ensure it waits for the first one to complete
+        return axios.post("http://localhost:8080/WebShopAppREST/rest/editManager", this.managerFactory);
+    })
+    .then(response => {
+        console.log(response.data);
+        router.push("/");
     })
     .catch(error => {
-        console.error('Error editing manager:', error);
+        console.error('Error:', error);
     });
     
     
 
-   // router.push("/");
+    
 
     
 

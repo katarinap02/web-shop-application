@@ -24,6 +24,7 @@ import beans.User;
 import dao.ChocolateDAO;
 import dao.ChocolateFactoryDAO;
 import dao.UserDAO;
+import dto.ManagerFactoryDTO;
 import dto.UserDTO;
 import enums.Gender;
 import enums.Role;
@@ -146,17 +147,19 @@ public class LoginService {
 		return dao.addUser(user);
 	}
 	
-	@GET
+	@POST
 	@Path("/editManager") //izmena menadzera
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public User editManager(@QueryParam("factory") int id, @QueryParam("manager") String username)
+	public User editManager(ManagerFactoryDTO dto)
 	{
 		UserDAO dao = (UserDAO) ctx.getAttribute("userDAO");
 		ChocolateFactoryDAO factoryDao = (ChocolateFactoryDAO) ctx.getAttribute("factoryDAO");
-		ChocolateFactory factory = factoryDao.findById(id);
-		User user = dao.findByUsername(username);
-		return dao.editManager(user, factory, id);
+		ChocolateFactory factory = factoryDao.findById(dto.getFactoryId());
+		User user = dao.findByUsername(dto.getManagerUsername());
+		System.out.println(dto.getFactoryId());
+		System.out.println(dto.getManagerUsername());
+		return dao.editManager(user, factory, dto.getFactoryId());
 		
 	}
 	

@@ -11,7 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.StringTokenizer;
+import java.util.StringTokenizer;import javax.lang.model.element.ModuleElement.UsesDirective;
 
 import beans.ChocolateFactory;
 import beans.User;
@@ -107,6 +107,21 @@ public class UserDAO {
 			}
 		}
 		return null;
+	}
+	
+	public void deleteChocolateId(int id) {
+		
+		for(User u: users.values())
+		{
+			if(u.getFactory() != null)
+			{
+				if(u.getFactory().getId() == id)
+				{
+					u.setFactory(null);
+				}
+			}
+		}
+		saveUsers(path);
 	}
 	
 	public LocalDate convertToDate(String date)
@@ -229,5 +244,7 @@ public class UserDAO {
             }
         }
     }
+
+	
 
 }

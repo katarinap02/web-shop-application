@@ -20,6 +20,7 @@ import beans.Location;
 import beans.WorkingHours;
 import dao.ChocolateDAO;
 import dao.ChocolateFactoryDAO;
+import dao.UserDAO;
 
 @Path("/factories")
 public class ChocolateFactoryService {
@@ -39,6 +40,16 @@ public class ChocolateFactoryService {
             String contextPath = ctx.getRealPath("");
             System.out.println("Combined path: " + contextPath);
             ctx.setAttribute("factoryDAO", new ChocolateFactoryDAO(finalPath));
+        }
+		
+		if(ctx.getAttribute("userDAO") == null)
+        {
+            String eclipseLaunchPath = System.getProperty("user.dir");
+            String finalPath = eclipseLaunchPath + "\\web\\WebShop\\Project\\Backend\\WebShopAppREST\\src\\main\\webapp\\";
+            System.out.println("Combined path: " + finalPath);
+            String contextPath = ctx.getRealPath("");
+            System.out.println("Combined path: " + contextPath);
+            ctx.setAttribute("userDAO", new UserDAO(finalPath));
         }
 	}
 	
@@ -69,6 +80,8 @@ public class ChocolateFactoryService {
 	public ChocolateFactory deleteFactory(@QueryParam("id") int id)
 	{
 		ChocolateFactoryDAO dao = (ChocolateFactoryDAO) ctx.getAttribute("factoryDAO");
+		UserDAO userDao = (UserDAO) ctx.getAttribute("userDAO");
+		userDao.deleteChocolateId(id);
 		return dao.deleteById(id);
 		
 	}
