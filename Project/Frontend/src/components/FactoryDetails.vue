@@ -63,7 +63,7 @@
         <div class="buttons"> 
             <button v-if="user.role==='MANAGER'" class="add" type="button" @click.prevent="goToAdd()">Add</button>
             <button v-if="user.role==='MANAGER'" class="delete" @click="deleteSelectedChocolate()">Delete selected</button>
-            <button v-if="user.role==='CUSTOMER'" class="delete" @click="deleteSelectedChocolate()">View cart</button>
+            <button v-if="user.role==='CUSTOMER'" class="delete" @click="viewCart()">View cart</button>
         </div>
 
         <div class="comments-div">
@@ -207,6 +207,11 @@ function deleteSelectedChocolate()
     )
         
     }
+}
+
+function viewCart()
+{
+    this.router.push({name: "ShowCart", params: {cartid: shoppingCart.value.id}});
 }
 
 </script>

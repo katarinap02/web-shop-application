@@ -22,11 +22,12 @@ public class ShoppingCartDAO {
 
 	private HashMap<Integer, ShoppingCart> carts = new HashMap<>();
 	private String path = "";
-	
+	private ChocolateDAO chocolateDao;
 	public ShoppingCartDAO(String contextPath)
 	{
 		loadShoppingCarts(contextPath);
 		path = contextPath;
+		chocolateDao = new ChocolateDAO(path);
 	}
 	
 	public Collection<ShoppingCart> findAll()
@@ -87,8 +88,10 @@ public class ShoppingCartDAO {
 		
 		if(c != null)
 		{
-			c.getChocolateIds().add(chocolateId);
+			
 			ArrayList<Integer> tmpList = c.getChocolateIds();
+			for(int i = 1; i <= amount; i++)
+				c.getChocolateIds().add(chocolateId);
 			if(tmpList.get(0) == -1)
 				tmpList.remove(0);
 			c.setChocolateIds(tmpList);
@@ -102,12 +105,134 @@ public class ShoppingCartDAO {
 		
 	}
 	
+	public ShoppingCart updateAmount(int cartId, int chocolateId, int amount, double price)
+	{
+		int key = cartId;
+		ShoppingCart c = carts.containsKey(key) ? carts.get(key) : null;
+		
+		
+		if(c != null)
+		{
+			
+			ArrayList<Integer> tmpList = c.getChocolateIds();
+			
+			for(int id : tmpList)
+			{
+				if(id == chocolateId)
+					c.setPrice(c.getPrice() - price);
+			}
+			tmpList.removeIf(id -> id == chocolateId);
+			
+			
+			c.setChocolateIds(tmpList);
+			
+			for(int i = 1; i <= amount; i++)
+				c.getChocolateIds().add(chocolateId);
+			if(tmpList.get(0) == -1)
+				tmpList.remove(0);
+			c.setChocolateIds(tmpList);
+			c.setPrice(c.getPrice() + amount * price);
+			
+			saveCarts(path);
+			return c;
+		}
+		
+		return null;
+	}
+	
+	public int getAmountOfChocolate(int cartId, int chocolateId)
+	{
+		int key = cartId;
+		ShoppingCart c = carts.containsKey(key) ? carts.get(key) : null;
+		
+		
+		if(c != null)
+		{
+			
+			ArrayList<Integer> chocolateIds = c.getChocolateIds();
+			int count = 0;
+			
+			for(int id : chocolateIds)
+			{
+				if(id == chocolateId)
+					count++;
+			}
+			return count;
+		}
+		
+		return 0;
+	}
+	public ShoppingCart removeChocolatesById(int cartId, int chocolateId)
+	{
+		int key = cartId;
+		ShoppingCart c = carts.containsKey(key) ? carts.get(key) : null;
+		
+		
+		if(c != null)
+		{
+			
+			ArrayList<Integer> chocolateIds = c.getChocolateIds();
+			chocolateIds.removeIf(id -> id == chocolateId);
+			
+			c.setChocolateIds(chocolateIds);
+			c.setPrice(calculateNewPrice(c));
+			
+			if(c.getPrice() == 0)
+			{
+				ArrayList<Integer> startList = new ArrayList<Integer>();
+				startList.add(-1);
+			    System.out.println(startList.indexOf(0));
+				c.setChocolateIds(startList);
+			}
+			saveCarts(path);
+			return c;
+		}
+		
+		return null;
+	}
+	
+	private double calculateNewPrice(ShoppingCart c) {
+		ArrayList<Integer> chocolateIds = c.getChocolateIds();
+		double price = 0;
+		
+		for(int id : chocolateIds)
+		{
+			price += chocolateDao.findById(id).getPrice();
+		}
+		
+		return price;
+	}
+
 	public ShoppingCart findOpenedCart(String username)
 	{
 		for(ShoppingCart cart : carts.values())
 		{
-			if(cart.getCustomerName().equals(username) && cart.isOpened() == true)
+			if(cart.getCustomerName().equals(username))
 				return cart;
+		}
+		
+		return null;
+	}
+	
+	public ArrayList<Chocolate> getItems(int cartId)
+	{
+		int key = cartId;
+		
+		ShoppingCart c = carts.containsKey(key) ? carts.get(key) : null;
+		ArrayList<Integer> chocolateIds =  new ArrayList<>();
+		if(c != null)
+		{
+			chocolateIds = c.getChocolateIds();
+		    ArrayList<Chocolate> result = new ArrayList<>();
+		    for(Chocolate chocolate : chocolateDao.findAll())
+		    {
+		    	if(chocolateIds.contains(chocolate.getId()))
+		    		result.add(chocolate);
+		    	
+		    }
+		    
+		    return result;
+		    
 		}
 		
 		return null;
