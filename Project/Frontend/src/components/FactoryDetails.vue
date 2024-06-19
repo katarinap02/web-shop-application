@@ -61,9 +61,15 @@
             </tr>
         </table>
         <div class="buttons"> 
+<<<<<<< HEAD
             <button v-if="user.role==='MANAGER' && user.factory.id === factory.id" class="add" type="button" @click.prevent="goToAdd()">Add</button>
             <button v-if="user.role==='MANAGER' && user.factory.id === factory.id" class="delete" @click="deleteSelectedChocolate()">Delete selected</button>
             <button v-if="user.role==='CUSTOMER'" class="delete" @click="deleteSelectedChocolate()">View cart</button>
+=======
+            <button v-if="user.role==='MANAGER'" class="add" type="button" @click.prevent="goToAdd()">Add</button>
+            <button v-if="user.role==='MANAGER'" class="delete" @click="deleteSelectedChocolate()">Delete selected</button>
+            <button v-if="user.role==='CUSTOMER'" class="delete" @click="viewCart()">View cart</button>
+>>>>>>> b5455264cef722a41d325a56cbfdc1ae53632562
         </div>
 
         <div class="comments-div">
@@ -215,6 +221,11 @@ function deleteSelectedChocolate()
     )
         
     }
+}
+
+function viewCart()
+{
+    this.router.push({name: "ShowCart", params: {cartid: shoppingCart.value.id}});
 }
 
 </script>

@@ -7,7 +7,9 @@ import AddChocolate from '../views/AddChocolate.vue';
 import UpdateChocolate from '../views/UpdateChocolate.vue';
 import ShowChocolateFactory from '../views/ShowChocolateFactory.vue'
 import CreateFactory from '../views/CreateFactoryView.vue'
-import AddToCartView from '../views/AddToCartView.vue'
+import AddToCartView from '../views/AddToCartView.vue';
+import ShowCartView from '../views/ShoppingCartView.vue';
+import EditAmountView from '../views/EditAmountView.vue';
 const routes = [
   {
     path: "/",
@@ -55,9 +57,20 @@ const routes = [
       import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
   },
   {
-     path: "/addtocart/:id:cartId",
+     path: "/addtocart/:id/:cartId",
      name: "AddToCart",
      component: AddToCartView
+  },
+  {
+    path: "/showcart/:cartid",
+    name: "ShowCart",
+    component: ShowCartView
+
+  },
+  {
+    path: "/editamount/:id/:cartId/:amount",
+    name: "EditAmount",
+    component: EditAmountView
   },
 ];
 

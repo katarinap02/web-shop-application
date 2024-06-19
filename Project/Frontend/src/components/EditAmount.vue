@@ -1,7 +1,5 @@
 <template>
-
-
-    <h1>{{ chocolate.name }}</h1>
+ <h1>{{ chocolate.name }}</h1>
     <img :src="chocolate.imageUrl" alt="Factory Logo" style="width: 200px; height: 200px;">
    
     <div>
@@ -43,7 +41,7 @@
         <form><tr>
             <td>Select amount:</td>
             <td><input type='number' name="chocolateAmount" v-model="chocolateAmount"></td>
-            <td><button type='submit' v-on:click="addToCart()">Save</button></td>
+            <td><button type='submit' v-on:click="updateAmount()">Save</button></td>
         </tr></form>
     </div>
     <br>
@@ -60,8 +58,8 @@ const router = useRouter();
 const chocolateId = ref(route.params.id);
 const cartId = ref(route.params.cartId);
 const chocolate = ref({ name: "", price: 0, kind: "", factory: -1, type: "", grams: 0, description: "", imageUrl: "", status: false, number: 0 });
-const chocolateAmount = ref(0);
-
+const chocolateAmount = ref(route.params.amount);
+const oldAmount = chocolateAmount.value;
 onMounted(() => {  getChocolateId(chocolateId); })
 
 
@@ -72,41 +70,39 @@ function getChocolateId(chocolateId)
      .then(response => { chocolate.value = response.data; console.log(response.data)});
   }
 
-  function addToCart()
+
+  function updateAmount()
   {
+    
+    alert(oldAmount);
     if(chocolateAmount.value > chocolate.value.number)
     {
         alert("There is not enough chocolates");
     }
+    else if(chocolateAmount.value < 1)
+    {
+        alert("You need to enter at least 1.");
+    }
     else
     {
-        
-        chocolate.value.number = chocolate.value.number - chocolateAmount.value;
+        var difference = chocolateAmount.value - oldAmount;
+        alert(difference);
+        chocolate.value.number = chocolate.value.number - difference;
         axios.post("http://localhost:8080/WebShopAppREST/rest/chocolates/" + chocolateId.value, this.chocolate)
       .then(response => { console.log(response.data);  });
 
-        axios.post("http://localhost:8080/WebShopAppREST/rest/carts/addtocart/?cartId=" + cartId.value + "&chocolateId=" + chocolateId.value + "&amount=" + chocolateAmount.value + "&price=" + chocolate.value.price)
-        .then(response => { alert("Success!"); this.router.push({name: 'ShowFactory', params: {id: chocolate.value.factory }}); });
+      axios.post("http://localhost:8080/WebShopAppREST/rest/carts/updateAmount/?cartId=" + cartId.value + "&chocolateId=" + chocolateId.value + "&amount=" + chocolateAmount.value + "&price=" + chocolate.value.price)
+      .then(response => { alert("Success!"); this.router.push({name: 'ShowFactory', params: {id: chocolate.value.factory }}); });
+      
       
     }
   }
 
-function updateChocolateAmount()
-{
-    axios.post("http://localhost:8080/WebShopAppREST/rest/chocolates/" + chocolateId.value, this.chocolate)
-      .then(response => { console.log(response.data);
-      this.router.push({name: 'ShowFactory', params: { id: chocolate.value.factory } });
-       
-       });
-}
 </script>
 <style scoped>
-
 div {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-
-
 </style>

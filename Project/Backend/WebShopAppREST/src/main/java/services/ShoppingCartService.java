@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -13,6 +14,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import beans.Chocolate;
 import beans.CustomerRole;
 import beans.ShoppingCart;
 import dao.CustomerRoleDAO;
@@ -68,6 +70,16 @@ public class ShoppingCartService {
 		
 	}
 	
+	@POST
+	@Path("/updateAmount")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ShoppingCart updateAmount(@QueryParam("cartId") String cartId, @QueryParam("chocolateId") String chocolateId, @QueryParam("amount") String amount, @QueryParam("price") String price)
+	{
+		ShoppingCartDAO dao = (ShoppingCartDAO) ctx.getAttribute("shoppingCartDAO");
+		return dao.updateAmount(Integer.parseInt(cartId), Integer.parseInt(chocolateId), Integer.parseInt(amount), Double.parseDouble(price));
+		
+	}
+	
 	@GET
 	@Path("/{username}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -75,6 +87,15 @@ public class ShoppingCartService {
 	{
 		ShoppingCartDAO dao = (ShoppingCartDAO) ctx.getAttribute("shoppingCartDAO");
 		return dao.findOpenedCart(username);
+	}
+	
+	@GET
+	@Path("/getItems/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<Chocolate> getItems(@PathParam("id") int cartId)
+	{
+		ShoppingCartDAO dao = (ShoppingCartDAO) ctx.getAttribute("shoppingCartDAO");
+		return dao.getItems(cartId);
 	}
 	
 	@GET
@@ -86,5 +107,25 @@ public class ShoppingCartService {
 		dao.emptyOutCarts();
 		
 	}
+	
+	@DELETE
+	@Path("removeChocolate")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ShoppingCart removeChocolate(@QueryParam("cartId") String cartId, @QueryParam("chocolateId") String chocolateId)
+	{
+		ShoppingCartDAO dao = (ShoppingCartDAO) ctx.getAttribute("shoppingCartDAO");
+		return dao.removeChocolatesById(Integer.parseInt(cartId), Integer.parseInt(chocolateId));
+	}
+	
+	@GET
+	@Path("/amount")
+	@Produces(MediaType.APPLICATION_JSON)
+	public int getAmount(@QueryParam("cartId") String cartId, @QueryParam("chocolateId") String chocolateId)
+	{
+		ShoppingCartDAO dao = (ShoppingCartDAO) ctx.getAttribute("shoppingCartDAO");
+		return dao.getAmountOfChocolate(Integer.parseInt(cartId), Integer.parseInt(chocolateId));
+	}
+	
+	
 
 }
