@@ -36,11 +36,17 @@
                 <a class="nav-link" href="#/" @click.prevent="logOut">Log out</a>
               </li>
             </ul>
-            
+            <!-- Your comment here 
             <form class="d-flex" role="search">
               <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
               <button class="btn btn-success search-btn" type="submit">Search</button>
             </form>
+            -->
+            <div @click.prevent="goToViewProfile()">
+                <img class="imgUser" src="../../../pictures/user10.png" alt="user">
+                <h2 class="role1"  v-if="user">VIEW PROFILE</h2>
+            </div>
+            
           </div>
         </div>
       </nav>
@@ -71,6 +77,11 @@ function loadUser(){
     });
 
 
+
+}
+
+function goToViewProfile()
+{
 
 }
 
@@ -107,7 +118,14 @@ nav a:hover{
 
 .role {
   color: antiquewhite !important;
-  font-size: 12px;
+  font-size: 14px;
+}
+
+.role1 {
+  color: antiquewhite !important;
+  font-size: 14px;
+  margin-right: 20px;
+  margin-top: 5px;
 }
 
 .search-btn
@@ -120,6 +138,13 @@ nav a:hover{
 
 .pom {
   margin-top: 22px;
+}
+
+.imgUser {
+  width: 100px;
+  margin-right: 20px;
+  background-color: transparent;
+  
 }
 
 

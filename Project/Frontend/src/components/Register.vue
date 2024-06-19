@@ -66,7 +66,9 @@ const password1 = ref('');
 const password2 = ref('');
 const error = ref('')
 const books = ref([]);
-const defaultUser = ref('');
+const defaultUser = ref(''); 
+const usernameData = ref(localStorage.getItem('userData'));
+const workerFactory = ref('');
 
 const user = ref({username: "", password: "", name: "", surname: "", gender: "", date: ""});
 
@@ -80,7 +82,14 @@ function loadBooks() {
             .then(response => {
                 (books.value = response.data)
         });
-        defaultUser.value = JSON.parse(localStorage.getItem('userData'));
+        axios.get("http://localhost:8080/WebShopAppREST/rest/getLogedUser?username=" + usernameData.value)
+    .then(response => {
+        defaultUser.value = response.data;
+        
+    })
+    .catch(error => {
+      
+    });
     }
 
 function addGenderFemale()
@@ -138,8 +147,15 @@ function RegisterNew(event)
         .then(response => {
             if(response.data != "")
             {
-                router.push('/')
-                loadBooks();
+                this.managerFactory.factoryId = this.defaultUser.factory.id;
+                this.managerFactory.managerUsername = this.user.username;
+                axios.post("http://localhost:8080/WebShopAppREST/rest/editManager", this.managerFactory).then(
+                    response => {
+                        router.push('/')
+                        loadBooks();
+                    }
+                )
+                
             }
             
             

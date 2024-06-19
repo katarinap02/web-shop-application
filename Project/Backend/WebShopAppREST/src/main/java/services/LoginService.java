@@ -149,7 +149,7 @@ public class LoginService {
 	}
 	
 	@POST
-	@Path("/editManager") //izmena menadzera
+	@Path("/editManager") //izmena menadzera i radnika, tj dobavljanje odgovarajuce fabrike
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public User editManager(ManagerFactoryDTO dto)
@@ -158,11 +158,10 @@ public class LoginService {
 		ChocolateFactoryDAO factoryDao = (ChocolateFactoryDAO) ctx.getAttribute("factoryDAO");
 		ChocolateFactory factory = factoryDao.findById(dto.getFactoryId());
 		User user = dao.findByUsername(dto.getManagerUsername());
-		System.out.println(dto.getFactoryId());
-		System.out.println(dto.getManagerUsername());
 		return dao.editManager(user, factory, dto.getFactoryId());
 		
 	}
+	
 	
 	@GET
 	@Path("/getManagers") //dobavlja sve menadzere koji nemaju fabriku
@@ -172,6 +171,7 @@ public class LoginService {
 		UserDAO userDao = (UserDAO) ctx.getAttribute("userDAO");
 		return userDao.findManagers();
 	}
+	
 	
 	@POST //kreira novog radnika ako je ulogovan menadzer
 	@Path("/worker")

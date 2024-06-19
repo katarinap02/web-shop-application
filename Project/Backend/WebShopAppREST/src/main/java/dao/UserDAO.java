@@ -125,6 +125,8 @@ public class UserDAO {
 		return null;
 	}
 	
+	
+	
 	public void deleteChocolateId(int id) {
 		
 		for(User u: users.values())
@@ -139,6 +141,7 @@ public class UserDAO {
 		}
 		saveUsers(path);
 	}
+	
 	
 	public LocalDate convertToDate(String date)
 	{
@@ -262,6 +265,8 @@ public class UserDAO {
             }
         }
     }
+
+	
 
 	
 

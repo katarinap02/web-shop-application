@@ -53,7 +53,7 @@
           </td>
                 <td class="red">{{ c.number }}</td>
                 <td class="red" :id="c.status ? 'yes' : 'no'">{{ c.status ? 'yes' : 'no' }}</td>
-                <td><button v-if="user.role==='MANAGER'" v-on:click="goToUpdateChocolate(c.id)">Edit</button></td>
+                <td><button v-if="user.role==='MANAGER' && user.factory.id === factory.id" v-on:click="goToUpdateChocolate(c.id)">Edit</button></td>
                 
               
                 <td><button v-if="user.role==='CUSTOMER'" v-on:click="addToCart(c.id)">Add to cart</button></td>
@@ -61,8 +61,8 @@
             </tr>
         </table>
         <div class="buttons"> 
-            <button v-if="user.role==='MANAGER'" class="add" type="button" @click.prevent="goToAdd()">Add</button>
-            <button v-if="user.role==='MANAGER'" class="delete" @click="deleteSelectedChocolate()">Delete selected</button>
+            <button v-if="user.role==='MANAGER' && user.factory.id === factory.id" class="add" type="button" @click.prevent="goToAdd()">Add</button>
+            <button v-if="user.role==='MANAGER' && user.factory.id === factory.id" class="delete" @click="deleteSelectedChocolate()">Delete selected</button>
             <button v-if="user.role==='CUSTOMER'" class="delete" @click="deleteSelectedChocolate()">View cart</button>
         </div>
 
@@ -103,9 +103,10 @@ onMounted(() => {
 })
 
 function loadUser(){
-    axios.post("http://localhost:8080/WebShopAppREST/rest/getLogedUser?username=" + usernameData.value)
+    axios.get("http://localhost:8080/WebShopAppREST/rest/getLogedUser?username=" + usernameData.value)
     .then(response => {
         user.value = response.data;
+        console.log(user.value.role);
     })
     .catch(error => {
       //  localStorage.setItem('userData', JSON.stringify(""));
