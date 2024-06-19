@@ -10,11 +10,11 @@
             </div>
             <div>
                 <label for="password1">Password:</label>
-                <input type="text" id = "password1" v-model="password1" required>
+                <input type="password" id = "password1" v-model="password1" required>
             </div>
             <div>
                 <label for="password2">Password:</label>
-                <input type="text" id = "password2" v-model="password2" required>
+                <input type="password" id = "password2" v-model="password2" required>
             </div>
             <div>
                 <label for="name">Firstname:</label>
@@ -165,21 +165,28 @@ function RegisterNew(event)
   background: white;
   text-align: left;
   border-radius: 10px;
-  padding: 20px; /* Add padding for better appearance */
+  padding: 5px; /* Add padding for better appearance */
 }
+
 
 .form label {
   color: #aaa;
   display: inline-block;
   margin: 13px 0 10px;
-  font-size: 0.8em;
+  font-size: 0.9em;
   text-transform: uppercase;
   letter-spacing: 1px;
   font-weight: bold;
 }
 
+h1 {
+    margin-top: 10px;
+    font-weight: x-large;
+    color: #5a086a;
+}
+
 .form input {
-  padding: 10px 6px;
+  padding: 3px 6px;
   box-sizing: border-box;
   border: none;
   border-bottom: 1px solid #ddd;
@@ -193,7 +200,7 @@ function RegisterNew(event)
   width: 30px;
   margin: 30px 10px 0 0;
   position: relative;
-  top: 2px;
+  top: 1px;
 }
 
 .form > .submit {
@@ -203,7 +210,7 @@ function RegisterNew(event)
   background-color: #5a086a;
   color: white;
   cursor: pointer;
-  margin-top: 30px;
+  margin-top: 25px;
   width: 100%;
   height: 40px;
   font-size: 0.8em;

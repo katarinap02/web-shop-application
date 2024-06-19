@@ -50,7 +50,9 @@ import axios from 'axios';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
+
 const user = ref('');
+const usernameData = ref(localStorage.getItem('userData'));
 
 onMounted(() => {
     loadUser();
@@ -58,13 +60,23 @@ onMounted(() => {
 })
 
 function loadUser(){
-    user.value = JSON.parse(localStorage.getItem('userData'));
+    
+
+    axios.get('http://localhost:8080/WebShopAppREST/rest/getLogedUser?username=' + usernameData.value)
+    .then(response => {
+        user.value = response.data;
+    })
+    .catch(error => {
+      //  localStorage.setItem('userData', JSON.stringify(""));
+    });
+
+
 
 }
 
 function logOut()
 {
-    localStorage.setItem('userData', JSON.stringify(""));
+    localStorage.setItem('userData', "");
     loadUser();
     window.location.reload();
 }

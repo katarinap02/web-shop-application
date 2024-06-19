@@ -1,6 +1,6 @@
 package services;
 
-import java.io.Console;
+
 import java.time.LocalDate;
 import java.util.Collection;
 
@@ -21,7 +21,6 @@ import javax.ws.rs.core.Response;
 
 import beans.ChocolateFactory;
 import beans.User;
-import dao.ChocolateDAO;
 import dao.ChocolateFactoryDAO;
 import dao.UserDAO;
 import dto.ManagerFactoryDTO;
@@ -210,6 +209,15 @@ public class LoginService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public User login(@Context HttpServletRequest request) {
 		return (User) request.getSession().getAttribute("user");
+	}
+	
+	@GET
+	@Path("/getLogedUser")
+	@Produces(MediaType.APPLICATION_JSON)
+	public User GetLogedUser(@QueryParam("username") String username) {
+		UserDAO userDao = (UserDAO) ctx.getAttribute("userDAO");
+		System.out.println(userDao.findByUsername(username).getName());
+		return userDao.findByUsername(username);
 	}
 	
 	

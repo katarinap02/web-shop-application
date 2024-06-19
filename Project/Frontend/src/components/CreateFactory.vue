@@ -1,36 +1,38 @@
 <template>
+<h1>Create factory</h1>
   <form name="fabrikaForma" @submit="addFactory($event)" class="fabrikaForma">
+    
     <table>
         <tr>
-    <td>Name:</td>
+    <td class="label">Name:</td>
     <td><input name="name" type="text" v-model="factory.name" :class = "{'error':factoryValid.name === ''}"></td>
 </tr>
 <tr>
-    <td>Latitude:</td>
+    <td class="label">Latitude:</td>
     <td><input name="latitude" type="text" v-model="factory.location.latitude" ></td>
 </tr>
 <tr>
-    <td>Longitude:</td>
+    <td class="label">Longitude:</td>
     <td><input name="longitude" type="text" v-model="factory.location.longitude" ></td>
 </tr>
 <tr>
-    <td>Address:</td>
+    <td class="label">Address:</td>
     <td><input name="address" type="text" v-model="factory.location.address" :class = "{'error':factoryValid.location.address === ''}"></td>
 </tr>
 <tr>
-    <td>Image:</td>
+    <td class="label">Image:</td>
     <td><input name="image" type="text" v-model="factory.logoUrl" :class = "{'error':factoryValid.logoUrl === ''}"></td>
 </tr>
 <tr>
-    <td>Start Hour:</td>
+    <td class="label">Start Hour:</td>
     <td><input name="start" type="time" v-model="factory.workingHours.startHour"></td>
 </tr>
 <tr>
-    <td>End Hour:</td>
+    <td class="label">End Hour:</td>
     <td><input name="end" type="time" v-model="factory.workingHours.endHour"></td>
 </tr>
 <tr>
-    <td>Maganer</td>
+    <td class="label">Maganer</td>
     <td v-if="managers">
         <select name="manager" id="manager" v-model="mainManager">
             <option v-for="manager in managers" :key="manager.username" :value="manager">
@@ -44,10 +46,11 @@
 
 <tr>
     <td></td>
-    <button type="submit" class="submit">Create</button>
+    
 </tr>
 
     </table>
+    <button type="submit" class="submit">Create</button>
  
  
   </form>
@@ -170,14 +173,20 @@ else
     background: white;
     text-align: left;
     border-radius: 10px;
-    padding: 40px;
+    padding: 30px;
 }
 
-.fabrikaForma td {
+h1 {
+    text-align: center;
+    margin-top: 10px;
+    color: #5a086a;
+}
+
+.fabrikaForma .label {
     color: #aaa;
     display: inline-block;
-    margin: 25px 0 15px;
-    font-size: 0.8em;
+    margin: 22px 0 15px;
+    font-size: 0.9em;
     text-transform: uppercase;
     letter-spacing: 1px;
     font-weight: bold;
@@ -211,6 +220,7 @@ else
     text-transform: uppercase;
     letter-spacing: 1px;
     font-weight: bold;
+    align-content: center;
 }
 
 .fabrikaForma button:hover {
