@@ -175,6 +175,11 @@ function RegisterNew(event)
 
 <style scoped>
 
+*{
+    padding: 0;
+    margin: 0;
+}
+
 .form {
   margin: 0 auto;
   max-width: 540px;

@@ -167,25 +167,31 @@ else
 
 <style scoped>
 
+*{
+    padding: 0;
+    margin: 0;
+}
+
 .fabrikaForma {
     margin: 0 auto;
     max-width: 420px;
     background: white;
     text-align: left;
     border-radius: 10px;
-    padding: 30px;
+    padding: 25px;
 }
 
 h1 {
     text-align: center;
     margin-top: 10px;
     color: #5a086a;
+    padding: 0;
 }
 
 .fabrikaForma .label {
     color: #aaa;
     display: inline-block;
-    margin: 22px 0 15px;
+    margin: 20px 0 15px;
     font-size: 0.9em;
     text-transform: uppercase;
     letter-spacing: 1px;

@@ -45,6 +45,7 @@
             <div @click.prevent="goToViewProfile()">
                 <img class="imgUser" src="../../../pictures/user10.png" alt="user">
                 <h2 class="role1"  v-if="user">VIEW PROFILE</h2>
+                <h2 class="role1"  v-if="!user">UNREGISTERED</h2>
             </div>
             
           </div>
@@ -118,14 +119,14 @@ nav a:hover{
 
 .role {
   color: antiquewhite !important;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .role1 {
   color: antiquewhite !important;
-  font-size: 14px;
+  font-size: 13px;
   margin-right: 20px;
-  margin-top: 5px;
+  
 }
 
 .search-btn
@@ -141,15 +142,17 @@ nav a:hover{
 }
 
 .imgUser {
-  width: 100px;
+  width: 90px;
   margin-right: 20px;
   background-color: transparent;
+  margin-bottom: 3px;
+  margin-top: 3px;
   
 }
 
 
 #logo{
-    height: 80px;
+    height: 70px;
     
 }
 </style>
