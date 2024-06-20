@@ -1,6 +1,7 @@
 <script setup>
 import Register from '@/components/Register.vue';
 import Navbar from '@/components/basic-components/Navbar.vue';
+
 </script>
 
 <template>
@@ -11,6 +12,7 @@ import Navbar from '@/components/basic-components/Navbar.vue';
         <div>
         <Register/>
         </div>
+        
     </main>
     
 </template>

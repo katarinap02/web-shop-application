@@ -2,7 +2,7 @@
 import HelloWorld from '@/components/HelloWorld.vue';
 import CreateFactory from '@/components/CreateFactory.vue';
 import Navbar from '@/components/basic-components/Navbar.vue';
-
+import Map from '@/components/Map.vue';
 </script>
 
 <template>
@@ -12,6 +12,9 @@ import Navbar from '@/components/basic-components/Navbar.vue';
     </div>
     <div>
     <CreateFactory/>
+    </div>
+    <div>
+        <Map/>
     </div>
 </main>
     

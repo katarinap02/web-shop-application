@@ -4,4 +4,5 @@ import router from './router'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'jquery/src/jquery.js'
 import 'bootstrap/dist/js/bootstrap.js'
+
 createApp(App).use(router).mount('#app')
