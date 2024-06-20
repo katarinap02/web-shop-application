@@ -21,7 +21,7 @@
             
             <tr>
                 <td><button v-on:click="viewOrderItems(o.id)">View</button></td>
-                <td><button v-on:click="cancelOrder(o.id)">Cancel</button></td>
+                <td><button v-if="o.status === 'PENDING'" v-on:click="cancelOrder(o)">Cancel</button></td>
             </tr>
          
 
@@ -72,9 +72,15 @@ function viewOrderItems(orderId)
     alert("To be implemented");
 }
 
-function cancelOrder(orderId)
+function cancelOrder(order)
 {
-    alert("To be implemented");
+    axios.get("http://localhost:8080/WebShopAppREST/rest/buys/cancel/" + order.id)
+    .then(response => { alert("Success!");
+  
+
+    axios.post("http://localhost:8080/WebShopAppREST/rest/decreasepoints/?username=" + user.value.username + "&price=" + order.price)
+    .then(response => { alert("Points are decreased!"); 
+}); });
 }
 
 </script>

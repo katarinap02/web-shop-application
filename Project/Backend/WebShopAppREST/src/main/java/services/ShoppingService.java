@@ -78,5 +78,15 @@ public class ShoppingService {
 		ShoppingDAO dao = (ShoppingDAO) ctx.getAttribute("shoppingDAO");
 		return dao.createOrder(username);
 	}
+	
+	@GET
+	@Path("/cancel/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public void cancelOrder(@PathParam("id") String orderId)
+	{
+		ShoppingDAO dao = (ShoppingDAO) ctx.getAttribute("shoppingDAO");
+		dao.cancelOrder(orderId);
+		
+	}
 
 }
