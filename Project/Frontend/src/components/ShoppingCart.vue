@@ -80,7 +80,14 @@ onMounted(() => {
 })
 
 function loadUser(){
-    user.value = JSON.parse(localStorage.getItem('userData'));
+  axios.get("http://localhost:8080/WebShopAppREST/rest/getLogedUser?username=" + usernameData.value)
+    .then(response => {
+        user.value = response.data;
+        console.log(user.value.role);
+    })
+    .catch(error => {
+      //  localStorage.setItem('userData', JSON.stringify(""));
+    });
 
 }
 
@@ -139,9 +146,9 @@ function createOrder()
   }
   else
   {
-    alert(user.value.username);
+  /*  alert(user.value.username);
     axios.post("http://localhost:8080/WebShopAppREST/rest/buys/" + user.value.username)
-    .then(response => { alert("Success!"); })
+    .then(response => { alert("Success!"); })*/
   }
 
 }
