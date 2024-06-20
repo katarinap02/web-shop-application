@@ -11,6 +11,7 @@ import AddToCartView from '../views/AddToCartView.vue';
 import ShowCartView from '../views/ShoppingCartView.vue';
 import EditAmountView from '../views/EditAmountView.vue';
 import ViewProfileView from '../views/ViewProfileView.vue';
+import ViewUsersView from '../views/ViewUsersView.vue';
 
 const routes = [
   {
@@ -62,6 +63,11 @@ const routes = [
     path: '/viewProfile',
     name: 'ViewProfile',
     component: ViewProfileView
+  },
+  {
+    path: '/viewUsers',
+    name: 'ViewUsers',
+    component: ViewUsersView
   },
   {
      path: "/addtocart/:id/:cartId",
