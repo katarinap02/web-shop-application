@@ -1,6 +1,6 @@
 package services;
 
-import java.io.Console;
+
 import java.time.LocalDate;
 import java.util.Collection;
 
@@ -21,7 +21,6 @@ import javax.ws.rs.core.Response;
 
 import beans.ChocolateFactory;
 import beans.User;
-import dao.ChocolateDAO;
 import dao.ChocolateFactoryDAO;
 import dao.UserDAO;
 import dto.ManagerFactoryDTO;
@@ -100,6 +99,8 @@ public class LoginService {
 	public Response login(User user, @Context HttpServletRequest request) {
 		UserDAO userDao = (UserDAO) ctx.getAttribute("userDAO");
 		User loggedUser = userDao.find(user.getUsername(), user.getPassword());
+		System.out.println(user.getUsername());
+		System.out.println(user.getPassword());
 		if (loggedUser == null) {
 			return Response.status(400).entity("Invalid username and/or password").build();
 		}
@@ -148,7 +149,7 @@ public class LoginService {
 	}
 	
 	@POST
-	@Path("/editManager") //izmena menadzera
+	@Path("/editManager") //izmena menadzera i radnika, tj dobavljanje odgovarajuce fabrike
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public User editManager(ManagerFactoryDTO dto)
@@ -157,11 +158,10 @@ public class LoginService {
 		ChocolateFactoryDAO factoryDao = (ChocolateFactoryDAO) ctx.getAttribute("factoryDAO");
 		ChocolateFactory factory = factoryDao.findById(dto.getFactoryId());
 		User user = dao.findByUsername(dto.getManagerUsername());
-		System.out.println(dto.getFactoryId());
-		System.out.println(dto.getManagerUsername());
 		return dao.editManager(user, factory, dto.getFactoryId());
 		
 	}
+	
 	
 	@GET
 	@Path("/getManagers") //dobavlja sve menadzere koji nemaju fabriku
@@ -171,6 +171,7 @@ public class LoginService {
 		UserDAO userDao = (UserDAO) ctx.getAttribute("userDAO");
 		return userDao.findManagers();
 	}
+	
 	
 	@POST //kreira novog radnika ako je ulogovan menadzer
 	@Path("/worker")
@@ -208,6 +209,15 @@ public class LoginService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public User login(@Context HttpServletRequest request) {
 		return (User) request.getSession().getAttribute("user");
+	}
+	
+	@GET
+	@Path("/getLogedUser")
+	@Produces(MediaType.APPLICATION_JSON)
+	public User GetLogedUser(@QueryParam("username") String username) {
+		UserDAO userDao = (UserDAO) ctx.getAttribute("userDAO");
+		System.out.println(userDao.findByUsername(username).getName());
+		return userDao.findByUsername(username);
 	}
 	
 	

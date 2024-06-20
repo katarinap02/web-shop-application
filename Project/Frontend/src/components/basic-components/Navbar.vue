@@ -36,11 +36,18 @@
                 <a class="nav-link" href="#/" @click.prevent="logOut">Log out</a>
               </li>
             </ul>
-            
+            <!-- Your comment here 
             <form class="d-flex" role="search">
               <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
               <button class="btn btn-success search-btn" type="submit">Search</button>
             </form>
+            -->
+            <div @click.prevent="goToViewProfile()">
+                <img class="imgUser" src="../../../pictures/user10.png" alt="user">
+                <h2 class="role1"  v-if="user">VIEW PROFILE</h2>
+                <h2 class="role1"  v-if="!user">UNREGISTERED</h2>
+            </div>
+            
           </div>
         </div>
       </nav>
@@ -50,7 +57,9 @@ import axios from 'axios';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
+
 const user = ref('');
+const usernameData = ref(localStorage.getItem('userData'));
 
 onMounted(() => {
     loadUser();
@@ -58,13 +67,28 @@ onMounted(() => {
 })
 
 function loadUser(){
-    user.value = JSON.parse(localStorage.getItem('userData'));
+    
+
+    axios.get('http://localhost:8080/WebShopAppREST/rest/getLogedUser?username=' + usernameData.value)
+    .then(response => {
+        user.value = response.data;
+    })
+    .catch(error => {
+      //  localStorage.setItem('userData', JSON.stringify(""));
+    });
+
+
+
+}
+
+function goToViewProfile()
+{
 
 }
 
 function logOut()
 {
-    localStorage.setItem('userData', JSON.stringify(""));
+    localStorage.setItem('userData', "");
     loadUser();
     window.location.reload();
 }
@@ -95,7 +119,14 @@ nav a:hover{
 
 .role {
   color: antiquewhite !important;
-  font-size: 12px;
+  font-size: 13px;
+}
+
+.role1 {
+  color: antiquewhite !important;
+  font-size: 13px;
+  margin-right: 20px;
+  
 }
 
 .search-btn
@@ -110,9 +141,18 @@ nav a:hover{
   margin-top: 22px;
 }
 
+.imgUser {
+  width: 90px;
+  margin-right: 20px;
+  background-color: transparent;
+  margin-bottom: 3px;
+  margin-top: 3px;
+  
+}
+
 
 #logo{
-    height: 80px;
+    height: 70px;
     
 }
 </style>

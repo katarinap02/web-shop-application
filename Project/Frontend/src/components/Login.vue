@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>Login</h1>
+        <h1>Log in</h1>
         <form class="loginForm" @submit.prevent="login">
             <div>
                 <label for="username">Username:</label>
@@ -8,13 +8,12 @@
             </div>
             <div>
                 <label for="passord">Password:</label>
-                <input type="text" id="password" v-model="password" required>
+                <input type="password" id="password" v-model="password" required>
             </div>
             <button type="submit" class="submit">Login</button>
         </form>
         <p>{{errorMessage}}</p>
-        <a href="" @click="Register($event)" >Register</a>
-        <a href="" @click.prevent="goHome()">Home</a>
+        
     </div>
 </template>
 
@@ -34,15 +33,15 @@ const login = () => {
     axios.post('http://localhost:8080/WebShopAppREST/rest/login', {username: username.value, password: password.value})
     .then(response => {
         errorMessage.value = 'Succesfuly loged into account.';
-        console.log(response.data);
-        //localStorage.setItem('token', response.data);
-        user.value = response.data;
-         localStorage.setItem('userData', JSON.stringify(response.data));
+        console.log(username.value);
+        localStorage.setItem('userData', username.value);
+        router.push("/")
+        
     })
     .catch(error => {
         errorMessage.value = 'This user does not exists. Please register if you do not have account.';
         console.error(error);
-        localStorage.setItem('userData', JSON.stringify(""));
+        localStorage.setItem('userData', "");
     });
     
 }
@@ -75,7 +74,12 @@ function Register(event)
     background: white;
     text-align: left;
     border-radius: 10px;
-    padding: 40px;
+    padding: 20px;
+}
+
+h1 {
+    margin-top: 10px;
+    color: #5a086a;;
 }
 
 
@@ -83,7 +87,7 @@ function Register(event)
     color: #aaa;
     display: inline-block;
     margin: 25px 0 15px;
-    font-size: 0.8em;
+    font-size: 0.9em;
     text-transform: uppercase;
     letter-spacing: 1px;
     font-weight: bold;
@@ -122,5 +126,6 @@ function Register(event)
 
 p, a {
     display: block;
+    
 }
 </style>

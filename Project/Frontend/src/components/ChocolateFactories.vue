@@ -55,12 +55,20 @@ const factoriesAdress = ref({logo: "", name: "", location: "", average: ""})
 const router = useRouter();
 const user = ref('');
 const carts = ref([]);
+const usernameData = ref(localStorage.getItem('userData'));
 
 
 
 function loadUser(){
-    user.value = JSON.parse(localStorage.getItem('userData'));
-  
+  axios.get("http://localhost:8080/WebShopAppREST/rest/getLogedUser?username=" + usernameData.value)
+    .then(response => {
+        user.value = response.data;
+        console.log(response.data);
+        
+    })
+    .catch(error => {
+      //  localStorage.setItem('userData', JSON.stringify(""));
+    });
 
 }
 
@@ -100,7 +108,8 @@ function loadFactories()
         else {
             factories.value = '';
         }
-        user.value = JSON.parse(localStorage.getItem('userData'));
+        usernameData.value = localStorage.getItem('userData');
+        loadUser();
     })
 }
 
