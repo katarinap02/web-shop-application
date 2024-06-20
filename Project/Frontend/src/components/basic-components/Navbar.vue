@@ -60,6 +60,7 @@ import { useRouter } from 'vue-router';
 
 const user = ref('');
 const usernameData = ref(localStorage.getItem('userData'));
+const router = useRouter();
 
 onMounted(() => {
     loadUser();
@@ -83,7 +84,7 @@ function loadUser(){
 
 function goToViewProfile()
 {
-
+    router.push({ name: 'ViewProfile' });
 }
 
 function logOut()
@@ -91,6 +92,7 @@ function logOut()
     localStorage.setItem('userData', "");
     loadUser();
     window.location.reload();
+    
 }
 
 </script>

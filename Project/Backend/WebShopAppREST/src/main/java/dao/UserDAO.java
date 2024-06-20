@@ -107,6 +107,29 @@ public class UserDAO {
 		return user;
 	}
 	
+	public User editUser(User user) {
+		for(User u : users.values())
+		{
+			if(u.getUsername().equals(user.getUsername()))
+			{
+				if(user.getName() == "" || user.getSurname() == "")
+				{
+					return null;
+				}
+				u.setName(user.getName());
+				u.setSurname(user.getSurname());
+				u.setGender(user.getGender());
+				u.setBirthDate(user.getBirthDate());
+				saveUsers(path);
+				return user;
+			}
+				
+		}
+		
+		return null;
+	}
+	
+	
 	public User editManager(User user, ChocolateFactory factory ,int id)
 	{
 		System.out.println(id);
@@ -265,6 +288,8 @@ public class UserDAO {
             }
         }
     }
+
+	
 
 	
 

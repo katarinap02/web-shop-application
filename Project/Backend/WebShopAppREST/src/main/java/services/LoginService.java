@@ -119,6 +119,17 @@ public class LoginService {
 	}
 	
 	@POST
+	@Path("/editUser")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public User editUser(User user)
+	{
+		UserDAO dao = (UserDAO) ctx.getAttribute("userDAO");
+		return dao.editUser(user);
+	}
+	
+	
+	@POST
 	@Path("/customer")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)

@@ -10,6 +10,8 @@ import CreateFactory from '../views/CreateFactoryView.vue'
 import AddToCartView from '../views/AddToCartView.vue';
 import ShowCartView from '../views/ShoppingCartView.vue';
 import EditAmountView from '../views/EditAmountView.vue';
+import ViewProfileView from '../views/ViewProfileView.vue';
+
 const routes = [
   {
     path: "/",
@@ -55,6 +57,11 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
+  },
+  {
+    path: '/viewProfile',
+    name: 'ViewProfile',
+    component: ViewProfileView
   },
   {
      path: "/addtocart/:id/:cartId",
