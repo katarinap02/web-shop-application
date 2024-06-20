@@ -7,8 +7,13 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Random;
 import java.util.StringTokenizer;
 
+import org.apache.catalina.User;
+
+import beans.Chocolate;
 import beans.Shopping;
 import beans.ShoppingCart;
 import enums.Role;
@@ -18,16 +23,82 @@ public class ShoppingDAO {
 	
 	private HashMap<String, Shopping> buys = new HashMap<>();
 	private String path = "";
-	
+	private UserDAO userDao;
+	private ShoppingCartDAO cartDao;
+	 private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+	 
 	public ShoppingDAO(String contextPath)
 	{
 		loadBuys(contextPath);
 		path = contextPath;
+		userDao = new UserDAO(path);
+		cartDao = new ShoppingCartDAO(path);
 	}
 	
 	public Collection<Shopping> findAll()
 	{
 		 return buys.values();
+	}
+	
+	public Shopping createOrder(Shopping order, String username)
+	{
+		String id = generateRandomString(10);
+		while(buys.keySet().contains(id))
+		{
+			id = generateRandomString(10);
+		}
+		
+		order.setId(id);
+		
+		ShoppingCart cart = cartDao.findOpenedCart(username);
+		beans.User user = userDao.findByUsername(username);
+		
+		ArrayList<Integer> chocolateIds = cart.getChocolateIds();
+		if(chocolateIds.size() == 0)
+			return null;
+		
+		ArrayList<Integer> uniqueChocolateIds = removeDuplicates(chocolateIds);
+		
+		order.setChocolateIds(uniqueChocolateIds);
+		
+		order.setFactoryId(cart.getFactoryId());
+		order.setDateTime(LocalDateTime.now());
+		order.setPrice(cart.getPrice());
+		order.setCustomerName(user.getName() + " " + user.getSurname());
+		order.setStatus(ShoppingStatus.PENDING);
+		
+		
+		if(order != null)
+		{
+			buys.put(id, order);
+			return order;
+		}
+		else
+			return null;
+			
+		
+	}
+	
+	private ArrayList<Integer> removeDuplicates(ArrayList<Integer> list)
+	{
+		HashSet<Integer> set = new HashSet<>(list);
+		return new ArrayList<>(set);
+	}
+	
+	private String generateRandomString(int length)
+	{
+		Random random = new Random();
+		StringBuilder stringBuilder = new StringBuilder(length);
+		
+		for(int i = 0; i < length; i++)
+		{
+			int index = random.nextInt(CHARACTERS.length());
+			stringBuilder.append(CHARACTERS.charAt(index));
+			
+		}
+		
+		return stringBuilder.toString();
+		
 	}
 	
 	private void loadBuys(String contextPath) {

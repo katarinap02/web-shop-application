@@ -41,7 +41,7 @@
         </table>
 
         <button  class="delete" @click="deleteSelectedChocolate()">Delete selected</button>
-
+        <button class="order" v-on:click="createOrder()">Create order</button>
         
 
  
@@ -58,7 +58,7 @@ import { onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 const router = useRouter();
-
+const newOrder = ref({id: "", chocolateIds: [], factoryId: -1, dateTime: 0, price: 0, customerName: "", status: ""});
 const items = ref([]);
 const selectedChocolate = ref(null);
 const shoppingCart = ref({
@@ -129,6 +129,21 @@ function getAmount(chocolateId)
 {
   return this.shoppingCart.chocolateIds.filter(id => id === chocolateId).length;
   
+}
+
+function createOrder()
+{
+  if(this.shoppingCart.chocolateIds.length === 0)
+  {
+    alert("You need to add items to cart.");
+  }
+  else
+  {
+    alert(user.value.username);
+    axios.post("http://localhost:8080/WebShopAppREST/rest/buys/" + user.value.username)
+    .then(response => { alert("Success!"); })
+  }
+
 }
 </script> 
 <style scoped>
