@@ -10,6 +10,8 @@ import CreateFactory from '../views/CreateFactoryView.vue'
 import AddToCartView from '../views/AddToCartView.vue';
 import ShowCartView from '../views/ShoppingCartView.vue';
 import EditAmountView from '../views/EditAmountView.vue';
+import CustomerOrdersView from '../views/CustomerOrdersView.vue';
+import ManagerOrdersView from '../views/ManagerOrdersView.vue';
 const routes = [
   {
     path: "/",
@@ -71,6 +73,16 @@ const routes = [
     path: "/editamount/:id/:cartId/:amount",
     name: "EditAmount",
     component: EditAmountView
+  },
+  {
+    path: "/myorders",
+    name: "MyOrders",
+    component: CustomerOrdersView
+  },
+  {
+    path: "/factoryorders",
+    name: "FactoryOrders",
+    component: ManagerOrdersView
   },
 ];
 

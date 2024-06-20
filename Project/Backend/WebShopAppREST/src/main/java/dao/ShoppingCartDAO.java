@@ -65,20 +65,29 @@ public class ShoppingCartDAO {
 		
 	}
 	
-	public void emptyOutCarts()
+	public void emptyOutCarts(String username)
 	{
+		
 		for(ShoppingCart cart : carts.values())
 		{
-			ArrayList<Integer> startList = new ArrayList<Integer>();
-			startList.add(-1);
-		    System.out.println(startList.indexOf(0));
-			cart.setChocolateIds(startList);
-			cart.setPrice(0);
+			
+			if(cart.getCustomerName().equals(username))
+			{
+				
+				ArrayList<Integer> startList = new ArrayList<Integer>();
+				startList.add(-1);
+			    System.out.println(startList.indexOf(0));
+				cart.setChocolateIds(startList);
+				cart.setPrice(0);
+				cart.setFactoryId(-1);
+				saveCarts(path);
+			}
+			
 			
 			
 		}
 		
-		saveCarts(path);
+		
 	}
 	public ShoppingCart addToCart(int cartId, int chocolateId, int amount, double price, int factoryId)
 	{

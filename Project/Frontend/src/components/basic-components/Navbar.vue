@@ -26,15 +26,22 @@
               </li>
 
               <li v-else-if="user.role === 'CUSTOMER'">
-                <a class="nav-link">My buys</a>
+                <a class="nav-link" href="#/myorders">My orders</a>
               </li>
+
+            
              
+              <li v-if="user.role === 'MANAGER'">
+                <a class="nav-link" href="#/factoryorders">Manage orders</a>
+              </li>
               <li class="nav-item" v-if="!user">
                 <a class="nav-link" href="#/login">Log in</a>
               </li>
               <li class="nav-item" v-else-if="user.role === 'ADMINISTRATOR' || 'MANAGER'">
                 <a class="nav-link" href="#/" @click.prevent="logOut">Log out</a>
               </li>
+
+             
             </ul>
             <!-- Your comment here 
             <form class="d-flex" role="search">

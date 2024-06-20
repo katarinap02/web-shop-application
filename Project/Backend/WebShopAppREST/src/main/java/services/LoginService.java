@@ -13,6 +13,7 @@ import javax.ws.rs.HeaderParam;
 import javax.ws.rs.OPTIONS;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
@@ -242,5 +243,15 @@ public class LoginService {
 		userDao.decreaseCustomerPoints(username, Double.parseDouble(price));
 	
     }
+	
+	@GET
+	@Path("/getfactory/{username}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public int getFactory(@PathParam("username") String username)
+	{
+		UserDAO userDao = (UserDAO) ctx.getAttribute("userDAO");
+		return userDao.getFactoryId(username);
+		
+	}
 
 }

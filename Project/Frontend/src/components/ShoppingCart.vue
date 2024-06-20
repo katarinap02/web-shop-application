@@ -149,12 +149,49 @@ function createOrder()
   }
   else
   {
+   
+
+
+
    alert(user.value.username);
-    axios.post("http://localhost:8080/WebShopAppREST/rest/buys/" + user.value.username, this.newOrder)
-    .then(response => { alert("Success!"); 
+    axios.get("http://localhost:8080/WebShopAppREST/rest/buys/" + user.value.username)
+    .then(response => { alert("Success!");
+  
+
     axios.post("http://localhost:8080/WebShopAppREST/rest/increasepoints/?username=" + user.value.username + "&price=" + shoppingCart.value.price)
-    .then(response => alert("Points are increased!"));
-    console.log(response.data) })
+    .then(response => { alert("Points are increased!"); 
+     
+    axios.get('http://localhost:8080/WebShopAppREST/rest/carts/emptycarts/?username=' + usernameData.value)
+    .then(response => {console.log("uspesno");
+
+   
+
+
+
+    })
+
+
+    });
+    
+      
+    console.log(response.data);
+    
+  
+  
+  });
+
+  const shoppingCart = ref({
+    "chocolateIds": [
+        -1
+    ],
+    "customerName": "",
+    "id": 0,
+    "price": 0.0,
+    "isOpened": false,
+    "factoryId": -1
+});
+
+loadItems();
   }
 
 }

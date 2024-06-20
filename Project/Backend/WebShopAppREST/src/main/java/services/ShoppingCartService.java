@@ -101,10 +101,10 @@ public class ShoppingCartService {
 	@GET
 	@Path("/emptycarts")
 	@Produces(MediaType.APPLICATION_JSON)
-	public void emptyCarts()
+	public void emptyCarts(@QueryParam("username") String username)
 	{
 		ShoppingCartDAO dao = (ShoppingCartDAO) ctx.getAttribute("shoppingCartDAO");
-		dao.emptyOutCarts();
+		dao.emptyOutCarts(username);
 		
 	}
 	

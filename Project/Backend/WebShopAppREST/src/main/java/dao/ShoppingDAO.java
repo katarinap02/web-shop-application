@@ -13,6 +13,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.StringTokenizer;
+import java.util.stream.Collectors;
 
 import org.apache.catalina.User;
 
@@ -34,8 +35,7 @@ public class ShoppingDAO {
 	{
 		loadBuys(contextPath);
 		path = contextPath;
-		userDao = new UserDAO(path);
-		cartDao = new ShoppingCartDAO(path);
+		
 	}
 	
 	public Collection<Shopping> findAll()
@@ -43,7 +43,17 @@ public class ShoppingDAO {
 		 return buys.values();
 	}
 	
-	public Shopping createOrder(Shopping order, String username)
+	public Collection<Shopping> findByCustomer(String username)
+	{
+		return buys.values().stream().filter(x -> x.getUsername().equals(username)).collect(Collectors.toList());
+	}
+	
+	public Collection<Shopping> findByManager(int factoryId)
+	{
+		return buys.values().stream().filter(x -> x.getFactoryId() == factoryId).collect(Collectors.toList());
+	}
+	
+	public Shopping createOrder(String username)
 	{
 		String id = generateRandomString(10);
 		while(buys.keySet().contains(id))
@@ -51,8 +61,10 @@ public class ShoppingDAO {
 			id = generateRandomString(10);
 		}
 		
+		Shopping order = new Shopping();
 		order.setId(id);
-		
+		userDao = new UserDAO(path);
+		cartDao = new ShoppingCartDAO(path);
 		ShoppingCart cart = cartDao.findOpenedCart(username);
 		beans.User user = userDao.findByUsername(username);
 		
@@ -71,11 +83,13 @@ public class ShoppingDAO {
 		order.setStatus(ShoppingStatus.PENDING);
 		order.setUsername(username);
 		
-		
+		System.out.println(cart.getPrice());
 		if(order != null)
 		{
+			
 			buys.put(id, order);
 			saveBuys(path);
+			
 			return order;
 		}
 		else

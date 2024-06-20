@@ -89,7 +89,8 @@ onMounted(() => {
 
 function resetCarts()
 {
-    axios.get('http://localhost:8080/WebShopAppREST/rest/carts/emptycarts')
+    
+    axios.get('http://localhost:8080/WebShopAppREST/rest/carts/emptycarts/?username=' + usernameData.value)
     .then(response => {console.log("uspesno");})
 }
 

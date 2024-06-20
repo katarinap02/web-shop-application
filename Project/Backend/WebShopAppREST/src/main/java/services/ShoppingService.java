@@ -49,13 +49,34 @@ public class ShoppingService {
 		return dao.findAll();
 	}
 	
-	@POST
-	@Path("/{username}")
+	@GET
+	@Path("/customer/{username}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Shopping createOrder(Shopping order, @PathParam("username") String username)
+	public Collection<Shopping> getByCustomer(@PathParam("username") String username)
 	{
 		ShoppingDAO dao = (ShoppingDAO) ctx.getAttribute("shoppingDAO");
-		return dao.createOrder(order, username);
+		return dao.findByCustomer(username);
+		
+	}
+	
+	@GET
+	@Path("/manager/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<Shopping> getByManager(@PathParam("id") int factoryId)
+	{
+		ShoppingDAO dao = (ShoppingDAO) ctx.getAttribute("shoppingDAO");
+		return dao.findByManager(factoryId);
+		
+	}
+	
+	
+	@GET
+	@Path("/{username}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Shopping createOrder(@PathParam("username") String username)
+	{
+		ShoppingDAO dao = (ShoppingDAO) ctx.getAttribute("shoppingDAO");
+		return dao.createOrder(username);
 	}
 
 }

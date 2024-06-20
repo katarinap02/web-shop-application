@@ -274,9 +274,10 @@ public class UserDAO {
 		if(user != null)
 		{
 			user.setPoints(user.getPoints() + (price/1000)*133);
+			saveUsers(path);
 		}
 		
-		saveUsers(path);
+		
 	}
 	
 	public void decreaseCustomerPoints(String username, double price)
@@ -286,9 +287,25 @@ public class UserDAO {
 		if(user != null)
 		{
 			user.setPoints(user.getPoints() - (price/1000)*133*4);
+			saveUsers(path);
 		}
 		
-		saveUsers(path);
+		
+	}
+	
+	public int getFactoryId(String username)
+	{
+		for(User u: users.values())
+		{
+			if(u.getUsername().equals(username))
+			{	
+				return u.getFactory().getId();
+			
+			    
+			}
+		}
+		
+		return -1;
 	}
 
 	

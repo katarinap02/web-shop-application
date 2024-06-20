@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class ChocolateFactory {
 	
-	private int id;
+	public int id;
 	private String name;
 	private ArrayList<Integer> chocolateIds;
 	private WorkingHours workingHours;
