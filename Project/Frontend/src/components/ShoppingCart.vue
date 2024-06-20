@@ -73,6 +73,7 @@ const shoppingCart = ref({
 });
 
 const user = ref('');
+const usernameData = ref(localStorage.getItem('userData'));
 
 onMounted(() => {
     loadUser();
@@ -80,7 +81,14 @@ onMounted(() => {
 })
 
 function loadUser(){
-    user.value = JSON.parse(localStorage.getItem('userData'));
+    axios.get("http://localhost:8080/WebShopAppREST/rest/getLogedUser?username=" + usernameData.value)
+    .then(response => {
+        user.value = response.data;
+        console.log(user.value.role);
+    })
+    .catch(error => {
+      //  localStorage.setItem('userData', JSON.stringify(""));
+    });
 
 }
 
@@ -89,7 +97,8 @@ onMounted(() => {loadCart(); loadItems();})
 
 function loadCart()
 {
-   axios.get("http://localhost:8080/WebShopAppREST/rest/carts/" + user.value.username)
+  console.log(usernameData.value);
+   axios.get("http://localhost:8080/WebShopAppREST/rest/carts/" + usernameData.value)
    .then(response => {shoppingCart.value = response.data; console.log(response.data);});
 
 }
