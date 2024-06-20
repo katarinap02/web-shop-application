@@ -152,7 +152,19 @@ onMounted(() => {  getFactoryById(factoryId);  loadChocolates(factoryId); loadCo
 function loadChocolates(factoryId)
 {
     axios.get("http://localhost:8080/WebShopAppREST/rest/chocolates/getfactoryId/" + factoryId.value)
-    .then(response => {chocolates.value = response.data; console.log(response.data);})
+    .then(response => {chocolates.value = response.data; 
+    
+        if(user.value.role === 'CUSTOMER')
+      {
+       
+        chocolates.value = chocolates.value.filter(x => x.number > 0);
+        console.log(chocolates.value);
+      }
+
+
+    })
+   
+  
 }
 
 function loadComments(factoryId)
