@@ -4,15 +4,9 @@
         <table>
             <tr>
                 <th colspan="5">
-          <template v-if="user && user.role === 'ADMINISTRATOR'" >
             <div class="header-content">
               <span class="title">Chocolate factories</span>
-              <a href="#/createFactory" class="create">create new</a>
             </div>
-          </template>
-          <template v-else>
-            Chocolate factories
-          </template>
         </th>
             </tr>
             <tr>
@@ -63,11 +57,11 @@ function loadUser(){
   axios.get("http://localhost:8080/WebShopAppREST/rest/getLogedUser?username=" + usernameData.value)
     .then(response => {
         user.value = response.data;
-        console.log(response.data);
+        
         
     })
     .catch(error => {
-      //  localStorage.setItem('userData', JSON.stringify(""));
+      
     });
 
 }
@@ -184,7 +178,6 @@ template {
 .title {
   flex-grow: 1; 
   text-align: center;
-  margin-left: 100px;
 }
 
 .tabela th{

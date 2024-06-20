@@ -1,8 +1,8 @@
-ana1;123;Ana;Mujic;FEMALE;2024-06-15;WORKER;2
-andjela;aa;Andjela;Andjelic;FEMALE;2024-06-29;MANAGER;-1
-steva;s123;Stevan;Jovanovic;MALE;2023-05-24;WORKER;1
-jovan;joca;Jovan;Jovic;MALE;2024-06-15;MANAGER;0
-pera123;pera;Pera;Peric;MALE;2024-11-11;ADMINISTRATOR;-1
-zika123;zika;Zika;Zika;MALE;1992-01-13;CUSTOMER;-1
-mirko;12;Mirko;Lenic;MALE;2024-06-21;MANAGER;1
-natasa;natke;Natasa;Radmilovic;FEMALE;2002-08-02;MANAGER;2
+ana1;123;Ana;Mujic;FEMALE;2024-06-15;WORKER;2;False
+andjela;aa;Andjela;Andjelic;FEMALE;2024-06-29;MANAGER;-1;False
+steva;s123;Stevan;Jovanovic;MALE;2023-05-24;WORKER;1;False
+jovan;joca;Jovan;Jovic;MALE;2024-06-15;MANAGER;0;False
+pera123;pera;Pera;Peric;MALE;2024-11-11;ADMINISTRATOR;-1;False
+zika123;zika;Zika;Zika;MALE;1992-01-13;CUSTOMER;-1;False
+mirko;12;Mirko;Lenic;MALE;2024-06-21;MANAGER;1;False
+natasa;natke;Natasa;Radmilovic;FEMALE;2002-08-02;MANAGER;2;False

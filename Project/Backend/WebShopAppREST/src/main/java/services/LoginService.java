@@ -104,6 +104,10 @@ public class LoginService {
 		if (loggedUser == null) {
 			return Response.status(400).entity("Invalid username and/or password").build();
 		}
+		if(loggedUser.getBloked())
+		{
+			return Response.status(400).entity("This user is bloked").build();
+		}
 		request.getSession().setAttribute("user", loggedUser);
 		
 		return Response.status(Response.Status.OK)
@@ -227,8 +231,15 @@ public class LoginService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public User GetLogedUser(@QueryParam("username") String username) {
 		UserDAO userDao = (UserDAO) ctx.getAttribute("userDAO");
-		System.out.println(userDao.findByUsername(username).getName());
 		return userDao.findByUsername(username);
+	}
+	
+	@GET
+	@Path("/blokUser")
+	@Produces(MediaType.APPLICATION_JSON)
+	public User BlokUsers(@QueryParam("username") String username) {
+		UserDAO userDao = (UserDAO) ctx.getAttribute("userDAO");
+		return userDao.BlokUser(username);
 	}
 	
 	

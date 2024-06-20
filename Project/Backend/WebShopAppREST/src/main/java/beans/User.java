@@ -15,10 +15,11 @@ public class User {
 	LocalDate birthDate;
 	Role role;
 	ChocolateFactory factory; //ovo je uglavon null tako da nemoj da radis neprovereni get
+	boolean bloked; //kao deleted se ponasa
+	
 	//ArrayList<Shopping> shoppings; 
 
 	//int cartId;
-	//ChocolateFactory factory;
 
 	//Basket basket;
 
@@ -26,6 +27,7 @@ public class User {
 	// CustomerRole role;
 	
 	
+
 	public User() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -41,7 +43,7 @@ public class User {
 		this.gender = gender;
 		this.birthDate = birthDate;
 		this.role = role;
-
+		this.bloked = false;
 		this.factory = null;
 	}
 	public ChocolateFactory getFactory() {
@@ -94,6 +96,14 @@ public class User {
 	}
 	public void setRole(Role role) {
 		this.role = role;
+	}
+
+	public boolean getBloked() {
+		return bloked;
+	}
+
+	public void setBloked(boolean bloked) {
+		this.bloked = bloked;
 	}
 	
 	

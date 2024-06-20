@@ -34,9 +34,9 @@
 
     </table>
     <button type="submit" class="submit">Save changes</button>
- 
- 
   </form>
+
+   <a v-show = "user.role == 'administrator'" href="#/viewUsers">View all users</a>
   <p v-show = "errorMsg == 'HasError'">Field inputs are invalid.</p>
 </template>
 
@@ -79,6 +79,10 @@ function loadUser()
       
     });
 }
+
+function isAdministrator() {
+      return this.user.role.toLowerCase() === 'administrator';
+    }
 
 function editRole()
 {
@@ -205,4 +209,8 @@ h1 {
     height: 30px;
     margin: 5px;
 }
+a {
+    vertical-align: center;
+}
+
 </style>

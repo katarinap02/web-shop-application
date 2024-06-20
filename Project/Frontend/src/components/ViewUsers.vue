@@ -19,7 +19,7 @@
                 <td>{{formatGender(u.gender)}}</td>
                 <td>{{u.birthDate}}</td>
                 <td>{{formatRole(u.role)}}</td>
-                <td>no</td>
+                <td class="td1">{{formatBloked(u.bloked)}} <button class=" btn btn-success blokButton" @click.prevent="blokUser(u.username)">block</button></td>
 
             </tr>
         </table>
@@ -37,7 +37,7 @@ import { useRouter } from 'vue-router';
 
 const allUsers = ref('');
 const router = useRouter();
-
+const usernameData = ref(localStorage.getItem('userData'));
 const selectedUser = ref(null);
 
 onMounted(() => {
@@ -49,7 +49,7 @@ function loadUsers()
     axios.get('http://localhost:8080/WebShopAppREST/rest/get').then(response => {
         if(response.data != "")
         {
-            allUsers.value = response.data;
+            allUsers.value = response.data.filter(user => user.username !== usernameData.value);
         }
         else {
             allUsers.value = '';
@@ -63,7 +63,14 @@ function formatGender(gender) {
       } else if (gender === 'MALE') {
         return 'male';
       }
-      return gender; // Default case
+      return gender; 
+    }
+
+function formatBloked(blok) {
+      if (blok === true) {
+        return 'yes';
+      }
+      return 'no'; 
     }
 
 function formatRole(role) {
@@ -87,18 +94,15 @@ function selectUser(us)
     this.selectedUser = us;
 }
 
-function blokSelectedUser()
+function blokUser(username)
 {
-    if(this.selectedFactory != null)
-    {
-        axios.get('http://localhost:8080/WebShopAppREST/rest/factories/delete?id=' +  this.selectedFactory.id).then(response =>
+     axios.get('http://localhost:8080/WebShopAppREST/rest/blokUser?username=' +  username).then(response =>
         {
-            loadFactories();
+            loadUsers();
             console.log(response.data);
         }
     )
         
-    }
 }
 
 
@@ -185,8 +189,27 @@ template {
     margin: 30px;
 }
 
+.blokButton {
+    font-size: small; /* Adjust the font size to make the button smaller */
+    background-color: #5a086a;
+    border: none; /* Remove the border if not needed */
+    padding: 3px 7px; /* Adjust padding for a smaller button */
+    color: white; /* Set text color */
+    align-items: center;
+    position: absolute; /* Position the button absolutely within the <td> */
+    top: 50%; /* Adjust as needed */
+    right: 15px; /* Adjust as needed */
+    transform: translateY(-50%);
+}
+
+.td1 {
+    position: relative; 
+    width: 170px;
+}
+
 .selected {
     background-color: rgb(245, 195, 128); /* Change to your desired highlight color */
 }
+
 
 </style>

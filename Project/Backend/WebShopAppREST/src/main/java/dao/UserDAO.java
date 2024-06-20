@@ -148,6 +148,22 @@ public class UserDAO {
 		return null;
 	}
 	
+	public User BlokUser(String username) {
+		
+		for(User u : users.values())
+		{
+			if(u.getUsername().equals(username))
+			{
+				u.setBloked(true);
+				saveUsers(path);
+				return u;
+			}
+				
+		}
+		
+		return null;
+	}
+	
 	
 	
 	public void deleteChocolateId(int id) {
@@ -231,10 +247,15 @@ public class UserDAO {
 					LocalDate birthdate = LocalDate.parse(st.nextToken().trim(), formatter);
 					Role role = convertToRole(st.nextToken().trim());
 					int factoryId = Integer.parseInt(st.nextToken().trim());
+					boolean bloked = Boolean.parseBoolean(st.nextToken().trim());
 					ChocolateFactory factory = convertToFactory(factoryId);
 					
 					User user = new User(username, password, firstName, lastName, gender, birthdate, role);
 					user.setFactory(factory);
+					if(bloked == true)
+					{
+						user.setBloked(true);
+					}
 				users.put(username, user);
 				}
 				
@@ -267,13 +288,19 @@ public class UserDAO {
                 sb.append(user.getBirthDate().format(formatter)).append(";");
                 sb.append(user.getRole().name()).append(";");
                 if(user.getFactory() != null)
-                sb.append(user.getFactory().getId()).append("\n");
+                sb.append(user.getFactory().getId()).append(";");
                 else 
-                	sb.append(-1).append("\n");
+                	sb.append(-1).append(";");
 
+                if(user.getBloked() == true)
+                {
+                	sb.append("True").append("\n");
+                }
+                else {
+                	sb.append("False").append("\n");
+                }
                 out.write(sb.toString());
                
-                System.out.println(sb.toString());
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -288,6 +315,8 @@ public class UserDAO {
             }
         }
     }
+
+	
 
 	
 

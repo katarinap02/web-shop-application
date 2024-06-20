@@ -39,7 +39,21 @@ const login = () => {
         
     })
     .catch(error => {
-        errorMessage.value = 'This user does not exists. Please register if you do not have account.';
+    if (error.response) {
+        // Server responded with a status code and response data
+        const responseMessage = error.response.data;
+        
+        if (responseMessage === "Invalid username and/or password") {
+            errorMessage.value = 'This user does not exists. Please register if you do not have account';
+        } else if (responseMessage === "This user is bloked") {
+            errorMessage.value = 'This user is blocked.';
+        } else {
+            errorMessage.value = 'An unknown error occurred. Please try again.';
+        }
+    } else {
+        // No response from the server (network error, etc.)
+        errorMessage.value = 'Network error. Please check your internet connection and try again.';
+    }
         console.error(error);
         localStorage.setItem('userData', "");
     });
