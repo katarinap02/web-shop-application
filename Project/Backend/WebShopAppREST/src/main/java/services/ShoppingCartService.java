@@ -63,10 +63,10 @@ public class ShoppingCartService {
 	@POST
 	@Path("/addtocart")
 	@Produces(MediaType.APPLICATION_JSON)
-	public ShoppingCart addToCart(@QueryParam("cartId") String cartId, @QueryParam("chocolateId") String chocolateId, @QueryParam("amount") String amount, @QueryParam("price") String price)
+	public ShoppingCart addToCart(@QueryParam("cartId") String cartId, @QueryParam("chocolateId") String chocolateId, @QueryParam("amount") String amount, @QueryParam("price") String price, @QueryParam("factoryId") String factoryId)
 	{
 		ShoppingCartDAO dao = (ShoppingCartDAO) ctx.getAttribute("shoppingCartDAO");
-		return dao.addToCart(Integer.parseInt(cartId), Integer.parseInt(chocolateId), Integer.parseInt(amount), Double.parseDouble(price));
+		return dao.addToCart(Integer.parseInt(cartId), Integer.parseInt(chocolateId), Integer.parseInt(amount), Double.parseDouble(price), Integer.parseInt(factoryId));
 		
 	}
 	

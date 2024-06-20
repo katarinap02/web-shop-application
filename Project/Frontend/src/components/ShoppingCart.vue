@@ -58,7 +58,7 @@ import { onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 const router = useRouter();
-const newOrder = ref({id: "", chocolateIds: [], factoryId: -1, dateTime: 0, price: 0, customerName: "", status: ""});
+const newOrder = ref({id: "", chocolateIds: [], factoryId: -1, dateTime: "0001-01-01T00:00:00", price: 0, customerName: "", status: "PENDING"});
 const items = ref([]);
 const selectedChocolate = ref(null);
 const shoppingCart = ref({
@@ -142,15 +142,16 @@ function getAmount(chocolateId)
 
 function createOrder()
 {
-  if(this.shoppingCart.chocolateIds.length === 0)
+ 
+  if(this.shoppingCart.chocolateIds[0] === -1)
   {
     alert("You need to add items to cart.");
   }
   else
   {
-  /*  alert(user.value.username);
-    axios.post("http://localhost:8080/WebShopAppREST/rest/buys/" + user.value.username)
-    .then(response => { alert("Success!"); })*/
+   alert(user.value.username);
+    axios.post("http://localhost:8080/WebShopAppREST/rest/buys/" + user.value.username, this.newOrder)
+    .then(response => { alert("Success!"); console.log(response.data) })
   }
 
 }

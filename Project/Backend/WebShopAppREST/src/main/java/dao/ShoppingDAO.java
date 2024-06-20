@@ -1,13 +1,16 @@
 package dao;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 import java.util.StringTokenizer;
 
@@ -71,6 +74,7 @@ public class ShoppingDAO {
 		if(order != null)
 		{
 			buys.put(id, order);
+			saveBuys(path);
 			return order;
 		}
 		else
@@ -99,6 +103,55 @@ public class ShoppingDAO {
 		
 		return stringBuilder.toString();
 		
+	}
+	
+	public void saveBuys(String contextPath) {
+	    BufferedWriter out = null;
+	    try {
+	        File file = new File(contextPath + "/buys.txt");
+	        out = new BufferedWriter(new FileWriter(file));
+	        System.out.println("Saving to: " + file.getAbsolutePath());
+	        
+	        for (Shopping buy : buys.values()) {
+	            StringBuilder sb = new StringBuilder();
+	            sb.append(buy.getId()).append(";");
+	          
+	            
+	            List<Integer> chocolates = buy.getChocolateIds();
+	            for (int i = 0; i < chocolates.size(); i++) {
+	                sb.append(chocolates.get(i));
+	                if (i < chocolates.size() - 1) {
+	                    sb.append(",");
+	                }
+	            }
+	            sb.append(";");
+	            
+	      
+	            sb.append(buy.getFactoryId()).append(";");
+	            sb.append(buy.getDateTime()).append(";");
+	            sb.append(buy.getPrice()).append(";");
+	            sb.append(buy.getCustomerName()).append(";");
+	            sb.append(buy.getStatus()).append("\n");
+	           
+	            
+	            
+
+	            out.write(sb.toString());
+	            System.out.println("Written: " + sb.toString());
+	        }
+	    } catch (Exception ex) {
+	        ex.printStackTrace();
+	    } finally {
+	        if (out != null) {
+	            try {
+	            	out.flush();
+	                out.close();
+	                System.out.println("BufferedWriter closed successfully.");
+	            } catch (Exception e) {
+	                e.printStackTrace();
+	            }
+	        }
+	    }
 	}
 	
 	private void loadBuys(String contextPath) {

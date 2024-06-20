@@ -80,7 +80,7 @@ public class ShoppingCartDAO {
 		
 		saveCarts(path);
 	}
-	public ShoppingCart addToCart(int cartId, int chocolateId, int amount, double price)
+	public ShoppingCart addToCart(int cartId, int chocolateId, int amount, double price, int factoryId)
 	{
 		int key = cartId;
 		ShoppingCart c = carts.containsKey(key) ? carts.get(key) : null;
@@ -96,7 +96,7 @@ public class ShoppingCartDAO {
 				tmpList.remove(0);
 			c.setChocolateIds(tmpList);
 			c.setPrice(c.getPrice() + amount * price);
-			
+			c.setFactoryId(factoryId);
 			saveCarts(path);
 			return c;
 		}

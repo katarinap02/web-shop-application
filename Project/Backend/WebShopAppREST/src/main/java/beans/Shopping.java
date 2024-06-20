@@ -28,6 +28,10 @@ public class Shopping {
 	public String getId() {
 		return id;
 	}
+	public Shopping() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	public void setId(String id) {
 		this.id = id;
 	}

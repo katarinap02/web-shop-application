@@ -80,12 +80,12 @@ function getChocolateId(chocolateId)
     }
     else
     {
-        
+                
         chocolate.value.number = chocolate.value.number - chocolateAmount.value;
         axios.post("http://localhost:8080/WebShopAppREST/rest/chocolates/" + chocolateId.value, this.chocolate)
       .then(response => { console.log(response.data);  });
 
-        axios.post("http://localhost:8080/WebShopAppREST/rest/carts/addtocart/?cartId=" + cartId.value + "&chocolateId=" + chocolateId.value + "&amount=" + chocolateAmount.value + "&price=" + chocolate.value.price)
+        axios.post("http://localhost:8080/WebShopAppREST/rest/carts/addtocart/?cartId=" + cartId.value + "&chocolateId=" + chocolateId.value + "&amount=" + chocolateAmount.value + "&price=" + chocolate.value.price + "&factoryId=" + chocolate.value.factory)
         .then(response => { alert("Success!"); this.router.push({name: 'ShowFactory', params: {id: chocolate.value.factory }}); });
       
     }
