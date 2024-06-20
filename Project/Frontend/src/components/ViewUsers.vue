@@ -19,7 +19,7 @@
                 <td>{{formatGender(u.gender)}}</td>
                 <td>{{u.birthDate}}</td>
                 <td>{{formatRole(u.role)}}</td>
-                <td class="td1">{{formatBloked(u.bloked)}} <button class=" btn btn-success blokButton" @click.prevent="blokUser(u.username)">block</button></td>
+                <td class="td1">{{formatBloked(u.bloked)}} <button v-show = "u.role !== 'ADMINISTRATOR'" class=" btn btn-success blokButton" @click.prevent="blokUser(u.username)">block</button></td>
 
             </tr>
         </table>
