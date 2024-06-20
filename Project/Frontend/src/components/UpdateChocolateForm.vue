@@ -45,8 +45,8 @@
     </form>
     <p v-show = "errorMsg == 'HasError'">Field inputs are invalid.</p>
   </template>
-  <script setup>
   
+  <script setup>
   import axios from 'axios';
   import { onMounted, ref } from 'vue';
   import { useRouter, useRoute } from 'vue-router';
@@ -56,7 +56,7 @@
   const chocolateId = ref(route.params.id);
   const chocolate = ref({ name: "", price: 0, kind: "", factory: -1, type: "", grams: 0, description: "", imageUrl: "", status: false, number: 0 });
   const chocolateValid = ref({ name: "a", price: 1, kind: "a", factory: 0, type: "a", grams: 1, description: "a", imageUrl: "a", status: false, number: 0 });
-const errorMsg = ref("NoError");
+    const errorMsg = ref("NoError");
   onMounted(() => { getByChocolateId(chocolateId); });
 
   
