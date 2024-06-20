@@ -246,7 +246,7 @@ public class LoginService {
     {
 		UserDAO userDao = (UserDAO) ctx.getAttribute("userDAO");
 		userDao.increaseCustomerPoints(username, Double.parseDouble(price));
-
+    }
 	@GET
 	@Path("/blokUser")
 	@Produces(MediaType.APPLICATION_JSON)
