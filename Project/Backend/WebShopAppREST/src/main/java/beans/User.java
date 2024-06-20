@@ -22,7 +22,7 @@ public class User {
 
 	//Basket basket;
 
-	//int points;
+	double points;
 	// CustomerRole role;
 	
 	
@@ -32,7 +32,7 @@ public class User {
 	}
 	
 	public User(String username, String password, String name, String surname, Gender gender,
-			LocalDate birthDate, Role role) {
+			LocalDate birthDate, Role role, double points) {
 		super();
 		this.username = username;
 		this.password = password;
@@ -41,9 +41,17 @@ public class User {
 		this.gender = gender;
 		this.birthDate = birthDate;
 		this.role = role;
-
+        this.points = points;
 		this.factory = null;
 	}
+	public double getPoints() {
+		return points;
+	}
+
+	public void setPoints(double points) {
+		this.points = points;
+	}
+
 	public ChocolateFactory getFactory() {
 		return factory;
 	}

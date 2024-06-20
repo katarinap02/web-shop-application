@@ -69,6 +69,7 @@ public class ShoppingDAO {
 		order.setPrice(cart.getPrice());
 		order.setCustomerName(user.getName() + " " + user.getSurname());
 		order.setStatus(ShoppingStatus.PENDING);
+		order.setUsername(username);
 		
 		
 		if(order != null)
@@ -131,7 +132,8 @@ public class ShoppingDAO {
 	            sb.append(buy.getDateTime()).append(";");
 	            sb.append(buy.getPrice()).append(";");
 	            sb.append(buy.getCustomerName()).append(";");
-	            sb.append(buy.getStatus()).append("\n");
+	            sb.append(buy.getStatus()).append(";");
+	            sb.append(buy.getUsername()).append("\n");
 	           
 	            
 	            
@@ -184,7 +186,8 @@ public class ShoppingDAO {
 					double price = Double.parseDouble(st.nextToken().trim());
 					String customerName = st.nextToken().trim();
 					ShoppingStatus status = convertToStatus(st.nextToken().trim());
-					buys.put(id, new Shopping(id, chocolateIds, factoryId, dateTime, price, customerName, status));
+					String username = st.nextToken().trim();
+					buys.put(id, new Shopping(id, chocolateIds, factoryId, dateTime, price, customerName, status, username));
 					
 				
 				}

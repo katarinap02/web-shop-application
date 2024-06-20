@@ -102,6 +102,7 @@ public class UserDAO {
 			return null;
 		}
 		
+		
 		users.put(user.getUsername(), user);
 		saveUsers(path); 
 		return user;
@@ -209,8 +210,8 @@ public class UserDAO {
 					Role role = convertToRole(st.nextToken().trim());
 					int factoryId = Integer.parseInt(st.nextToken().trim());
 					ChocolateFactory factory = convertToFactory(factoryId);
-					
-					User user = new User(username, password, firstName, lastName, gender, birthdate, role);
+					double points = Double.parseDouble(st.nextToken().trim());
+					User user = new User(username, password, firstName, lastName, gender, birthdate, role, points);
 					user.setFactory(factory);
 				users.put(username, user);
 				}
@@ -244,10 +245,10 @@ public class UserDAO {
                 sb.append(user.getBirthDate().format(formatter)).append(";");
                 sb.append(user.getRole().name()).append(";");
                 if(user.getFactory() != null)
-                sb.append(user.getFactory().getId()).append("\n");
+                sb.append(user.getFactory().getId()).append(";");
                 else 
-                	sb.append(-1).append("\n");
-
+                	sb.append(-1).append(";");
+                sb.append(user.getPoints()).append("\n");
                 out.write(sb.toString());
                
                 System.out.println(sb.toString());
@@ -265,6 +266,30 @@ public class UserDAO {
             }
         }
     }
+	
+	public void increaseCustomerPoints(String username, double price)
+	{
+		User user = users.containsKey(username) ? users.get(username) : null;
+		
+		if(user != null)
+		{
+			user.setPoints(user.getPoints() + (price/1000)*133);
+		}
+		
+		saveUsers(path);
+	}
+	
+	public void decreaseCustomerPoints(String username, double price)
+	{
+		User user = users.containsKey(username) ? users.get(username) : null;
+		
+		if(user != null)
+		{
+			user.setPoints(user.getPoints() - (price/1000)*133*4);
+		}
+		
+		saveUsers(path);
+	}
 
 	
 

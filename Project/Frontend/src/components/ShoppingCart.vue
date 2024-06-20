@@ -151,10 +151,15 @@ function createOrder()
   {
    alert(user.value.username);
     axios.post("http://localhost:8080/WebShopAppREST/rest/buys/" + user.value.username, this.newOrder)
-    .then(response => { alert("Success!"); console.log(response.data) })
+    .then(response => { alert("Success!"); 
+    axios.post("http://localhost:8080/WebShopAppREST/rest/increasepoints/?username=" + user.value.username + "&price=" + shoppingCart.value.price)
+    .then(response => alert("Points are increased!"));
+    console.log(response.data) })
   }
 
 }
+
+
 </script> 
 <style scoped>
 

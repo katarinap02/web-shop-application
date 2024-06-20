@@ -129,7 +129,8 @@ public class LoginService {
 		LocalDate date = dao.convertToDate(userDTO.getDate());
 		Gender gender = dao.convertToGender(userDTO.getGender());
 		Role role = Role.CUSTOMER;
-		User user = new User(userDTO.getUsername(), userDTO.getPassword(), userDTO.getName(), userDTO.getSurname(), gender, date, role);
+		double points = 0;
+		User user = new User(userDTO.getUsername(), userDTO.getPassword(), userDTO.getName(), userDTO.getSurname(), gender, date, role, points);
 		return dao.addUser(user);
 	}
 	
@@ -144,7 +145,8 @@ public class LoginService {
 		LocalDate date = dao.convertToDate(userDTO.getDate());
 		Gender gender = dao.convertToGender(userDTO.getGender());
 		Role role = Role.MANAGER;
-		User user = new User(userDTO.getUsername(), userDTO.getPassword(), userDTO.getName(), userDTO.getSurname(), gender, date, role);
+		double points = -1;
+		User user = new User(userDTO.getUsername(), userDTO.getPassword(), userDTO.getName(), userDTO.getSurname(), gender, date, role, points);
 		return dao.addUser(user);
 	}
 	
@@ -184,7 +186,8 @@ public class LoginService {
 		LocalDate date = dao.convertToDate(userDTO.getDate());
 		Gender gender = dao.convertToGender(userDTO.getGender());
 		Role role = Role.WORKER;
-		User user = new User(userDTO.getUsername(), userDTO.getPassword(), userDTO.getName(), userDTO.getSurname(), gender, date, role);
+		double points = -1;
+		User user = new User(userDTO.getUsername(), userDTO.getPassword(), userDTO.getName(), userDTO.getSurname(), gender, date, role, points);
 		return dao.addUser(user);
 	}
 	
@@ -220,6 +223,24 @@ public class LoginService {
 		return userDao.findByUsername(username);
 	}
 	
+	@POST
+	@Path("/increasepoints")
+	@Produces(MediaType.APPLICATION_JSON)
+	public void increasePoints(@QueryParam("username") String username, @QueryParam("price") String price)
+    {
+		UserDAO userDao = (UserDAO) ctx.getAttribute("userDAO");
+		userDao.increaseCustomerPoints(username, Double.parseDouble(price));
 	
+    }
+	
+	@POST
+	@Path("/decreasepoints")
+	@Produces(MediaType.APPLICATION_JSON)
+	public void decreasePoints(@QueryParam("username") String username, @QueryParam("price") String price)
+    {
+		UserDAO userDao = (UserDAO) ctx.getAttribute("userDAO");
+		userDao.decreaseCustomerPoints(username, Double.parseDouble(price));
+	
+    }
 
 }
