@@ -12,6 +12,9 @@ import ShowCartView from '../views/ShoppingCartView.vue';
 import EditAmountView from '../views/EditAmountView.vue';
 import CustomerOrdersView from '../views/CustomerOrdersView.vue';
 import ManagerOrdersView from '../views/ManagerOrdersView.vue';
+import ViewProfileView from '../views/ViewProfileView.vue';
+import ViewUsersView from '../views/ViewUsersView.vue';
+
 const routes = [
   {
     path: "/",
@@ -57,6 +60,16 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
+  },
+  {
+    path: '/viewProfile',
+    name: 'ViewProfile',
+    component: ViewProfileView
+  },
+  {
+    path: '/viewUsers',
+    name: 'ViewUsers',
+    component: ViewUsersView
   },
   {
      path: "/addtocart/:id/:cartId",

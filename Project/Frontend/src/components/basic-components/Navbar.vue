@@ -67,6 +67,7 @@ import { useRouter } from 'vue-router';
 
 const user = ref('');
 const usernameData = ref(localStorage.getItem('userData'));
+const router = useRouter();
 
 onMounted(() => {
     loadUser();
@@ -75,7 +76,8 @@ onMounted(() => {
 
 function loadUser(){
     
-
+    if(usernameData !== "")
+    {
     axios.get('http://localhost:8080/WebShopAppREST/rest/getLogedUser?username=' + usernameData.value)
     .then(response => {
         user.value = response.data;
@@ -83,6 +85,7 @@ function loadUser(){
     .catch(error => {
       //  localStorage.setItem('userData', JSON.stringify(""));
     });
+    }
 
 
 
@@ -90,14 +93,22 @@ function loadUser(){
 
 function goToViewProfile()
 {
-
+  if(usernameData.value !== "")
+    router.push({ name: 'ViewProfile' });
 }
 
 function logOut()
 {
     localStorage.setItem('userData', "");
-    loadUser();
-    window.location.reload();
+    usernameData.value = "";
+    const currentRoute = window.location.pathname;
+    console.log(currentRoute);
+    if (currentRoute !== '/') {
+        router.push("/");
+    } else {
+        window.location.reload();
+    }
+    
 }
 
 </script>

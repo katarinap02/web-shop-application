@@ -105,6 +105,10 @@ public class LoginService {
 		if (loggedUser == null) {
 			return Response.status(400).entity("Invalid username and/or password").build();
 		}
+		if(loggedUser.getBloked())
+		{
+			return Response.status(400).entity("This user is bloked").build();
+		}
 		request.getSession().setAttribute("user", loggedUser);
 		
 		return Response.status(Response.Status.OK)
@@ -118,6 +122,17 @@ public class LoginService {
 	public void logout(@Context HttpServletRequest request) {
 		request.getSession().invalidate();
 	}
+	
+	@POST
+	@Path("/editUser")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public User editUser(User user)
+	{
+		UserDAO dao = (UserDAO) ctx.getAttribute("userDAO");
+		return dao.editUser(user);
+	}
+	
 	
 	@POST
 	@Path("/customer")
@@ -220,10 +235,10 @@ public class LoginService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public User GetLogedUser(@QueryParam("username") String username) {
 		UserDAO userDao = (UserDAO) ctx.getAttribute("userDAO");
-		System.out.println(userDao.findByUsername(username).getName());
 		return userDao.findByUsername(username);
 	}
 	
+
 	@POST
 	@Path("/increasepoints")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -231,8 +246,16 @@ public class LoginService {
     {
 		UserDAO userDao = (UserDAO) ctx.getAttribute("userDAO");
 		userDao.increaseCustomerPoints(username, Double.parseDouble(price));
+
+	@GET
+	@Path("/blokUser")
+	@Produces(MediaType.APPLICATION_JSON)
+	public User BlokUsers(@QueryParam("username") String username) {
+		UserDAO userDao = (UserDAO) ctx.getAttribute("userDAO");
+		return userDao.BlokUser(username);
+	}
 	
-    }
+
 	
 	@POST
 	@Path("/decreasepoints")

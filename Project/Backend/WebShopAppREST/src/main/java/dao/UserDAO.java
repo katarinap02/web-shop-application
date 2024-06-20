@@ -108,6 +108,29 @@ public class UserDAO {
 		return user;
 	}
 	
+	public User editUser(User user) {
+		for(User u : users.values())
+		{
+			if(u.getUsername().equals(user.getUsername()))
+			{
+				if(user.getName() == "" || user.getSurname() == "")
+				{
+					return null;
+				}
+				u.setName(user.getName());
+				u.setSurname(user.getSurname());
+				u.setGender(user.getGender());
+				u.setBirthDate(user.getBirthDate());
+				saveUsers(path);
+				return user;
+			}
+				
+		}
+		
+		return null;
+	}
+	
+	
 	public User editManager(User user, ChocolateFactory factory ,int id)
 	{
 		System.out.println(id);
@@ -123,6 +146,22 @@ public class UserDAO {
 				return u;
 			}
 		}
+		return null;
+	}
+	
+	public User BlokUser(String username) {
+		
+		for(User u : users.values())
+		{
+			if(u.getUsername().equals(username))
+			{
+				u.setBloked(true);
+				saveUsers(path);
+				return u;
+			}
+				
+		}
+		
 		return null;
 	}
 	
@@ -209,10 +248,15 @@ public class UserDAO {
 					LocalDate birthdate = LocalDate.parse(st.nextToken().trim(), formatter);
 					Role role = convertToRole(st.nextToken().trim());
 					int factoryId = Integer.parseInt(st.nextToken().trim());
+					boolean bloked = Boolean.parseBoolean(st.nextToken().trim());
 					ChocolateFactory factory = convertToFactory(factoryId);
 					double points = Double.parseDouble(st.nextToken().trim());
 					User user = new User(username, password, firstName, lastName, gender, birthdate, role, points);
 					user.setFactory(factory);
+					if(bloked == true)
+					{
+						user.setBloked(true);
+					}
 				users.put(username, user);
 				}
 				
@@ -248,10 +292,20 @@ public class UserDAO {
                 sb.append(user.getFactory().getId()).append(";");
                 else 
                 	sb.append(-1).append(";");
+
+                
+
+
+                if(user.getBloked() == true)
+                {
+                	sb.append("True").append(";");
+                }
+                else {
+                	sb.append("False").append(";");
+                }
                 sb.append(user.getPoints()).append("\n");
                 out.write(sb.toString());
                
-                System.out.println(sb.toString());
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -307,6 +361,10 @@ public class UserDAO {
 		
 		return -1;
 	}
+
+	
+
+	
 
 	
 
