@@ -88,5 +88,15 @@ public class ShoppingService {
 		dao.cancelOrder(orderId);
 		
 	}
+	
+	@GET
+	@Path("/approve/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public void approveOrder(@PathParam("id") String orderId)
+	{
+		ShoppingDAO dao = (ShoppingDAO) ctx.getAttribute("shoppingDAO");
+		dao.approveOrder(orderId);
+		
+	}
 
 }

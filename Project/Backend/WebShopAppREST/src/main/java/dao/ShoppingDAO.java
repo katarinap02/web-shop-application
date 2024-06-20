@@ -109,6 +109,18 @@ public class ShoppingDAO {
 		}
 	}
 	
+	public void approveOrder(String orderId)
+	{
+	  Shopping order = buys.containsKey(orderId) ? buys.get(orderId) : null;
+		
+		if(order != null)
+		{
+			order.setStatus(ShoppingStatus.APPROVED);
+			saveBuys(path);
+		}
+		
+	}
+	
 	private ArrayList<Integer> removeDuplicates(ArrayList<Integer> list)
 	{
 		HashSet<Integer> set = new HashSet<>(list);

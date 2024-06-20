@@ -80,6 +80,8 @@ function cancelOrder(order)
 
     axios.post("http://localhost:8080/WebShopAppREST/rest/decreasepoints/?username=" + user.value.username + "&price=" + order.price)
     .then(response => { alert("Points are decreased!"); 
+
+    loadCustomerOrders();
 }); });
 }
 

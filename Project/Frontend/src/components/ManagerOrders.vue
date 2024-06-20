@@ -21,8 +21,8 @@
             
             <tr>
                 <td><button v-on:click="viewOrderItems(o.id)">View</button></td>
-                <td><button v-on:click="approveOrder(o.id)">Approve</button></td>
-                <td><button v-on:click="rejectOrder(o.id)">Reject</button></td>
+                <td><button v-if="o.status === 'PENDING'" v-on:click="approveOrder(o.id)">Approve</button></td>
+                <td><button v-if="o.status === 'PENDING'" v-on:click="rejectOrder(o.id)">Reject</button></td>
             </tr>
          
 
@@ -96,7 +96,12 @@ function rejectOrder(orderId)
 }
 function approveOrder(orderId)
 {
-    alert("To be implemented");
+    axios.get("http://localhost:8080/WebShopAppREST/rest/buys/approve/" + orderId)
+    .then(response => { alert("Success!");
+
+        loadManagerOrders();
+    })
+  
 }
 
 </script>
