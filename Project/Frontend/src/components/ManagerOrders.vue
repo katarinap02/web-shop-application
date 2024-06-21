@@ -2,6 +2,17 @@
     
     <h1>Factory orders</h1>
     <div >
+
+        <form v-bind:hidden="rejectClicked === 'NOT_CLICKED'">
+            <table>
+                <tr>
+                    <td>Reason for rejection: </td>
+                    <td><input type='text' name="comment" v-model="comment"></td>
+                    <td><button type="submit" v-on:click="rejectOrder">Reject order</button></td>
+                </tr>
+            </table>
+        </form>
+
         <table v-for="o in orders">
             <tr>
                 <td>Order id: </td>
@@ -22,7 +33,7 @@
             <tr>
                 <td><button v-on:click="viewOrderItems(o.id)">View</button></td>
                 <td><button v-if="o.status === 'PENDING'" v-on:click="approveOrder(o.id)">Approve</button></td>
-                <td><button v-if="o.status === 'PENDING'" v-on:click="rejectOrder(o.id)">Reject</button></td>
+                <td><button v-if="o.status === 'PENDING'" v-on:click="rejectClick(o.id)">Reject</button></td>
             </tr>
          
 
@@ -42,8 +53,9 @@ import { useRouter, useRoute } from 'vue-router';
 const user = ref('');
 const usernameData = ref(localStorage.getItem('userData'));
 const factoryId = ref(0);
-
-
+const comment = ref("");
+const rejectClicked = ref("NOT_CLICKED");
+const rejectionId = ref("");
 onMounted(() => {
     loadUser();
 
@@ -90,9 +102,16 @@ function viewOrderItems(orderId)
     alert("To be implemented");
 }
 
-function rejectOrder(orderId)
+function rejectClick(orderId)
 {
-    alert("To be implemented");
+    rejectClicked.value = 'CLICKED';
+    rejectionId.value = orderId;
+}
+
+function rejectOrder()
+{
+     axios.get("http://localhost:8080/WebShopAppREST/rest/buys/reject/?id=" + rejectionId.value + "&comment=" + comment.value)
+     .then(response => { alert("Success!"); loadManagerOrders();});
 }
 function approveOrder(orderId)
 {

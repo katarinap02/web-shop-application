@@ -9,6 +9,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
@@ -96,6 +97,16 @@ public class ShoppingService {
 	{
 		ShoppingDAO dao = (ShoppingDAO) ctx.getAttribute("shoppingDAO");
 		dao.approveOrder(orderId);
+		
+	}
+	
+	@GET
+	@Path("/reject")
+	@Produces(MediaType.APPLICATION_JSON)
+	public void rejectOrder(@QueryParam("id") String orderId, @QueryParam("comment") String comment)
+	{
+		ShoppingDAO dao = (ShoppingDAO) ctx.getAttribute("shoppingDAO");
+		dao.rejectOrder(orderId, comment);
 		
 	}
 
