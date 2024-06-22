@@ -15,8 +15,10 @@ public class Shopping {
 	private String customerName;
 	private ShoppingStatus status;
 	private String username;
+	private String factoryName;
+	
 	public Shopping(String id, List<Integer> chocolateIds, int factoryId, LocalDateTime dateTime, double price,
-			String customerName, ShoppingStatus status, String username) {
+			String customerName, ShoppingStatus status, String username, String factoryName) {
 		super();
 		this.id = id;
 		this.chocolateIds = chocolateIds;
@@ -26,6 +28,13 @@ public class Shopping {
 		this.customerName = customerName;
 		this.status = status;
 		this.username = username;
+		this.factoryName = factoryName;
+	}
+	public String getFactoryName() {
+		return factoryName;
+	}
+	public void setFactoryName(String factoryName) {
+		this.factoryName = factoryName;
 	}
 	public String getUsername() {
 		return username;

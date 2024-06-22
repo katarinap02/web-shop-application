@@ -32,6 +32,7 @@ public class ShoppingDAO {
 	private ShoppingCartDAO cartDao;
 	private RejectedOrderDAO rejectionDao;
 	private ChocolateDAO chocolateDao;
+	private ChocolateFactoryDAO factoryDao;
 	
 	 private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 	 
@@ -62,6 +63,8 @@ public class ShoppingDAO {
 	
 	public Shopping createOrder(String username)
 	{
+		factoryDao = new ChocolateFactoryDAO(path);
+		
 		String id = generateRandomString(10);
 		while(buys.keySet().contains(id))
 		{
@@ -89,7 +92,7 @@ public class ShoppingDAO {
 		order.setCustomerName(user.getName() + " " + user.getSurname());
 		order.setStatus(ShoppingStatus.PENDING);
 		order.setUsername(username);
-		
+		order.setFactoryName(factoryDao.findById(cart.getFactoryId()).getName());
 		System.out.println(cart.getPrice());
 		if(order != null)
 		{
@@ -201,7 +204,8 @@ public class ShoppingDAO {
 	            sb.append(buy.getPrice()).append(";");
 	            sb.append(buy.getCustomerName()).append(";");
 	            sb.append(buy.getStatus()).append(";");
-	            sb.append(buy.getUsername()).append("\n");
+	            sb.append(buy.getUsername()).append(";");
+	            sb.append(buy.getFactoryName()).append("\n");
 	           
 	            
 	            
@@ -255,7 +259,8 @@ public class ShoppingDAO {
 					String customerName = st.nextToken().trim();
 					ShoppingStatus status = convertToStatus(st.nextToken().trim());
 					String username = st.nextToken().trim();
-					buys.put(id, new Shopping(id, chocolateIds, factoryId, dateTime, price, customerName, status, username));
+					String factoryName = st.nextToken().trim();
+					buys.put(id, new Shopping(id, chocolateIds, factoryId, dateTime, price, customerName, status, username, factoryName));
 					
 				
 				}

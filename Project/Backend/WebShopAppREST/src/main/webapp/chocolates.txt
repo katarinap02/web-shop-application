@@ -1,6 +1,6 @@
 0;Najlepse zelje;250.0;with biscuits;0;chocolate with biscuits;190.0;tasty;https://najlepsezelje.com/wp-content/uploads/2020/01/mlecna-200g-31.5.png;true;0
-1;Kinder;100.0;za jelo;0;crna;40.0;za decu;https://media.istockphoto.com/id/186682188/photo/chocolate-bar-with-a-missing-bite-on-white-background.jpg?s=612x612&w=0&k=20&c=mOscVi0weT7rT5bKoFdSWGGZ6-Wt7dkV77ajV-rnk80=;true;14
-3;Milka;300.0;za jelo;0;mlecna;290.0;ljubicasta;https://img.bazzar.cloud/JfOVxnY/rs:fit:500:500:1:1:ce/t:0/fn:screenshot-2024-01-25-122205/czM6Ly9kYXRhc3Rv/cmUuYmF6emFyLmhy/L2ZzVXZHVVRTUnlh/RGg4R1JNOGdrOGF2/dg;true;12
-4;Jaffa keks;150.0;Keks sa narandzom;1;Keks;100.0;Keks sa narandzom, preliven cokoladom;https://www.jaffa.rs/wp-content/uploads/2020/07/jaffa-cakes-original-300g-500x450-c-default.png;true;3
+1;Kinder;100.0;za jelo;0;crna;40.0;za decu;https://media.istockphoto.com/id/186682188/photo/chocolate-bar-with-a-missing-bite-on-white-background.jpg?s=612x612&w=0&k=20&c=mOscVi0weT7rT5bKoFdSWGGZ6-Wt7dkV77ajV-rnk80=;true;12
+3;Milka;300.0;za jelo;0;mlecna;290.0;ljubicasta;https://img.bazzar.cloud/JfOVxnY/rs:fit:500:500:1:1:ce/t:0/fn:screenshot-2024-01-25-122205/czM6Ly9kYXRhc3Rv/cmUuYmF6emFyLmhy/L2ZzVXZHVVRTUnlh/RGg4R1JNOGdrOGF2/dg;true;9
+4;Jaffa keks;150.0;Keks sa narandzom;1;Keks;100.0;Keks sa narandzom, preliven cokoladom;https://www.jaffa.rs/wp-content/uploads/2020/07/jaffa-cakes-original-300g-500x450-c-default.png;true;1
 5;Jaffa napolitanke;250.0;Napolitanke sa kremom;1;Napolitanke;200.0;Napolitanke sa cokoladnim kremom;https://www.jaffa.rs/wp-content/uploads/2023/07/Jaffa-Napolitanke-Creme-500x450-c-default.png;true;1
-6;Choco biscuit;220.0;Cokoladni keks;2;Keks;120.0;Keks preliven cokoladom;https://www.swisslion-takovo.com/wp-content/uploads/2017/12/Choco-Biscuit-125g-3.jpg;true;9
+6;Choco biscuit;220.0;Cokoladni keks;2;Keks;120.0;Keks preliven cokoladom;https://www.swisslion-takovo.com/wp-content/uploads/2017/12/Choco-Biscuit-125g-3.jpg;true;6
