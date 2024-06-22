@@ -1,7 +1,48 @@
 <template>
     
     <h1>Factory orders</h1>
-    <div >
+    <div class="container">
+
+       
+        <div class="sort">
+            <h3>Sort</h3>
+           
+            <div>
+                <label>Price: </label>
+                <label>
+            <input type="radio" name="sortPrice" value="ascending" v-model="sortPrice">
+            Ascending
+        </label>
+        <label>
+            <input type="radio" name="sortPrice" value="descending" v-model="sortPrice">
+            Descending
+        </label>
+        <label>
+            <input type="radio" name="sortPrice" value="unordered" v-model="sortPrice">
+            Unordered
+        </label>
+            </div>
+            <div>
+                <label>Date: </label>
+                <label>
+            <input type="radio" name="sortDate" value="ascending" v-model="sortDate">
+            Ascending
+        </label>
+        <label>
+            <input type="radio" name="sortDate" value="descending" v-model="sortDate">
+            Descending
+        </label>
+        <label>
+            <input type="radio" name="sortDate" value="unordered" v-model="sortDate">
+            Unordered
+        </label>
+            </div>
+            
+        </div>
+        <div class="btn-container">
+        <button class="btn btn-success press-btn1" @click.prevent="sort()">Sort</button>
+        <button class="btn btn-success press-btn1" @click.prevent="refresh()">Refresh</button>
+        </div>
 
         <form v-bind:hidden="rejectClicked === 'NOT_CLICKED'">
             <table>
@@ -13,32 +54,36 @@
             </table>
         </form>
 
-        <table v-for="o in orders">
-            <tr>
-                <td>Order id: </td>
-                <td>{{ o.id }}</td>
-            </tr>
-
-           
-            <tr>
-                <td>Status: </td>
-                <td>{{ o.status }}</td>
-            </tr>
-
-            <tr>
-                <td>Price: </td>
-                <td>{{ o.price }}</td>
-            </tr>
-            
-            <tr>
-                <td><button v-on:click="viewOrderItems(o.id)">View</button></td>
-                <td><button v-if="o.status === 'PENDING'" v-on:click="approveOrder(o.id)">Approve</button></td>
-                <td><button v-if="o.status === 'PENDING'" v-on:click="rejectClick(o.id)">Reject</button></td>
-            </tr>
+        
+        <div class="table">
+            <table id="orders">
+                <tr>
+                    <th>Order id </th>
+                    <th>Factory </th>
+                    <th>Date </th>
+                    <th>Status </th>
+                    <th>Price </th>
+                    <th> </th>
+                    <th> </th>
+                    <th> </th>
+    
+                </tr>
+    
+                <tr  v-for="o in orders">
+                   <td>{{ o.id }}</td>
+                    <td>{{ o.factoryName }}</td>
+                    <td>{{ getDate(o.dateTime) }}</td>
+                    <td>{{ o.status }}</td>
+                    <td>{{ o.price }}</td>
+                    <td><button v-on:click="viewOrderItems(o.id)">View</button></td>
+                    <td><button v-if="o.status === 'PENDING'" v-on:click="approveOrder(o.id)">Approve</button></td>
+                    <td><button v-if="o.status === 'PENDING'" v-on:click="rejectClick(o.id)">Reject</button></td>
+                </tr>
+    
+               
+            </table>
          
-
-           
-        </table>
+        </div>
      
     </div>
 
@@ -57,6 +102,9 @@ const comment = ref("");
 const rejectClicked = ref("NOT_CLICKED");
 const rejectionId = ref("");
 const chocolates = ref([]);
+
+const sortPrice = ref('unordered');
+const sortDate = ref('unordered');
 
 onMounted(() => {
     loadUser();
@@ -81,10 +129,27 @@ function loadUser(){
 
 }
 
+
+
 const orders = ref([])
 
 onMounted(() => { loadManagerOrders(); })
 
+function getDate(dateStr)
+{
+   const date = new Date(dateStr);
+
+   const year = date.getFullYear();
+   const month = ('0' + (date.getMonth() + 1)).slice(-2); 
+    const day = ('0' + date.getDate()).slice(-2);
+    const hours = ('0' + date.getHours()).slice(-2);
+    const minutes = ('0' + date.getMinutes()).slice(-2);
+
+    
+    const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}`;
+
+    return formattedDate;
+}
 
 function loadFactoryId()
 {
@@ -138,16 +203,119 @@ function approveOrder(orderId)
   
 }
 
+function sort()
+{
+
+         
+       
+         if(sortPrice.value === 'ascending')
+        {
+           
+           
+            orders.value.sort((a, b) => a.price - b.price); 
+        }
+        else if(sortPrice.value === 'descending')
+        {
+            orders.value.sort((a, b) => b.price - a.price)
+        }
+
+        if (sortDate.value === 'ascending') {
+    orders.value.sort((a, b) => {
+        const dateA = new Date(a.dateTime);
+        const dateB = new Date(b.dateTime);
+        return dateA - dateB;
+    });
+} else if (sortDate.value === 'descending') {
+    orders.value.sort((a, b) => {
+        const dateA = new Date(a.dateTime);
+        const dateB = new Date(b.dateTime);
+        return dateB - dateA;
+    });
+
+  
+  }
+
+
+}
+
+function refresh()
+{
+    loadManagerOrders();
+}
+
+
 </script>
 <style scoped>
 
-div {
+
+table {
+    border: 1px solid black;
+    justify-items: left;
+}
+
+.container{
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-table {
+
+#orders {
     border: 1px solid black;
-    justify-items: left;
+   
+    background-color: white;
+}
+
+.sort {
+    font-family: Arial, sans-serif;
+   
+    text-align: left
+}
+
+.sort h3 {
+    font-size: 24px;
+   
+}
+
+.sort div {
+    margin-bottom: 10px;
+}
+
+.sort label {
+    display: inline-block;
+   
+}
+
+.sort label:first-child {
+    font-weight: bold;
+   
+}
+
+.table{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+
+.sort label input[type="radio"] + label {
+    font-weight: normal;
+}
+
+
+.press-btn1 {
+    background-color: #5a086a;
+    border: none;
+    color: white;
+    margin-right: 10px; /* Adjust as needed */
+    width: 80px;
+}
+
+
+
+.container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 </style>
