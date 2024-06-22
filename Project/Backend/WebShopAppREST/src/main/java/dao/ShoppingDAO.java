@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 import org.apache.catalina.User;
 
 import beans.Chocolate;
+import beans.RejectedOrder;
 import beans.Shopping;
 import beans.ShoppingCart;
 import enums.Role;
@@ -29,6 +30,9 @@ public class ShoppingDAO {
 	private String path = "";
 	private UserDAO userDao;
 	private ShoppingCartDAO cartDao;
+	private RejectedOrderDAO rejectionDao;
+	private ChocolateDAO chocolateDao;
+	
 	 private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 	 
 	public ShoppingDAO(String contextPath)
@@ -37,6 +41,9 @@ public class ShoppingDAO {
 		path = contextPath;
 		
 	}
+	
+	
+	
 	
 	public Collection<Shopping> findAll()
 	{
@@ -69,12 +76,12 @@ public class ShoppingDAO {
 		beans.User user = userDao.findByUsername(username);
 		
 		ArrayList<Integer> chocolateIds = cart.getChocolateIds();
-		if(chocolateIds.size() == 0)
+		/*if(chocolateIds.size() == 0)
 			return null;
 		
 		ArrayList<Integer> uniqueChocolateIds = removeDuplicates(chocolateIds);
-		
-		order.setChocolateIds(uniqueChocolateIds);
+		*/
+		order.setChocolateIds(chocolateIds);
 		
 		order.setFactoryId(cart.getFactoryId());
 		order.setDateTime(LocalDateTime.now());
@@ -117,6 +124,30 @@ public class ShoppingDAO {
 		{
 			order.setStatus(ShoppingStatus.APPROVED);
 			saveBuys(path);
+		}
+		
+	}
+	
+	public void rejectOrder(String orderId, String comment)
+	{
+	  Shopping order = buys.containsKey(orderId) ? buys.get(orderId) : null;
+		
+		if(order != null)
+		{
+			order.setStatus(ShoppingStatus.REJECTED);
+			
+			saveBuys(path);
+			
+			rejectionDao = new RejectedOrderDAO(path);
+			RejectedOrder rejection = new RejectedOrder();
+			rejection.setOrderId(orderId);
+			rejection.setComment(comment);
+			
+			rejectionDao.addCancellation(rejection);
+			
+		    
+			
+			
 		}
 		
 	}
@@ -254,6 +285,19 @@ public class ShoppingDAO {
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Invalid status: " + input);
         }
+	}
+
+
+
+
+	public Shopping findById(String orderId) {
+		// TODO Auto-generated method stub
+		for(Shopping b: buys.values())
+		{
+			if(b.getId().equals(orderId))
+				return b;
+		}
+		return null;
 	}
 
 }

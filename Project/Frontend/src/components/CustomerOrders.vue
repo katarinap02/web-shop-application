@@ -76,6 +76,10 @@ function cancelOrder(order)
 {
     axios.get("http://localhost:8080/WebShopAppREST/rest/buys/cancel/" + order.id)
     .then(response => { alert("Success!");
+
+    axios.get("http://localhost:8080/WebShopAppREST/rest/chocolates/increaseamount/" + order.id)
+      .then(response => {alert("Increased amount"); })
+      .catch(error => {alert("Nije uspelo");});
   
 
     axios.post("http://localhost:8080/WebShopAppREST/rest/decreasepoints/?username=" + user.value.username + "&price=" + order.price)
