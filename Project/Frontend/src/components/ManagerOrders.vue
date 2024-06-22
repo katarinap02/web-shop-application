@@ -3,6 +3,45 @@
     <h1>Factory orders</h1>
     <div class="container">
 
+        
+        <div class="search">
+            <h3>Search</h3>
+           
+            <form>
+                <div>
+                    <label>Start price: </label>
+                   
+                <input type="number" name="searchStartPrice"  v-model="searchStartPrice" required>
+              
+            <label>
+                End price: 
+                </label>
+                <input type="number" name="searchEndPrice"  v-model="searchEndPrice" required>
+                
+            </div>
+           
+                <div>
+                    <label> Start date: </label>
+                   
+                <input type="date" name="searchStartDate"  v-model="searchStartDate" required>
+               
+                
+                <label> End date: </label>
+                   
+                <input type="date" name="searchEndDate"  v-model="searchEndDate" required>
+           
+                </div>
+                
+            
+            <div class="btn-container">
+            <button type="submit" class="btn btn-success press-btn1" @click.prevent="search()">Search</button>
+          
+            </div>
+
+
+            </form>
+           
+    </div>
        
         <div class="sort">
             <h3>Sort</h3>
@@ -105,6 +144,14 @@ const chocolates = ref([]);
 
 const sortPrice = ref('unordered');
 const sortDate = ref('unordered');
+
+const searchStartPrice = ref(0);
+const searchEndPrice = ref(0);
+
+const searchStartDate = ref("");
+const searchEndDate = ref("");
+const searchFactoryName = ref("");
+
 
 onMounted(() => {
     loadUser();
@@ -243,6 +290,14 @@ function refresh()
     loadManagerOrders();
 }
 
+function search()
+{
+
+    
+    
+    axios.get("http://localhost:8080/WebShopAppREST/rest/buys/searchmanager/?name=" + searchFactoryName.value + "&startprice=" + searchStartPrice.value + "&endprice=" + searchEndPrice.value + "&startdate=" + searchStartDate.value + "&enddate=" + searchEndDate.value + "&managername=" + user.value.username)
+    .then(response => { orders.value = response.data; })
+}
 
 </script>
 <style scoped>

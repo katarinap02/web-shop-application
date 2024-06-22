@@ -110,6 +110,21 @@ public class ShoppingService {
 		
 	}
 	
+	@GET
+	@Path("/searchmanager")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<Shopping> searchShoppingsManager(@QueryParam("name") String factoryName, @QueryParam("startprice") String startPrice, @QueryParam("endprice") String endPrice, @QueryParam("startdate") String startDate, @QueryParam("enddate") String endDate, @QueryParam("managername") String managername)
+	{
+		ShoppingDAO dao = (ShoppingDAO) ctx.getAttribute("shoppingDAO");
+		return dao.searchShoppingsManager(factoryName, Double.parseDouble(startPrice), Double.parseDouble(endPrice), startDate, endDate, managername);
+	}
 	
-
+	@GET
+	@Path("/searchcustomer")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<Shopping> searchShoppingsCustomer(@QueryParam("name") String factoryName, @QueryParam("startprice") String startPrice, @QueryParam("endprice") String endPrice, @QueryParam("startdate") String startDate, @QueryParam("enddate") String endDate, @QueryParam("customername") String customername)
+	{
+		ShoppingDAO dao = (ShoppingDAO) ctx.getAttribute("shoppingDAO");
+		return dao.searchShoppingsCustomer(factoryName, Double.parseDouble(startPrice), Double.parseDouble(endPrice), startDate, endDate, customername);
+	}
 }

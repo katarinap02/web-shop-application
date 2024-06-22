@@ -5,6 +5,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -293,7 +294,27 @@ public class ShoppingDAO {
 	}
 
 
-
+   public Collection<Shopping> searchShoppingsManager(String factoryName, double startPrice, double endPrice, String startDate, String endDate, String managerName)
+   {
+	   
+	 
+	   LocalDate convertedStartDate = LocalDate.parse(startDate);
+	   LocalDate convertedEndDate = LocalDate.parse(endDate);
+	   userDao = new UserDAO(path);
+	   beans.User manager = userDao.findByUsername(managerName);
+	
+	   return buys.values().stream().filter(x -> x.getFactoryName().toLowerCase().contains(factoryName.toLowerCase()) && x.getPrice() >= startPrice && x.getPrice() <= endPrice && x.getDateTime().toLocalDate().isAfter(convertedStartDate)  && x.getDateTime().toLocalDate().isBefore(convertedEndDate)  && x.getFactoryId() == manager.getFactory().getId()).collect(Collectors.toList());
+   }
+   
+   public Collection<Shopping> searchShoppingsCustomer(String factoryName, double startPrice, double endPrice, String startDate, String endDate, String customerName)
+   {
+	   
+	 
+	   LocalDate convertedStartDate = LocalDate.parse(startDate);
+	   LocalDate convertedEndDate = LocalDate.parse(endDate);
+	
+	   return buys.values().stream().filter(x -> x.getFactoryName().toLowerCase().contains(factoryName.toLowerCase()) && x.getPrice() >= startPrice && x.getPrice() <= endPrice && x.getDateTime().toLocalDate().isAfter(convertedStartDate)  && x.getDateTime().toLocalDate().isBefore(convertedEndDate)  && x.getUsername().equals(customerName)).collect(Collectors.toList());
+   }
 
 	public Shopping findById(String orderId) {
 		// TODO Auto-generated method stub
