@@ -266,7 +266,7 @@ function sort()
 if(sortFactoryName.value === 'ascending')
         {
            
-            orders.value.sort((a, b) => a.factoryName.localeCompare(b.factoryName)); 
+            orders.value.sort((a, b) => a.factoryName.toLowerCase().localeCompare(b.factoryName.toLowerCase())); 
         }
         else if(sortFactoryName.value === 'descending')
         {

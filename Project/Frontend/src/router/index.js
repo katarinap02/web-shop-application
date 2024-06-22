@@ -14,7 +14,7 @@ import CustomerOrdersView from '../views/CustomerOrdersView.vue';
 import ManagerOrdersView from '../views/ManagerOrdersView.vue';
 import ViewProfileView from '../views/ViewProfileView.vue';
 import ViewUsersView from '../views/ViewUsersView.vue';
-
+import AllUsersView from '../views/AllUsersView.vue';
 const routes = [
   {
     path: "/",
@@ -97,6 +97,11 @@ const routes = [
     name: "FactoryOrders",
     component: ManagerOrdersView
   },
+  {
+    path: "/allusers",
+    name: "AllUsers",
+    component: AllUsersView
+  }
 ];
 
 const router = createRouter({

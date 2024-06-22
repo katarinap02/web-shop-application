@@ -34,6 +34,9 @@
               <li v-if="user.role === 'MANAGER'">
                 <a class="nav-link" href="#/factoryorders">Manage orders</a>
               </li>
+              <li v-else-if="user.role === 'ADMINISTRATOR'">
+                <a class="nav-link" href="#/allusers">All users</a>
+              </li>
               <li class="nav-item" v-if="!user">
                 <a class="nav-link" href="#/login">Log in</a>
               </li>
