@@ -9,10 +9,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.StringTokenizer;
 
 import beans.Chocolate;
 import beans.ChocolateFactory;
+import beans.Shopping;
 import beans.User;
 import enums.Gender;
 import enums.Role;
@@ -24,7 +26,7 @@ public class ChocolateDAO {
 //	Gson gson = new Gson();
 
 	private String path = "";
-	
+	private ShoppingDAO shoppingDao;
 	public ChocolateDAO(String contextPath)
 	{
 		loadChocolates(contextPath);
@@ -52,6 +54,45 @@ public class ChocolateDAO {
 		chocolates.remove(id);
 		saveChocolates(path);
 		return c;
+	}
+	
+	public void increaseChocolateAmount(String orderId)
+	{
+       
+		shoppingDao = new ShoppingDAO(path);
+		 Shopping order = shoppingDao.findById(orderId);
+		
+		
+		if(order != null)
+		{
+			List<Integer> chocolateIds = order.getChocolateIds();
+	        HashMap<Integer, Integer> counts = new HashMap<>();
+			
+			
+			for(int id : chocolateIds)
+			{
+				counts.put(id, counts.getOrDefault(id, 0) + 1);
+			}
+			
+			 for (HashMap.Entry<Integer, Integer> entry : counts.entrySet()) {
+		            System.out.println("Element: " + entry.getKey() + ", Count: " + entry.getValue());
+		            
+		            for(Chocolate choco : chocolates.values())
+		            {
+		            	if(choco.getId() == entry.getKey())
+		            	{
+		            		choco.setNumber(choco.getNumber() + entry.getValue());
+		            		
+		            		updateChocolate(choco.getId(), choco);
+		            	}
+		            }
+		        }
+			 
+			 
+			 
+			
+		}
+		
 	}
 	
 	public Chocolate addChocolate(Chocolate chocolate)
@@ -97,9 +138,9 @@ public class ChocolateDAO {
 		return chocolate;
 	}
 
-	public Chocolate updateChocolate(String id, Chocolate chocolate)
+	public Chocolate updateChocolate(int id, Chocolate chocolate)
 	{
-		int key = Integer.parseInt(id);
+		int key = id;
 		Chocolate c = chocolates.containsKey(key) ? chocolates.get(key) : null;
 		chocolate = validateChocolate(chocolate);
 		
@@ -214,6 +255,7 @@ public class ChocolateDAO {
 
 	public Collection<Chocolate> findByFactoryId(int id) {
 		// TODO Auto-generated method stub
+		
 		ArrayList<Chocolate> tmpList = new ArrayList<>();
 		for(Chocolate c: chocolates.values())
 		{

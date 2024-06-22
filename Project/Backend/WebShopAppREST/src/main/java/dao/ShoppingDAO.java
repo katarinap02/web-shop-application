@@ -31,6 +31,7 @@ public class ShoppingDAO {
 	private UserDAO userDao;
 	private ShoppingCartDAO cartDao;
 	private RejectedOrderDAO rejectionDao;
+	private ChocolateDAO chocolateDao;
 	
 	 private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 	 
@@ -40,6 +41,9 @@ public class ShoppingDAO {
 		path = contextPath;
 		
 	}
+	
+	
+	
 	
 	public Collection<Shopping> findAll()
 	{
@@ -140,6 +144,8 @@ public class ShoppingDAO {
 			rejection.setComment(comment);
 			
 			rejectionDao.addCancellation(rejection);
+			
+		    
 			
 			
 		}
@@ -279,6 +285,19 @@ public class ShoppingDAO {
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Invalid status: " + input);
         }
+	}
+
+
+
+
+	public Shopping findById(String orderId) {
+		// TODO Auto-generated method stub
+		for(Shopping b: buys.values())
+		{
+			if(b.getId().equals(orderId))
+				return b;
+		}
+		return null;
 	}
 
 }

@@ -28,6 +28,7 @@ import javax.ws.rs.core.Response;
 import beans.Chocolate;
 import beans.User;
 import dao.ChocolateDAO;
+import dao.ShoppingDAO;
 import dao.UserDAO;
 
 @Path("/chocolates")
@@ -74,7 +75,7 @@ public class ChocolateService {
 	@POST
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Chocolate updateChocolate(@PathParam("id") String id, Chocolate chocolate)
+	public Chocolate updateChocolate(@PathParam("id") int id, Chocolate chocolate)
 	{
 		ChocolateDAO chocolateDao = (ChocolateDAO) ctx.getAttribute("chocolateDAO");
 		return chocolateDao.updateChocolate(id, chocolate);
@@ -122,6 +123,15 @@ public class ChocolateService {
 		return true;
 	}
 	
+	@GET
+	@Path("/increaseamount/{orderId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public void increaseChocolateAmount(@PathParam("orderId") String orderId)
+	{
+		ChocolateDAO dao = (ChocolateDAO) ctx.getAttribute("chocolateDAO");
+		dao.increaseChocolateAmount(orderId);
+		
+	}
 
 	
 	
