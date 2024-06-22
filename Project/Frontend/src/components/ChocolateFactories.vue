@@ -34,7 +34,59 @@
     <button class="btn btn-success press-btn" @click.prevent="goToCreateFactory()">Create factory</button>
     <button class="btn btn-success press-btn" @click="deleteSelectedFactory()">Delete factory</button>
     </div>
-
+    <div class="sort">
+        <h3>Sort</h3>
+        <div>
+            <label>Factory name:</label>
+            <label>
+        <input type="radio" name="sortName" value="ascending" v-model="sortFactoryName">
+        Ascending
+    </label>
+    <label>
+        <input type="radio" name="sortName" value="descending" v-model="sortFactoryName">
+        Descending
+    </label>
+    <label>
+        <input type="radio" name="sortName" value="unordered" v-model="sortFactoryName" >
+        Unordered
+    </label>
+        </div>
+        <div>
+            <label>Location:</label>
+            <label>
+        <input type="radio" name="sortLocation" value="ascending" v-model="sortLocation">
+        Ascending
+    </label>
+    <label>
+        <input type="radio" name="sortLocation" value="descending" v-model="sortLocation">
+        Descending
+    </label>
+    <label>
+        <input type="radio" name="sortLocation" value="unordered" v-model="sortLocation">
+        Unordered
+    </label>
+        </div>
+        <div>
+            <label>Average rating:</label>
+            <label>
+        <input type="radio" name="sortGrade" value="ascending" v-model="sortRating">
+        Ascending
+    </label>
+    <label>
+        <input type="radio" name="sortGrade" value="descending" v-model="sortRating">
+        Descending
+    </label>
+    <label>
+        <input type="radio" name="sortGrade" value="unordered" v-model="sortRating">
+        Unordered
+    </label>
+        </div>
+        
+    </div>
+    <div class="btn-container">
+    <button class="btn btn-success press-btn1" @click.prevent="sort()">Sort</button>
+    <button class="btn btn-success press-btn1" @click.prevent="refresh()">Refresh</button>
+    </div>
    
 </template>
 
@@ -44,12 +96,16 @@ import axios from 'axios';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
-const factories = ref('');
+const factories = ref([]);
+const factoriesSort = ref('')
 const factoriesAdress = ref({logo: "", name: "", location: "", average: ""})
 const router = useRouter();
 const user = ref('');
 const carts = ref([]);
 const usernameData = ref(localStorage.getItem('userData'));
+const sortFactoryName = ref('unordered');
+const sortLocation = ref('unordered');
+const sortRating = ref('unordered');
 
 
 
@@ -142,6 +198,47 @@ function deleteSelectedFactory()
     }
 }
 
+//---------------------------OVDE KRECE SORT-----------------------------------------
+
+function sort()
+{
+
+         const getThirdWord = (address) => {
+    const words = address.split(' ');
+    return words.length >= 3 ? words[2] : '';
+};
+
+if (sortLocation.value === 'ascending') {
+    factories.value.sort((a, b) => {
+        const wordA = getThirdWord(a.location.address).toLowerCase();
+        const wordB = getThirdWord(b.location.address).toLowerCase();
+        return wordA.localeCompare(wordB);
+    });
+}
+else if(sortLocation.value === 'descending')
+{
+    factories.value.sort((a, b) => {
+        const wordA = getThirdWord(a.location.address).toLowerCase();
+        const wordB = getThirdWord(b.location.address).toLowerCase();
+        return wordB.localeCompare(wordA);
+    });
+}
+
+         if(sortFactoryName.value === 'ascending')
+        {
+            factories.value.sort((a, b) => a.name.localeCompare(b.name)); 
+        }
+        else if(sortFactoryName.value === 'descending')
+        {
+            factories.value.sort((a, b) => b.name.toLowerCase().localeCompare(a.name.toLowerCase()))
+        }
+}
+
+function refresh()
+{
+    loadFactories();
+}
+
 
 
 
@@ -228,5 +325,55 @@ template {
 .selected {
     background-color: rgb(245, 195, 128); /* Change to your desired highlight color */
 }
+
+.sort {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            margin-right: 380px;
+            text-align: left
+        }
+
+        .sort h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            margin-left: 200px;
+        }
+
+        .sort div {
+            margin-bottom: 10px;
+        }
+
+        .sort label {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .sort label:first-child {
+            font-weight: bold;
+            margin-right: 15px;
+        }
+
+        .sort input[type="radio"] {
+            margin-right: 5px;
+        }
+
+        .sort label input[type="radio"] + label {
+            font-weight: normal;
+        }
+
+        
+    .press-btn1 {
+            background-color: #5a086a;
+            border: none;
+            color: white;
+            margin-right: 10px; /* Adjust as needed */
+            width: 80px;
+        }
+
+        .btn-container {
+            display: flex; /* Use flexbox for horizontal layout */
+            margin-right: 380px; /* Adjust margin for spacing */
+        }
+
 
 </style>
