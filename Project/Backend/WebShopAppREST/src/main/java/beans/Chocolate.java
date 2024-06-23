@@ -11,7 +11,7 @@ public class Chocolate {
 	private double grams;
 	private String description;
 	private String imageUrl;
-	private Boolean status;
+	private Boolean status; 
     private int number; // broj cokolada na stanju
 	public Chocolate() {
 		super();

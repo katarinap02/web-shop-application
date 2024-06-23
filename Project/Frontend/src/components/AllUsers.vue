@@ -79,7 +79,7 @@
                     <th>Points</th>
                     <th>Role</th>
                 </tr>
-                <tr v-for="u in users">
+                <tr v-for="u in users" :key="u.username">
                     <td>{{ u.username }}</td>
                     <td>{{ u.name }}</td>
                     <td>{{ u.surname }}</td>

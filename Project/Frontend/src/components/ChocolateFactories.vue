@@ -1,40 +1,6 @@
 <template>
-    <div class="tabela">
-       
-        <table>
-            <tr>
-                <th colspan="5">
-            <div class="header-content">
-              <span class="title">Chocolate factories</span>
-            </div>
-        </th>
-            </tr>
-            <tr>
-                <th>Logo</th>
-                <th>Name</th>
-                <th>Location</th>
-                <th>Average rating</th>
-                <th> </th>
-            </tr>
-            <tr v-for="b in factories" :key="b.id" :class="{ selected: selectedFactory && selectedFactory.id === b.id }" @click="selectFactory(b)">
-                <td>
-            <img :src="b.logoUrl" alt="Factory Logo" style="width: 50px; height: 50px;">
-          </td>
-                <td>{{b.name}}</td>
-                <td>{{b.location.latitude }} {{b.location.longitude }} {{b.location.address}}</td>
-                <td>{{ b.rate !== -1 ? b.rate : '' }}</td>
-
-                <td><button class="btn btn-success show-btn" v-on:click="showFactory(b.id)">Show</button></td>
-
-            </tr>
-        </table>
-        
-    </div>
-    <div v-if="user.role === 'ADMINISTRATOR'">
-    <button class="btn btn-success press-btn" @click.prevent="goToCreateFactory()">Create factory</button>
-    <button class="btn btn-success press-btn" @click="deleteSelectedFactory()">Delete factory</button>
-    </div>
-    <div class="sort">
+<div class="function">
+ <div class="sort">
         <h3>Sort</h3>
         <div>
             <label>Factory name:</label>
@@ -80,13 +46,84 @@
         <input type="radio" name="sortGrade" value="unordered" v-model="sortRating">
         Unordered
     </label>
-        </div>
-        
-    </div>
     <div class="btn-container">
     <button class="btn btn-success press-btn1" @click.prevent="sort()">Sort</button>
     <button class="btn btn-success press-btn1" @click.prevent="refresh()">Refresh</button>
     </div>
+        </div>
+        
+    </div>
+    
+
+    <div class="filter">
+        <h3>Filter</h3>
+        <label for="combo1">Kind of chocolate:</label>
+    <select id="combo1" name="combo1" v-model="kindFilter">
+        <option value="all">All</option>
+        <option value="ordinary">Ordinary</option>
+        <option value="for eating">For eating</option>
+        <option value="for cooking">For cooking</option>
+        <option value="for drinking">For drinking</option>
+    </select><br>
+
+    <label for="combo2">Type of chocolate:</label>
+    <select id="combo2" name="combo2" v-model="typeFilter">
+        <option value="all">All</option>
+        <option value="dark">Dark</option>
+        <option value="white">White</option>
+        <option value="milk">Milk</option>
+        <option value="mixed">Mixed</option>
+    </select><br>
+
+    <label for="combo3">Opened:</label>
+    <select id="combo3" name="combo3" v-model="opnenedFilter">
+        <option value="all">All</option>
+        <option value="true">Yes</option>
+        <option value="option2">No</option>
+    </select><br>
+
+    <button class="btn btn-success press-btn1" @click="filterChocolate()">Filter</button>
+
+    </div>
+</div>
+
+    <div class="tabela">
+       
+        <table>
+            <tr>
+                <th colspan="5">
+            <div class="header-content">
+              <span class="title">Chocolate factories</span>
+            </div>
+        </th>
+            </tr>
+            <tr>
+                <th>Logo</th>
+                <th>Name</th>
+                <th>Location</th>
+                <th>Average rating</th>
+                <th> </th>
+            </tr>
+            <tr v-for="b in factories" :key="b.id" :class="{ selected: selectedFactory && selectedFactory.id === b.id }" @click="selectFactory(b)">
+                <td>
+            <img :src="b.logoUrl" alt="Factory Logo" style="width: 50px; height: 50px;">
+          </td>
+                <td>{{b.name}}</td>
+                <td>{{b.location.latitude }} {{b.location.longitude }} {{b.location.address}}</td>
+                <td>{{ b.rate !== -1 ? b.rate : '' }}</td>
+
+                <td><button class="btn btn-success show-btn" v-on:click="showFactory(b.id)">Show</button></td>
+
+            </tr>
+        </table>
+        
+    </div>
+    <div v-if="user.role === 'ADMINISTRATOR'">
+    <button class="btn btn-success press-btn" @click.prevent="goToCreateFactory()">Create factory</button>
+    <button class="btn btn-success press-btn" @click="deleteSelectedFactory()">Delete factory</button>
+    </div>
+   
+    
    
 </template>
 
@@ -106,6 +143,12 @@ const usernameData = ref(localStorage.getItem('userData'));
 const sortFactoryName = ref('unordered');
 const sortLocation = ref('unordered');
 const sortRating = ref('unordered');
+
+const kindFilter = ref('all');
+const typeFilter = ref('all');
+const opnenedFilter = ref('all');
+const chocolates = ref([]);
+const copyFactory = ref([]);
 
 
 
@@ -130,7 +173,7 @@ const selectedFactory = ref(null);
 
 onMounted(() => {
     loadFactories();
-   
+    loadChocolates();
     resetCarts();
    
 
@@ -155,12 +198,26 @@ function loadFactories()
         if(response.data != "")
         {
             factories.value = response.data;
+            copyFactory.value = response.data;
         }
         else {
             factories.value = '';
         }
         usernameData.value = localStorage.getItem('userData');
         loadUser();
+    })
+}
+
+function loadChocolates()
+{
+    axios.get('http://localhost:8080/WebShopAppREST/rest/chocolates').then(response => {
+        if(response.data != "")
+        {
+            chocolates.value = response.data;
+        }
+        else {
+            chocolates.value = '';
+        }
     })
 }
 
@@ -203,7 +260,7 @@ function deleteSelectedFactory()
 function sort()
 {
 
-         const getThirdWord = (address) => {
+    const getThirdWord = (address) => {
     const words = address.split(' ');
     return words.length >= 3 ? words[2] : '';
 };
@@ -239,6 +296,38 @@ function refresh()
     loadFactories();
 }
 
+function filterChocolate()
+{
+    factories.value = copyFactory.value;
+   const uniqueChocolates = new Set();
+   const uniqueFactories = new Set();
+
+if (this.kindFilter === 'all' && this.typeFilter === 'all' && this.opnenedFilter === 'all') {
+    refresh();
+} else {
+    this.chocolates.forEach(chocolate => {
+        let kindMatches = this.kindFilter === 'all' || chocolate.kind === this.kindFilter;
+        let typeMatches = this.typeFilter === 'all' || chocolate.type === this.typeFilter; 
+        let openedMatches = this.opnenedFilter === 'all' || chocolate.opened === this.opnenedFilter; 
+
+        if (kindMatches && typeMatches && openedMatches) {
+            uniqueChocolates.add(chocolate.factory);
+        }
+    });
+
+  
+    this.factories.forEach(factory => {
+        if (uniqueChocolates.has(factory.id)) {
+            uniqueFactories.add(factory);
+        }
+    });
+
+    // Update the factories list
+    factories.value = Array.from(uniqueFactories);
+}
+
+                 
+ }
 
 
 
@@ -326,10 +415,9 @@ template {
     background-color: rgb(245, 195, 128); /* Change to your desired highlight color */
 }
 
-.sort {
+.function .sort {
             font-family: Arial, sans-serif;
             margin: 20px;
-            margin-right: 380px;
             text-align: left
         }
 
@@ -337,6 +425,12 @@ template {
             font-size: 24px;
             margin-bottom: 10px;
             margin-left: 200px;
+        }
+
+        .filter h3 {
+            font-size: 24px;
+            margin-top: 30px;
+            
         }
 
         .sort div {
@@ -372,8 +466,19 @@ template {
 
         .btn-container {
             display: flex; /* Use flexbox for horizontal layout */
-            margin-right: 380px; /* Adjust margin for spacing */
+            height: 30px;
+            
         }
 
+        .container {
+        display: flex;
+        justify-content: space-between;
+    }
+
+
+.function{
+    display: flex;
+    justify-content: horizontal;
+}
 
 </style>

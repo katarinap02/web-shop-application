@@ -21,7 +21,7 @@ import Navbar from '@/components/basic-components/Navbar.vue';
    .table-container{
     display: flex;
     flex-direction: column;
-    margin-top: 70px;
+    margin-top: 10px;
     align-items: center;
     
    }
