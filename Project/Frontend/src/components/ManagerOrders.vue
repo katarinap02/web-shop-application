@@ -108,7 +108,7 @@
     
                 </tr>
     
-                <tr  v-for="o in orders">
+                <tr  v-for="o in orders" :key="o.id">
                    <td>{{ o.id }}</td>
                     <td>{{ o.factoryName }}</td>
                     <td>{{ getDate(o.dateTime) }}</td>
@@ -145,8 +145,8 @@ const chocolates = ref([]);
 const sortPrice = ref('unordered');
 const sortDate = ref('unordered');
 
-const searchStartPrice = ref(0);
-const searchEndPrice = ref(0);
+const searchStartPrice = ref("");
+const searchEndPrice = ref("");
 
 const searchStartDate = ref("");
 const searchEndDate = ref("");
@@ -211,6 +211,13 @@ function loadManagerOrders()
     factoryId.value = response.data; 
     axios.get("http://localhost:8080/WebShopAppREST/rest/buys/manager/" + factoryId.value)
     .then(response => {  console.log(response.data); orders.value = response.data});
+
+    searchStartPrice.value = "";
+    searchEndPrice.value = "";
+
+    searchStartDate.value = "";
+    searchEndDate.value = "";
+    searchFactoryName.value = "";
 
 })
   
@@ -293,7 +300,9 @@ function refresh()
 function search()
 {
 
-    
+    console.log(searchFactoryName.value);
+    console.log(searchEndDate.value);
+    console.log(searchEndPrice.value);
     
     axios.get("http://localhost:8080/WebShopAppREST/rest/buys/searchmanager/?name=" + searchFactoryName.value + "&startprice=" + searchStartPrice.value + "&endprice=" + searchEndPrice.value + "&startdate=" + searchStartDate.value + "&enddate=" + searchEndDate.value + "&managername=" + user.value.username)
     .then(response => { orders.value = response.data; })

@@ -294,26 +294,132 @@ public class ShoppingDAO {
 	}
 
 
-   public Collection<Shopping> searchShoppingsManager(String factoryName, double startPrice, double endPrice, String startDate, String endDate, String managerName)
+   public Collection<Shopping> searchShoppingsManager(String factoryName, String startPriceStr, String endPriceStr, String startDate, String endDate, String managerName)
    {
-	   
-	 
-	   LocalDate convertedStartDate = LocalDate.parse(startDate);
-	   LocalDate convertedEndDate = LocalDate.parse(endDate);
+	   List<Shopping> result = new ArrayList<>();
 	   userDao = new UserDAO(path);
 	   beans.User manager = userDao.findByUsername(managerName);
+	   boolean matchesPriceRange = false;
+	   boolean matchesDateRange = false;
+	   boolean matchesFactoryName = false;
+	   
+	   
+	   for (Shopping x : buys.values()) {
+		   if(factoryName != null && factoryName != "")
+		   {
+			   matchesFactoryName = x.getFactoryName().toLowerCase().contains(factoryName.toLowerCase()) || factoryName == "";
+		   }
+		   else {
+			   matchesFactoryName = true;
+		   }
+           
+           if(startPriceStr == null && endPriceStr == null)
+           {
+        	   matchesPriceRange = true;
+           }
+           else if(startPriceStr == null)
+           {
+        	   matchesPriceRange = Double.parseDouble(endPriceStr) >= x.getPrice();
+           }
+           else if(endPriceStr == null)
+           {
+        	   matchesPriceRange = Double.parseDouble(startPriceStr) <= x.getPrice();
+           }
+           else {
+        	   matchesPriceRange = x.getPrice() >= Double.parseDouble(startPriceStr) && x.getPrice() <= Double.parseDouble(endPriceStr);
+           }
+           
+           if(startDate == null && endDate == null)
+           {
+        	   matchesDateRange = true;
+           }
+           else if(startDate == null)
+           {
+        	   matchesDateRange = x.getDateTime().toLocalDate().isBefore(LocalDate.parse(endDate));
+           }
+           else if(endDate == null)
+           {
+        	   matchesDateRange = x.getDateTime().toLocalDate().isAfter(LocalDate.parse(startDate));
+           }
+           else {
+        	   matchesDateRange = x.getDateTime().toLocalDate().isAfter(LocalDate.parse(startDate)) && x.getDateTime().toLocalDate().isBefore(LocalDate.parse(endDate));
+           }
+
+           boolean matchesFactoryId = x.getFactoryId() == manager.getFactory().getId();
+           
+           if (matchesFactoryName && matchesPriceRange && matchesDateRange && matchesFactoryId) {
+               result.add(x);
+           }
+       }
+       
+       return result;
 	
-	   return buys.values().stream().filter(x -> x.getFactoryName().toLowerCase().contains(factoryName.toLowerCase()) && x.getPrice() >= startPrice && x.getPrice() <= endPrice && x.getDateTime().toLocalDate().isAfter(convertedStartDate)  && x.getDateTime().toLocalDate().isBefore(convertedEndDate)  && x.getFactoryId() == manager.getFactory().getId()).collect(Collectors.toList());
+	  // return buys.values().stream().filter(x -> x.getFactoryName().toLowerCase().contains(factoryName.toLowerCase()) && x.getPrice() >= startPrice && x.getPrice() <= endPrice && x.getDateTime().toLocalDate().isAfter(convertedStartDate)  && x.getDateTime().toLocalDate().isBefore(convertedEndDate)  && x.getFactoryId() == manager.getFactory().getId()).collect(Collectors.toList());
    }
    
-   public Collection<Shopping> searchShoppingsCustomer(String factoryName, double startPrice, double endPrice, String startDate, String endDate, String customerName)
+   public Collection<Shopping> searchShoppingsCustomer(String factoryName, String startPriceStr, String endPriceStr, String startDate, String endDate, String customerName)
    {
 	   
 	 
-	   LocalDate convertedStartDate = LocalDate.parse(startDate);
-	   LocalDate convertedEndDate = LocalDate.parse(endDate);
+	   List<Shopping> result = new ArrayList<>();
+	   //userDao = new UserDAO(path);
+	   boolean matchesPriceRange = false;
+	   boolean matchesDateRange = false;
+	   boolean matchesFactoryName = false;
+	   boolean matchesCustomer = false;
+	   
+	   
+	   for (Shopping x : buys.values()) {
+		   if(factoryName != null && factoryName != "")
+		   {
+			   matchesFactoryName = x.getFactoryName().toLowerCase().contains(factoryName.toLowerCase()) || factoryName == "";
+		   }
+		   else {
+			   matchesFactoryName = true;
+		   }
+           
+           if(startPriceStr == null && endPriceStr == null)
+           {
+        	   matchesPriceRange = true;
+           }
+           else if(startPriceStr == null)
+           {
+        	   matchesPriceRange = Double.parseDouble(endPriceStr) >= x.getPrice();
+           }
+           else if(endPriceStr == null)
+           {
+        	   matchesPriceRange = Double.parseDouble(startPriceStr) <= x.getPrice();
+           }
+           else {
+        	   matchesPriceRange = x.getPrice() >= Double.parseDouble(startPriceStr) && x.getPrice() <= Double.parseDouble(endPriceStr);
+           }
+           
+           if(startDate == null && endDate == null)
+           {
+        	   matchesDateRange = true;
+           }
+           else if(startDate == null)
+           {
+        	   matchesDateRange = x.getDateTime().toLocalDate().isBefore(LocalDate.parse(endDate));
+           }
+           else if(endDate == null)
+           {
+        	   matchesDateRange = x.getDateTime().toLocalDate().isAfter(LocalDate.parse(startDate));
+           }
+           else {
+        	   matchesDateRange = x.getDateTime().toLocalDate().isAfter(LocalDate.parse(startDate)) && x.getDateTime().toLocalDate().isBefore(LocalDate.parse(endDate));
+           }
+
+           matchesCustomer = x.getUsername().equals(customerName);
+           
+           if (matchesFactoryName && matchesPriceRange && matchesDateRange && matchesCustomer) {
+               result.add(x);
+           }
+       }
+       
+       return result;
 	
-	   return buys.values().stream().filter(x -> x.getFactoryName().toLowerCase().contains(factoryName.toLowerCase()) && x.getPrice() >= startPrice && x.getPrice() <= endPrice && x.getDateTime().toLocalDate().isAfter(convertedStartDate)  && x.getDateTime().toLocalDate().isBefore(convertedEndDate)  && x.getUsername().equals(customerName)).collect(Collectors.toList());
+	  // return buys.values().stream().filter(x -> x.getFactoryName().toLowerCase().contains(factoryName.toLowerCase()) && x.getPrice() >= startPrice && x.getPrice() <= endPrice && x.getDateTime().toLocalDate().isAfter(convertedStartDate)  && x.getDateTime().toLocalDate().isBefore(convertedEndDate)  && x.getUsername().equals(customerName)).collect(Collectors.toList());
    }
 
 	public Shopping findById(String orderId) {

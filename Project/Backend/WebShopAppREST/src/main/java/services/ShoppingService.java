@@ -115,8 +115,18 @@ public class ShoppingService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<Shopping> searchShoppingsManager(@QueryParam("name") String factoryName, @QueryParam("startprice") String startPrice, @QueryParam("endprice") String endPrice, @QueryParam("startdate") String startDate, @QueryParam("enddate") String endDate, @QueryParam("managername") String managername)
 	{
-		ShoppingDAO dao = (ShoppingDAO) ctx.getAttribute("shoppingDAO");
-		return dao.searchShoppingsManager(factoryName, Double.parseDouble(startPrice), Double.parseDouble(endPrice), startDate, endDate, managername);
+		String factoryNameFilter = (factoryName != null && !factoryName.trim().isEmpty()) ? factoryName : null;
+	    String startPriceFilter = (startPrice != null && !startPrice.trim().isEmpty()) ? startPrice : null;
+	    String endPriceFilter = (endPrice != null && !endPrice.trim().isEmpty()) ? endPrice : null;
+	    String startDateFilter = (startDate != null && !startDate.trim().isEmpty()) ? startDate : null;
+	    String endDateFilter = (endDate != null && !endDate.trim().isEmpty()) ? endDate : null;
+	    
+	    // Log the parameters
+	    System.out.println("FactoryName: " + factoryNameFilter + ", StartPrice: " + startPriceFilter + ", StartDate: " + startDateFilter);
+	    
+	    // Access the DAO and perform the search with the filtered parameters
+	    ShoppingDAO dao = (ShoppingDAO) ctx.getAttribute("shoppingDAO");
+	    return dao.searchShoppingsManager(factoryNameFilter, startPriceFilter, endPriceFilter, startDateFilter, endDateFilter, managername);
 	}
 	
 	@GET
@@ -124,7 +134,17 @@ public class ShoppingService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<Shopping> searchShoppingsCustomer(@QueryParam("name") String factoryName, @QueryParam("startprice") String startPrice, @QueryParam("endprice") String endPrice, @QueryParam("startdate") String startDate, @QueryParam("enddate") String endDate, @QueryParam("customername") String customername)
 	{
-		ShoppingDAO dao = (ShoppingDAO) ctx.getAttribute("shoppingDAO");
-		return dao.searchShoppingsCustomer(factoryName, Double.parseDouble(startPrice), Double.parseDouble(endPrice), startDate, endDate, customername);
+		String factoryNameFilter = (factoryName != null && !factoryName.trim().isEmpty()) ? factoryName : null;
+	    String startPriceFilter = (startPrice != null && !startPrice.trim().isEmpty()) ? startPrice : null;
+	    String endPriceFilter = (endPrice != null && !endPrice.trim().isEmpty()) ? endPrice : null;
+	    String startDateFilter = (startDate != null && !startDate.trim().isEmpty()) ? startDate : null;
+	    String endDateFilter = (endDate != null && !endDate.trim().isEmpty()) ? endDate : null;
+	    
+	    // Log the parameters
+	    System.out.println("FactoryName: " + factoryNameFilter + ", StartPrice: " + startPriceFilter + ", StartDate: " + startDateFilter);
+	    
+	    // Access the DAO and perform the search with the filtered parameters
+	    ShoppingDAO dao = (ShoppingDAO) ctx.getAttribute("shoppingDAO");
+	    return dao.searchShoppingsCustomer(factoryNameFilter, startPriceFilter, endPriceFilter, startDateFilter, endDateFilter, customername);
 	}
 }

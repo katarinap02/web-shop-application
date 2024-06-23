@@ -1,6 +1,75 @@
 <template>
-    <div class="tabela">
-       
+    
+        <div class="sort">
+            <h3>Sort</h3>
+            <div>
+                <label>Username: </label>
+                <label>
+            <input type="radio" name="sortUsername" value="ascending" v-model="sortUsername">
+            Ascending
+        </label>
+        <label>
+            <input type="radio" name="sortUsername" value="descending" v-model="sortUsername">
+            Descending
+        </label>
+        <label>
+            <input type="radio" name="sortUsername" value="unordered" v-model="sortUsername" >
+            Unordered
+        </label>
+            </div>
+            <div>
+                <label>Name: </label>
+                <label>
+            <input type="radio" name="sortName" value="ascending" v-model="sortName">
+            Ascending
+        </label>
+        <label>
+            <input type="radio" name="sortName" value="descending" v-model="sortName">
+            Descending
+        </label>
+        <label>
+            <input type="radio" name="sortName" value="unordered" v-model="sortName">
+            Unordered
+        </label>
+            </div>
+            <div>
+                <label>Surname: </label>
+                <label>
+            <input type="radio" name="sortSurname" value="ascending" v-model="sortSurname">
+            Ascending
+        </label>
+        <label>
+            <input type="radio" name="sortSurname" value="descending" v-model="sortSurname">
+            Descending
+        </label>
+        <label>
+            <input type="radio" name="sortSurname" value="unordered" v-model="sortSurname">
+            Unordered
+        </label>
+            </div>
+
+            <div>
+                <label>Points: </label>
+                <label>
+            <input type="radio" name="sortPoints" value="ascending" v-model="sortPoints">
+            Ascending
+        </label>
+        <label>
+            <input type="radio" name="sortPoints" value="descending" v-model="sortPoints">
+            Descending
+        </label>
+        <label>
+            <input type="radio" name="sortPoints" value="unordered" v-model="sortPoints">
+            Unordered
+        </label>
+            </div>
+            
+        </div>
+        <div class="btn-container">
+        <button class="btn btn-success press-btn1" @click.prevent="sort()">Sort</button>
+        <button class="btn btn-success press-btn1" @click.prevent="refresh()">Refresh</button>
+        </div>
+<div class="tabela">
         <table>
             <tr>
                 <th colspan="6">All users</th>
@@ -8,16 +77,16 @@
             <tr>
                 <th>Name</th>
                 <th>Surname</th>
-                <th>Gender</th>
-                <th>Birthdate</th>
+                <th>Username</th>
+                <th>Points</th>
                 <th>Role</th>
                 <th>Blocked</th>
             </tr>
             <tr v-for="u in allUsers" :key="u.username" :class="{ selected: selectedUser && selectedUser.username === u.username }" @click="selectUser(u)">
                 <td>{{u.name}}</td>
                 <td>{{u.surname }} </td>
-                <td>{{formatGender(u.gender)}}</td>
-                <td>{{u.birthDate}}</td>
+                <td>{{u.username}}</td>
+                <td>{{formatPoints(u.points)}}</td>
                 <td>{{formatRole(u.role)}}</td>
                 <td class="td1">{{formatBloked(u.bloked)}} <button v-show = "u.role !== 'ADMINISTRATOR'" class=" btn btn-success blokButton" @click.prevent="blokUser(u.username)">block</button></td>
 
@@ -40,9 +109,19 @@ const router = useRouter();
 const usernameData = ref(localStorage.getItem('userData'));
 const selectedUser = ref(null);
 
+const sortUsername = ref('unordered');
+const sortName = ref('unordered');
+const sortSurname = ref('unordered');
+const sortPoints = ref('unordered');
+
 onMounted(() => {
     loadUsers();
 })
+
+function refresh()
+{
+    loadUsers();
+}
 
 function loadUsers()
 {
@@ -65,6 +144,15 @@ function formatGender(gender) {
       }
       return gender; 
     }
+
+function formatPoints(point)
+{
+    if(point == -1)
+    {
+        return ""
+    }
+    else return point
+}
 
 function formatBloked(blok) {
       if (blok === true) {
@@ -103,6 +191,51 @@ function blokUser(username)
         }
     )
         
+}
+
+function sort()
+{
+    if(sortUsername.value === 'ascending')
+        {
+           
+            allUsers.value.sort((a, b) => a.username.toLowerCase().localeCompare(b.username.toLowerCase())); 
+        }
+        else if(sortUsername.value === 'descending')
+        {
+            allUsers.value.sort((a, b) => b.username.toLowerCase().localeCompare(a.username.toLowerCase()))
+        }
+
+        if(sortSurname.value === 'ascending')
+        {
+           
+            allUsers.value.sort((a, b) => a.surname.toLowerCase().localeCompare(b.surname.toLowerCase())); 
+        }
+        else if(sortSurname.value === 'descending')
+        {
+            allUsers.value.sort((a, b) => b.surname.toLowerCase().localeCompare(a.surname.toLowerCase()))
+        }
+
+        if(sortName.value === 'ascending')
+        {
+           
+            allUsers.value.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase())); 
+        }
+        else if(sortName.value === 'descending')
+        {
+            allUsers.value.sort((a, b) => b.name.toLowerCase().localeCompare(a.name.toLowerCase()))
+        }
+
+         
+        if(sortPoints.value === 'ascending')
+        {
+           
+           
+            allUsers.value.sort((a, b) => a.points - b.points); 
+        }
+        else if(sortPoints.value === 'descending')
+        {
+            allUsers.value.sort((a, b) => b.points - a.points)
+        }
 }
 
 
@@ -209,6 +342,51 @@ template {
 
 .selected {
     background-color: rgb(245, 195, 128); /* Change to your desired highlight color */
+}
+
+.sort {
+    font-family: Arial, sans-serif;
+    text-align: left;
+}
+
+.sort h3 {
+    font-size: 24px;
+   
+}
+
+.sort div {
+    margin-bottom: 10px;
+}
+
+.sort label {
+    display: inline-block;
+   
+}
+
+.sort label:first-child {
+    font-weight: bold;
+   
+}
+
+
+
+.sort label input[type="radio"] + label {
+    font-weight: normal;
+}
+
+
+.press-btn1 {
+    background-color: #5a086a;
+    border: none;
+    color: white;
+    margin-right: 10px; /* Adjust as needed */
+    width: 80px;
+    margin-bottom: 20px;
+}
+.container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 
