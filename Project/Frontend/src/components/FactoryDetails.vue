@@ -71,12 +71,18 @@
             <h1>Comments</h1>
             <table class="comments">
                 <tr>
+                    <th>User</th>
                     <th>Comment</th>
                     <th>Rate</th>
+                   
                 </tr>
                 <tr v-for="c in comments" :key="c">
+                    <td>{{ c.buyerId }}</td>
                     <td>{{ c.commentText }}</td>
                     <td>{{ c.rate }}</td>
+                  
+                    <td><button v-if="user.role === 'MANAGER' && c.statusSet == 0" v-on:click="approveComment(c.id)">Approve</button></td>
+                    <td><button v-if="user.role === 'MANAGER' && c.statusSet == 0" v-on:click="rejectComment(c.id)">Reject</button></td>
 
                 </tr>
             </table>
@@ -103,15 +109,31 @@ onMounted(() => {
 
 })
 
+
+
 function loadUser(){
     axios.get("http://localhost:8080/WebShopAppREST/rest/getLogedUser?username=" + usernameData.value)
     .then(response => {
         user.value = response.data;
+        loadComments(factoryId);
     })
     .catch(error => {
       //  localStorage.setItem('userData', JSON.stringify(""));
     });
 
+}
+
+function approveComment(commentId)
+{
+    axios.get("http://localhost:8080/WebShopAppREST/rest/comments/approve/" + commentId)
+    .then(response => { alert("Success!"); refreshComments(); });
+
+}
+
+function rejectComment(commentId)
+{
+    axios.get("http://localhost:8080/WebShopAppREST/rest/comments/reject/" + commentId)
+    .then(response => { alert("Success!"); refreshComments();});
 }
 
 const route = useRoute();
@@ -147,7 +169,7 @@ const shoppingCart = ref({
 const chocolates = ref([]);
 const comments = ref([]);
 
-onMounted(() => {  getFactoryById(factoryId);  loadChocolates(factoryId); loadComments(factoryId)})
+onMounted(() => {  getFactoryById(factoryId);  loadChocolates(factoryId); })
 
 function loadChocolates(factoryId)
 {
@@ -167,10 +189,34 @@ function loadChocolates(factoryId)
   
 }
 
-function loadComments(factoryId)
+function refreshComments()
 {
     axios.get("http://localhost:8080/WebShopAppREST/rest/comments/" + factoryId.value)
     .then(response => {comments.value = response.data; console.log(response.data);})
+}
+
+function loadComments(factoryId)
+{
+   
+ 
+    if(user.value.role === "CUSTOMER" || user.value.role === "UNREGISTERED")
+    {
+        loadApprovedComments(factoryId);
+    }
+    else
+    {
+        axios.get("http://localhost:8080/WebShopAppREST/rest/comments/" + factoryId.value)
+        .then(response => {comments.value = response.data; console.log(response.data);})
+
+    }
+   
+
+}
+
+function loadApprovedComments(factoryId)
+{
+    axios.get("http://localhost:8080/WebShopAppREST/rest/comments/" + factoryId.value)
+    .then(response => {  comments.value = response.data.filter(x => x.approved == 1); console.log(response.data);})
 
 }
 function getFactoryById(factoryId)

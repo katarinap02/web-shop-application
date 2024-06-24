@@ -99,6 +99,31 @@
         <button class="btn btn-success press-btn1" @click.prevent="sort()">Sort</button>
         <button class="btn btn-success press-btn1" @click.prevent="refresh()">Refresh</button>
         </div>
+
+        <form v-bind:hidden="commentClicked === 'NOT_CLICKED'">
+            <table>
+                <tr>
+                    <td>Rate factory: </td>
+                    <td><select v-model="newComment.rate">
+                        <option value="5">5</option>
+                        <option value="4">4</option>
+                        <option value="3">3</option>
+                        <option value="2">2</option>
+                        <option value="1">1</option>
+
+                    </select></td>
+                   
+                </tr>
+                <tr>
+                    <td>Comment: </td>
+                    <td><input type='text' v-model="newComment.commentText"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><button type='submit' v-on:click="leaveComment()">Rate factory</button></td>
+                </tr>
+            </table>
+        </form>
         
         <div class="table">
             <table>
@@ -108,6 +133,7 @@
                     <th>Date </th>
                     <th>Status </th>
                     <th>Price </th>
+                  
                     <th> </th>
                     <th> </th>
     
@@ -119,8 +145,10 @@
                     <td>{{ getDate(o.dateTime) }}</td>
                     <td>{{ o.status }}</td>
                     <td>{{ o.price }}</td>
+                  
                     <td><button v-on:click="viewOrderItems(o.id)">View</button></td>
-                    <td><button v-if="o.status === 'PENDING'" v-on:click="cancelOrder(o)">Cancel</button></td>
+                    <td><button v-if="o.status === 'PENDING'" v-on:click="cancelOrder(o)">Cancel</button>
+                    <button v-else-if="o.status === 'APPROVED' && o.rated === 0" v-on:click="commentClick(o)">Rate factory</button></td>
                 </tr>
     
                
@@ -154,13 +182,18 @@ const searchStartDate = ref("");
 const searchEndDate = ref("");
 const searchFactoryName = ref("");
 
-
+const commentClicked = ref("NOT_CLICKED");
+const commentOrder = ref({id: "", chocolateIds: [], factoryId: -1, dateTime: "0001-01-01T00:00:00", price: 0, customerName: "", status: "PENDING", factoryName: "", rated: 0});
+const newComment = ref({id: 0, buyerId: "", factoryId: 0, commentText: "", rate: 0, approved: 0, statusSet: 0});
+const rateClick = ref('NO_CLICK');
+const comments = ref([]);
 
 onMounted(() => {
     loadUser();
    
 
 })
+
 
 
 function loadUser(){
@@ -230,6 +263,21 @@ function getFactoryName(factoryId)
           return factories.value.find(factory => factory.id === factoryId).name;
     
 }
+
+function commentClick(order)
+{
+    commentClicked.value = 'CLICKED';
+    commentOrder.value = order;
+    
+}
+
+function leaveComment()
+{
+    alert("uslo");
+    axios.post("http://localhost:8080/WebShopAppREST/rest/comments/" + commentOrder.value.id, this.newComment)
+    .then(response => { alert("Factory successfully rated!"); loadCustomerOrders(); });
+}
+
 
 function sort()
 {

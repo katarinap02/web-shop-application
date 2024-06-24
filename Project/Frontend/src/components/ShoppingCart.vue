@@ -58,7 +58,7 @@ import { onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 const router = useRouter();
-const newOrder = ref({id: "", chocolateIds: [], factoryId: -1, dateTime: "0001-01-01T00:00:00", price: 0, customerName: "", status: "PENDING", factoryName: ""});
+const newOrder = ref({id: "", chocolateIds: [], factoryId: -1, dateTime: "0001-01-01T00:00:00", price: 0, customerName: "", status: "PENDING", factoryName: "", rated: 0});
 const items = ref([]);
 const selectedChocolate = ref(null);
 const shoppingCart = ref({

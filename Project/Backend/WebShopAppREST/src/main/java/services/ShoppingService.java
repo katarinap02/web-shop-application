@@ -147,4 +147,6 @@ public class ShoppingService {
 	    ShoppingDAO dao = (ShoppingDAO) ctx.getAttribute("shoppingDAO");
 	    return dao.searchShoppingsCustomer(factoryNameFilter, startPriceFilter, endPriceFilter, startDateFilter, endDateFilter, customername);
 	}
+	
+	
 }

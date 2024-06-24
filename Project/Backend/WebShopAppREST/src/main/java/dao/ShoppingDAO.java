@@ -94,6 +94,8 @@ public class ShoppingDAO {
 		order.setStatus(ShoppingStatus.PENDING);
 		order.setUsername(username);
 		order.setFactoryName(factoryDao.findById(cart.getFactoryId()).getName());
+		order.setRated(0);
+		
 		System.out.println(cart.getPrice());
 		if(order != null)
 		{
@@ -206,7 +208,8 @@ public class ShoppingDAO {
 	            sb.append(buy.getCustomerName()).append(";");
 	            sb.append(buy.getStatus()).append(";");
 	            sb.append(buy.getUsername()).append(";");
-	            sb.append(buy.getFactoryName()).append("\n");
+	            sb.append(buy.getFactoryName()).append(";");
+	            sb.append(buy.getRated()).append("\n");
 	           
 	            
 	            
@@ -261,7 +264,8 @@ public class ShoppingDAO {
 					ShoppingStatus status = convertToStatus(st.nextToken().trim());
 					String username = st.nextToken().trim();
 					String factoryName = st.nextToken().trim();
-					buys.put(id, new Shopping(id, chocolateIds, factoryId, dateTime, price, customerName, status, username, factoryName));
+					int isRated = Integer.parseInt(st.nextToken().trim());
+					buys.put(id, new Shopping(id, chocolateIds, factoryId, dateTime, price, customerName, status, username, factoryName, isRated));
 					
 				
 				}

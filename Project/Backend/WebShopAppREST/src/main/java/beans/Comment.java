@@ -3,21 +3,38 @@ package beans;
 public class Comment {
 	
 	private int id;
-	private int buyerId;
+	private String buyerId;
 	private int factoryId;
 	private String commentText;
 	private int rate;
+	private int approved;
+	private int statusSet;
+	
 	public Comment() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Comment(int id, int buyerId, int factoryId, String commentText, int rate) {
+	public Comment(int id, String buyerId, int factoryId, String commentText, int rate, int isApproved, int isStatusSet) {
 		super();
 		this.id = id;
 		this.buyerId = buyerId;
 		this.factoryId = factoryId;
 		this.commentText = commentText;
 		this.rate = rate;
+		this.approved = isApproved;
+		this.statusSet = isStatusSet;
+	}
+	public int getStatusSet() {
+		return statusSet;
+	}
+	public void setStatusSet(int isStatusSet) {
+		this.statusSet = isStatusSet;
+	}
+	public int getApproved() {
+		return approved;
+	}
+	public void setApproved(int isApproved) {
+		this.approved = isApproved;
 	}
 	public int getId() {
 		return id;
@@ -25,10 +42,10 @@ public class Comment {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getBuyerId() {
+	public String getBuyerId() {
 		return buyerId;
 	}
-	public void setBuyerId(int buyerId) {
+	public void setBuyerId(String buyerId) {
 		this.buyerId = buyerId;
 	}
 	public int getFactoryId() {

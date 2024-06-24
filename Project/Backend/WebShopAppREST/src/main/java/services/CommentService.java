@@ -5,6 +5,7 @@ import java.util.Collection;
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -44,6 +45,33 @@ public class CommentService {
 	{
 		CommentDAO dao = (CommentDAO) ctx.getAttribute("commentDAO");
 		return dao.getByFactoryId(factoryId);
+	}
+	
+	@POST
+	@Path("/{orderId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Comment createComment(@PathParam("orderId") String orderId, Comment comment)
+	{
+		CommentDAO dao = (CommentDAO) ctx.getAttribute("commentDAO");
+		return dao.createComment(orderId, comment);
+	}
+	
+	@GET
+	@Path("/approve/{commentId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public void approveComment(@PathParam("commentId") int commentId)
+	{
+		CommentDAO dao = (CommentDAO) ctx.getAttribute("commentDAO");
+		dao.approveComment(commentId);
+	}
+	
+	@GET
+	@Path("/reject/{commentId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public void rejectComment(@PathParam("commentId") int commentId)
+	{
+		CommentDAO dao = (CommentDAO) ctx.getAttribute("commentDAO");
+		dao.rejectComment(commentId);
 	}
 
 }
