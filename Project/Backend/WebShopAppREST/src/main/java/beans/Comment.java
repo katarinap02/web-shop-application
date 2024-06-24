@@ -9,12 +9,12 @@ public class Comment {
 	private int rate;
 	private int approved;
 	private int statusSet;
-	
+	private String orderId;
 	public Comment() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Comment(int id, String buyerId, int factoryId, String commentText, int rate, int isApproved, int isStatusSet) {
+	public Comment(int id, String buyerId, int factoryId, String commentText, int rate, int isApproved, int isStatusSet, String orderId) {
 		super();
 		this.id = id;
 		this.buyerId = buyerId;
@@ -23,6 +23,13 @@ public class Comment {
 		this.rate = rate;
 		this.approved = isApproved;
 		this.statusSet = isStatusSet;
+		this.orderId = orderId;
+	}
+	public String getOrderId() {
+		return orderId;
+	}
+	public void setOrderId(String orderId) {
+		this.orderId = orderId;
 	}
 	public int getStatusSet() {
 		return statusSet;

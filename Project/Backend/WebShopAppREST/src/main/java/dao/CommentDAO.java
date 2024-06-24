@@ -27,6 +27,10 @@ public class CommentDAO {
 		path = contextPath;
 	}
 
+	public Collection<Comment> findAll()
+	{
+		return comments.values();
+	}
 	
 	public Collection<Comment> getByFactoryId(int id)
 	{
@@ -35,6 +39,7 @@ public class CommentDAO {
 	
 	public Comment createComment(String orderId, Comment comment)
 	{
+		System.out.println("Test path: " + path);
 		orderDAO = new ShoppingDAO(path);
 		Shopping order = orderDAO.findById(orderId);
 		int factoryId = order.getFactoryId();
@@ -53,14 +58,13 @@ public class CommentDAO {
 		comment.setFactoryId(factoryId);
 		comment.setApproved(0);
 		comment.setStatusSet(0);
-		
+		comment.setOrderId(orderId);
 		if(comment != null && !comment.getCommentText().isEmpty() && comment.getRate() > 0 && comment.getRate() <= 5)
 		{
 			comments.put(comment.getId(), comment);
 			saveComments(path);
-			order.setRated(1);
-			orderDAO.saveBuys(path);
-			
+		    order.setRated(1);
+		    orderDAO.saveBuys(path);
 			return comment;
 		}
 		else
@@ -107,7 +111,8 @@ public class CommentDAO {
 		            sb.append(comment.getCommentText()).append(";");
 		            sb.append(comment.getRate()).append(";");
 		            sb.append(comment.getApproved()).append(";");
-		            sb.append(comment.getStatusSet()).append("\n");
+		            sb.append(comment.getStatusSet()).append(";");
+		            sb.append(comment.getOrderId()).append(";");
 		          
 
 		            out.write(sb.toString());
@@ -151,8 +156,8 @@ public class CommentDAO {
 					int rate = Integer.parseInt(st.nextToken().trim());
 					int isApproved = Integer.parseInt(st.nextToken().trim());
 					int isStatusSet = Integer.parseInt(st.nextToken().trim());
-					
-					comments.put(id, new Comment(id, buyerId, factoryId, commentText, rate, isApproved, isStatusSet));
+					String orderId = st.nextToken().trim();
+					comments.put(id, new Comment(id, buyerId, factoryId, commentText, rate, isApproved, isStatusSet, orderId));
 					
 				
 				}

@@ -148,7 +148,7 @@
                   
                     <td><button v-on:click="viewOrderItems(o.id)">View</button></td>
                     <td><button v-if="o.status === 'PENDING'" v-on:click="cancelOrder(o)">Cancel</button>
-                    <button v-else-if="o.status === 'APPROVED' && o.rated === 0" v-on:click="commentClick(o)">Rate factory</button></td>
+                    <button v-else-if="o.status === 'APPROVED' && !isRated(o.id)" v-on:click="commentClick(o)">Rate factory</button></td>
                 </tr>
     
                
@@ -184,17 +184,24 @@ const searchFactoryName = ref("");
 
 const commentClicked = ref("NOT_CLICKED");
 const commentOrder = ref({id: "", chocolateIds: [], factoryId: -1, dateTime: "0001-01-01T00:00:00", price: 0, customerName: "", status: "PENDING", factoryName: "", rated: 0});
-const newComment = ref({id: 0, buyerId: "", factoryId: 0, commentText: "", rate: 0, approved: 0, statusSet: 0});
-const rateClick = ref('NO_CLICK');
-const comments = ref([]);
+const newComment = ref({id: 0, buyerId: "", factoryId: 0, commentText: "", rate: 0, approved: 0, statusSet: 0, orderId: ""});
+const rated = ref('FALSE');
+const allComments = ref([]);
 
 onMounted(() => {
     loadUser();
-   
+  
 
 })
 
+onMounted(() => {loadAllComments();})
 
+
+function loadAllComments()
+{
+    axios.get("http://localhost:8080/WebShopAppREST/rest/comments/")
+    .then(response => { allComments.value = response.data;  })
+}
 
 function loadUser(){
     axios.get("http://localhost:8080/WebShopAppREST/rest/getLogedUser?username=" + usernameData.value)
@@ -205,6 +212,16 @@ function loadUser(){
       //  localStorage.setItem('userData', JSON.stringify(""));
     });
 
+}
+
+function isRated(orderId)
+{
+    
+    if(allComments.value.filter(x => x.orderId === orderId).length > 0)
+    {  return true;  }
+    else
+      return false;
+    
 }
 
 const orders = ref([])
@@ -275,10 +292,14 @@ function leaveComment()
 {
     alert("uslo");
     axios.post("http://localhost:8080/WebShopAppREST/rest/comments/" + commentOrder.value.id, this.newComment)
-    .then(response => { alert("Factory successfully rated!"); loadCustomerOrders(); });
+    .then(response => { alert("Factory successfully rated!"); refreshOrders(); loadAllComments(); });
 }
 
-
+function refreshOrders()
+{
+   
+    loadCustomerOrders();
+}
 function sort()
 {
 

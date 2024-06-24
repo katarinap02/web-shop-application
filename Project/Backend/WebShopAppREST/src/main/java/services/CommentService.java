@@ -39,6 +39,16 @@ public class CommentService {
      }
 	
 	@GET
+	@Path("/")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<Comment> findAll()
+	{
+		CommentDAO dao = (CommentDAO) ctx.getAttribute("commentDAO");
+		return dao.findAll();
+	}
+	
+	
+	@GET
 	@Path("/{factoryId}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<Comment> getCommentsByFactory(@PathParam("factoryId") int factoryId)

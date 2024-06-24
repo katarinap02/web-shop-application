@@ -1,3 +1,1 @@
-0;zika123;2;komentar1;5;1;1
-1;zika123;2;komentar;5;1;1
-2;zika123;2;komentar3;4;0;1
+0;zika123;2;ko;5;0;0;EKPvY95GLb;1;zika123;2;aaa;4;0;0;3iyUgyAd4T;

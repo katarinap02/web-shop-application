@@ -64,6 +64,7 @@ public class ShoppingDAO {
 	
 	public Shopping createOrder(String username)
 	{
+	
 		factoryDao = new ChocolateFactoryDAO(path);
 		
 		String id = generateRandomString(10);
@@ -434,6 +435,22 @@ public class ShoppingDAO {
 				return b;
 		}
 		return null;
+	}
+
+
+
+
+	public void setRated(String orderId) {
+		// TODO Auto-generated method stub
+Shopping order = buys.containsKey(orderId) ? buys.get(orderId) : null;
+		
+		if(order != null)
+		{
+			order.setRated(1);
+			saveBuys(path);
+		}
+		
+		
 	}
 
 }
