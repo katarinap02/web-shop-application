@@ -62,6 +62,12 @@ public class ShoppingDAO {
 		return buys.values().stream().filter(x -> x.getFactoryId() == factoryId).collect(Collectors.toList());
 	}
 	
+	public Collection<Shopping> findApprovedByManager(int factoryId)
+	{
+		return buys.values().stream().filter(x -> x.getFactoryId() == factoryId && x.getStatus() == ShoppingStatus.APPROVED).collect(Collectors.toList());
+	}
+	
+	
 	public Shopping createOrder(String username)
 	{
 	

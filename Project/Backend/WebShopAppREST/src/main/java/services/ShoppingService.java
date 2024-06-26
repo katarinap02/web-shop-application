@@ -70,6 +70,16 @@ public class ShoppingService {
 		
 	}
 	
+	@GET
+	@Path("/managerapproved/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<Shopping> geApprovedByManager(@PathParam("id") int factoryId)
+	{
+		ShoppingDAO dao = (ShoppingDAO) ctx.getAttribute("shoppingDAO");
+		return dao.findApprovedByManager(factoryId);
+		
+	}
+	
 	
 	@GET
 	@Path("/{username}")

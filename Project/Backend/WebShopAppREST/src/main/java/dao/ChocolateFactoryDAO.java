@@ -17,12 +17,16 @@ import java.util.StringTokenizer;
 import beans.Chocolate;
 import beans.ChocolateFactory;
 import beans.Location;
+import beans.User;
 import beans.WorkingHours;
 
 public class ChocolateFactoryDAO {
 	private HashMap<Integer, ChocolateFactory> factories = new HashMap<>();
 	private String path = "";
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+	private UserDAO userDao;
+	
+	
 	
 	public ChocolateFactoryDAO(){	
 		ArrayList<Integer> list = new ArrayList<>();
@@ -37,6 +41,22 @@ public class ChocolateFactoryDAO {
 		loadFactories(contextPath);
 		path = contextPath;
 	}
+	
+	public ChocolateFactory getByManager(String username)
+	{
+		userDao = new UserDAO(path);
+		User user = userDao.findByUsername(username);
+		int factoryId = user.getFactory().getId();
+		
+		ChocolateFactory factory = factories.containsKey(factoryId) ? factories.get(factoryId) : null;
+		return factory;
+		
+		
+		
+	}
+	
+	
+	
 	
 	public ChocolateFactory addFactory(ChocolateFactory factory)
 	{

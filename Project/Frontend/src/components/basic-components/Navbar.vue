@@ -37,12 +37,19 @@
               <li v-else-if="user.role === 'ADMINISTRATOR'">
                 <a class="nav-link" href="#/viewUsers">All users</a>
               </li>
+              
+              <li class="nav-item" v-if="user.role === 'MANAGER'">
+                <a class="nav-link" href="#/myfactory">My factory</a>
+              </li>
+
+              
               <li class="nav-item" v-if="!user">
                 <a class="nav-link" href="#/login">Log in</a>
               </li>
               <li class="nav-item" v-else-if="user.role === 'ADMINISTRATOR' || 'MANAGER'">
                 <a class="nav-link" href="#/" @click.prevent="logOut">Log out</a>
               </li>
+
 
              
             </ul>

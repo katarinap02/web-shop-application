@@ -15,6 +15,8 @@ import ManagerOrdersView from '../views/ManagerOrdersView.vue';
 import ViewProfileView from '../views/ViewProfileView.vue';
 import ViewUsersView from '../views/ViewUsersView.vue';
 import AllUsersView from '../views/AllUsersView.vue';
+import MyFactoryView from '../views/MyFactoryView.vue';
+
 const routes = [
   {
     path: "/",
@@ -101,6 +103,11 @@ const routes = [
     path: "/allusers",
     name: "AllUsers",
     component: AllUsersView
+  },
+  {
+    path: "/myfactory",
+    name: "MyFactory",
+    component: MyFactoryView
   }
 ];
 

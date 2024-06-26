@@ -97,5 +97,17 @@ public class ChocolateFactoryService {
 		return dao.findById(id);
 	}
 	
+	@GET
+	@Path("/getfactoryobject/{username}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ChocolateFactory getFactoryObject(@PathParam("username") String username)
+	{
+		ChocolateFactoryDAO dao = (ChocolateFactoryDAO) ctx.getAttribute("factoryDAO");
+		return dao.getByManager(username);
+		
+	}
+	
+	
+	
 
 }

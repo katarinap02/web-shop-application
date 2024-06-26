@@ -2,6 +2,7 @@ package services;
 
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.annotation.PostConstruct;
@@ -275,6 +276,16 @@ public class LoginService {
 		UserDAO userDao = (UserDAO) ctx.getAttribute("userDAO");
 		return userDao.getFactoryId(username);
 		
+	}
+	
+	
+	@GET
+	@Path("/getcustomers/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<User> getCustomers(@PathParam("id") int factoryId)
+	{
+		UserDAO userDao = (UserDAO) ctx.getAttribute("userDAO");
+		return userDao.getCustomersByFactory(factoryId);
 	}
 
 }

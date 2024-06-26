@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.StringTokenizer;import javax.lang.model.element.ModuleElement.UsesDirective;
 
 import beans.ChocolateFactory;
+import beans.Shopping;
 import beans.User;
 import enums.Gender;
 import enums.Role;
@@ -23,6 +24,7 @@ public class UserDAO {
 	private HashMap<String, User> users = new HashMap<>();
 	private ChocolateFactoryDAO factoryDAO;
 	String path = "";
+	private ShoppingDAO shoppingDao;
 	
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	
@@ -38,6 +40,38 @@ public class UserDAO {
 		
 	}
 	
+	public ArrayList<User> getCustomersByFactory(int factoryId)
+	{
+		ArrayList<User> result = new ArrayList<>();
+		
+		shoppingDao = new ShoppingDAO(path);
+		
+		Collection<Shopping> shoppings = shoppingDao.findApprovedByManager(factoryId);
+		
+		for(User user : users.values())
+		{
+			for(Shopping shopping : shoppings)
+			{
+				if(user.getUsername().equals(shopping.getUsername()) && !containsUser(user.getUsername(), result))
+					result.add(user);
+			}
+		}
+		
+		return result;
+		
+	}
+	
+	private boolean containsUser(String username, ArrayList<User> result) {
+		// TODO Auto-generated method stub
+		for(User u : result)
+		{
+			if(u.getUsername().equals(username))
+				return true;
+			
+		}
+		return false;
+	}
+
 	public Collection<User> findAll()
 	{
 		return users.values();
@@ -361,6 +395,24 @@ public class UserDAO {
 		
 		return -1;
 	}
+	
+	
+	public ChocolateFactory getFactory(String username)
+	{
+		for(User u: users.values())
+		{
+			if(u.getUsername().equals(username))
+			{	
+				return u.getFactory();
+			
+			    
+			}
+		}
+		
+		return null;
+	}
+	
+	
 
 	
 
