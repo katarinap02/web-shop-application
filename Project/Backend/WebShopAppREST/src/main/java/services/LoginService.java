@@ -147,7 +147,8 @@ public class LoginService {
 		Gender gender = dao.convertToGender(userDTO.getGender());
 		Role role = Role.CUSTOMER;
 		double points = 0;
-		User user = new User(userDTO.getUsername(), userDTO.getPassword(), userDTO.getName(), userDTO.getSurname(), gender, date, role, points);
+		int customerId = 4;
+		User user = new User(userDTO.getUsername(), userDTO.getPassword(), userDTO.getName(), userDTO.getSurname(), gender, date, role, points, customerId);
 		return dao.addUser(user);
 	}
 	
@@ -163,7 +164,8 @@ public class LoginService {
 		Gender gender = dao.convertToGender(userDTO.getGender());
 		Role role = Role.MANAGER;
 		double points = -1;
-		User user = new User(userDTO.getUsername(), userDTO.getPassword(), userDTO.getName(), userDTO.getSurname(), gender, date, role, points);
+		int customerId = 4;
+		User user = new User(userDTO.getUsername(), userDTO.getPassword(), userDTO.getName(), userDTO.getSurname(), gender, date, role, points, customerId);
 		return dao.addUser(user);
 	}
 	
@@ -204,7 +206,8 @@ public class LoginService {
 		Gender gender = dao.convertToGender(userDTO.getGender());
 		Role role = Role.WORKER;
 		double points = -1;
-		User user = new User(userDTO.getUsername(), userDTO.getPassword(), userDTO.getName(), userDTO.getSurname(), gender, date, role, points);
+		int customerId = 4;
+		User user = new User(userDTO.getUsername(), userDTO.getPassword(), userDTO.getName(), userDTO.getSurname(), gender, date, role, points, customerId);
 		return dao.addUser(user);
 	}
 	

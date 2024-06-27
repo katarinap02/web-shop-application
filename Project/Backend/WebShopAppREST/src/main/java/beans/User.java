@@ -25,7 +25,7 @@ public class User {
 
 	double points;
 	// CustomerRole role;
-	
+	private int customerId;
 	
 
 	public User() {
@@ -34,7 +34,7 @@ public class User {
 	}
 	
 	public User(String username, String password, String name, String surname, Gender gender,
-			LocalDate birthDate, Role role, double points) {
+			LocalDate birthDate, Role role, double points, int customerId) {
 		super();
 		this.username = username;
 		this.password = password;
@@ -49,7 +49,16 @@ public class User {
 		this.bloked = false;
 
 		this.factory = null;
+		this.customerId = customerId;
 	}
+	public int getCustomerId() {
+		return customerId;
+	}
+
+	public void setCustomerId(int customerId) {
+		this.customerId = customerId;
+	}
+
 	public double getPoints() {
 		return points;
 	}

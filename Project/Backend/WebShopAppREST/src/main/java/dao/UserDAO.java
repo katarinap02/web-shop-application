@@ -285,7 +285,8 @@ public class UserDAO {
 					boolean bloked = Boolean.parseBoolean(st.nextToken().trim());
 					ChocolateFactory factory = convertToFactory(factoryId);
 					double points = Double.parseDouble(st.nextToken().trim());
-					User user = new User(username, password, firstName, lastName, gender, birthdate, role, points);
+					int customerId = Integer.parseInt(st.nextToken().trim());
+					User user = new User(username, password, firstName, lastName, gender, birthdate, role, points, customerId);
 					user.setFactory(factory);
 					if(bloked == true)
 					{
@@ -337,7 +338,8 @@ public class UserDAO {
                 else {
                 	sb.append("False").append(";");
                 }
-                sb.append(user.getPoints()).append("\n");
+                sb.append(user.getPoints()).append(";");
+                sb.append(user.getCustomerId()).append("\n");
                 out.write(sb.toString());
                
             }
@@ -363,6 +365,7 @@ public class UserDAO {
 		{
 			user.setPoints(user.getPoints() + (price/1000)*133);
 			saveUsers(path);
+			setCustomerRole(user);
 		}
 		
 		
@@ -376,11 +379,28 @@ public class UserDAO {
 		{
 			user.setPoints(user.getPoints() - (price/1000)*133*4);
 			saveUsers(path);
+			setCustomerRole(user);
 		}
 		
 		
 	}
 	
+	private void setCustomerRole(User user) {
+		
+		if(user.getPoints() >= 4000)
+			user.setCustomerId(0);
+		else if(user.getPoints() >= 3000)
+			user.setCustomerId(1);
+		else if(user.getPoints() >= 1500)
+			user.setCustomerId(2);
+		else
+			user.setCustomerId(3);
+		
+		saveUsers(path);
+		
+		
+	}
+
 	public int getFactoryId(String username)
 	{
 		for(User u: users.values())
