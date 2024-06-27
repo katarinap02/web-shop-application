@@ -157,8 +157,8 @@ function createOrder()
     axios.get("http://localhost:8080/WebShopAppREST/rest/buys/" + user.value.username)
     .then(response => { alert("Success!");
   
-
-    axios.post("http://localhost:8080/WebShopAppREST/rest/increasepoints/?username=" + user.value.username + "&price=" + shoppingCart.value.price)
+    alert(this.shoppingCart.price);
+    axios.post("http://localhost:8080/WebShopAppREST/rest/increasepoints/?username=" + user.value.username + "&price=" + this.shoppingCart.price)
     .then(response => { alert("Points are increased!"); 
      
     axios.get('http://localhost:8080/WebShopAppREST/rest/carts/emptycarts/?username=' + usernameData.value)

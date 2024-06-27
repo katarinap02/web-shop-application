@@ -363,7 +363,9 @@ public class UserDAO {
 		
 		if(user != null)
 		{
+		
 			user.setPoints(user.getPoints() + (price/1000)*133);
+			//System.out.println(user.getPoints());
 			saveUsers(path);
 			setCustomerRole(user);
 		}
