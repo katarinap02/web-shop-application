@@ -85,9 +85,10 @@
     <label for="combo2">Type of customer:</label>
     <select id="combo2" name="combo2" v-model="typeFilter">
         <option value="all">All</option>
-        <option value="gold">Gold</option>
-        <option value="silver">Silver</option>
-        <option value="bronze">Bronze</option>
+        <option value=0>Gold</option>
+        <option value=1>Silver</option>
+        <option value=2>Bronze</option>
+        <option value=3>Regular</option>
     </select><br>
 
     <button class="btn btn-success press-btn1" @click="filterChocolate()">Filter</button>
@@ -99,7 +100,7 @@
 <div class="tabela">
         <table>
             <tr>
-                <th colspan="6">All users</th>
+                <th colspan="7">All users</th>
             </tr>
             <tr>
                 <th>Name</th>
@@ -107,6 +108,7 @@
                 <th>Username</th>
                 <th>Points</th>
                 <th>Role</th>
+                <th>Customer type</th>
                 <th>Blocked</th>
             </tr>
             <tr v-for="u in allUsers" :key="u.username" :class="{ selected: selectedUser && selectedUser.username === u.username }" @click="selectUser(u)">
@@ -115,6 +117,7 @@
                 <td>{{u.username}}</td>
                 <td>{{formatPoints(u.points)}}</td>
                 <td>{{formatRole(u.role)}}</td>
+                <td>{{ formatCustomerType(u.customerId, u.role) }}</td>
                 <td class="td1">{{formatBloked(u.bloked)}} <button v-show = "u.role !== 'ADMINISTRATOR'" class=" btn btn-success blokButton" @click.prevent="blokUser(u.username)">block</button></td>
 
             </tr>
@@ -154,6 +157,22 @@ function refresh()
     loadUsers();
 }
 
+function formatCustomerType(customerId, userRole)
+{
+    if(userRole === "CUSTOMER")
+    {
+        if(customerId === 0)
+            return "gold";
+        else if(customerId === 1)
+            return "silver";
+        else if(customerId === 2)
+            return "bronze";
+        else
+             return "regular"; 
+    }
+    else
+       return "";
+}
 function loadUsers()
 {
     axios.get('http://localhost:8080/WebShopAppREST/rest/get').then(response => {
@@ -280,7 +299,7 @@ if (this.roleFilter === 'all' && this.typeFilter === 'all') {
 } else {
     this.allUsers.forEach(user1 => {
         let roleMatches = this.roleFilter === 'all' || user1.role.toLowerCase() === this.roleFilter;
-        let typeMatches = this.typeFilter === 'all' //|| user1.type.toLowerCase() === this.typeFilter; 
+        let typeMatches = this.typeFilter === 'all' || user1.customerId == this.typeFilter; 
 
         if (roleMatches && typeMatches) {
             uniqueUsers.add(user1);

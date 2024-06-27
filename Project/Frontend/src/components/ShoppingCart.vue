@@ -94,18 +94,19 @@ function loadUser(){
 }
 
 
-onMounted(() => {loadCart(); loadItems();})
+onMounted(() => {loadCart(); })
 
 function loadCart()
 {
   console.log(usernameData.value);
    axios.get("http://localhost:8080/WebShopAppREST/rest/carts/" + usernameData.value)
-   .then(response => {shoppingCart.value = response.data; console.log(response.data);});
+   .then(response => {shoppingCart.value = response.data; console.log(response.data); loadItems();});
 
 }
 
 function loadItems()
 {
+ ;
   axios.get("http://localhost:8080/WebShopAppREST/rest/carts/getItems/" + shoppingCart.value.id)
   .then(response => { items.value = response.data; console.log(response.data);})
 }
