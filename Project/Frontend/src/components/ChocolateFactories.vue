@@ -291,6 +291,17 @@ else if(sortLocation.value === 'descending')
         {
             factories.value.sort((a, b) => b.name.toLowerCase().localeCompare(a.name.toLowerCase()))
         }
+
+        if(sortRating.value === 'ascending')
+        {
+           
+           
+            factories.value.sort((a, b) => a.rate - b.rate); 
+        }
+        else if(sortRating.value === 'descending')
+        {
+            factories.value.sort((a, b) => b.rate - a.rate)
+        }
 }
 
 function refresh()

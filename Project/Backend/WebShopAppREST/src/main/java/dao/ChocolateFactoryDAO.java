@@ -16,6 +16,7 @@ import java.util.StringTokenizer;
 
 import beans.Chocolate;
 import beans.ChocolateFactory;
+import beans.Comment;
 import beans.Location;
 import beans.User;
 import beans.WorkingHours;
@@ -25,7 +26,7 @@ public class ChocolateFactoryDAO {
 	private String path = "";
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
 	private UserDAO userDao;
-	
+	private CommentDAO commentDao;
 	
 	
 	public ChocolateFactoryDAO(){	
@@ -40,8 +41,33 @@ public class ChocolateFactoryDAO {
 	{
 		loadFactories(contextPath);
 		path = contextPath;
+		calculateAverageGrades();
 	}
-	
+	private void calculateAverageGrades() {
+		// TODO Auto-generated method stub
+		commentDao = new CommentDAO(path);
+		
+		for(ChocolateFactory f : factories.values())
+		{
+			Collection<Comment> comments = commentDao.getByFactoryId(f.getId());
+			double sum = 0;
+			double count = 0;
+			
+			for(Comment c : comments)
+			{
+				sum += c.getRate();
+				count++;
+			}
+			
+			if(count != 0)
+				f.setRate(sum/count);
+			else
+				f.setRate(0);
+			
+		}
+		
+		saveFactory(path);
+	}
 	public ChocolateFactory getByManager(String username)
 	{
 		userDao = new UserDAO(path);
@@ -159,6 +185,8 @@ public class ChocolateFactoryDAO {
 				}
 				
 			}
+			
+			
 		} 
 		catch (Exception ex) {
 			ex.printStackTrace();
@@ -172,6 +200,8 @@ public class ChocolateFactoryDAO {
 		}
 	}
 	
+	
+
 	public void saveFactory(String contextPath) {
 	    BufferedWriter out = null;
 	    try {
