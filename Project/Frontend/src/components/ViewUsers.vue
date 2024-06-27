@@ -1,5 +1,5 @@
 <template>
-    
+    <div class="function">
         <div class="sort">
             <h3>Sort</h3>
             <div>
@@ -62,13 +62,40 @@
             <input type="radio" name="sortPoints" value="unordered" v-model="sortPoints">
             Unordered
         </label>
-            </div>
-            
         </div>
         <div class="btn-container">
         <button class="btn btn-success press-btn1" @click.prevent="sort()">Sort</button>
         <button class="btn btn-success press-btn1" @click.prevent="refresh()">Refresh</button>
         </div>
+        
+            </div>
+             
+
+              <div class="filter">
+        <h3>Filter</h3>
+        <label for="combo1">User role:</label>
+    <select id="combo1" name="combo1" v-model="roleFilter">
+        <option value="all">All</option>
+        <option value="administrator">Administrator</option>
+        <option value="manager">Manager</option>
+        <option value="worker">Worker</option>
+        <option value="customer">Customer</option>
+    </select><br>
+
+    <label for="combo2">Type of customer:</label>
+    <select id="combo2" name="combo2" v-model="typeFilter">
+        <option value="all">All</option>
+        <option value="gold">Gold</option>
+        <option value="silver">Silver</option>
+        <option value="bronze">Bronze</option>
+    </select><br>
+
+    <button class="btn btn-success press-btn1" @click="filterChocolate()">Filter</button>
+
+    </div>
+    </div>
+            
+       
 <div class="tabela">
         <table>
             <tr>
@@ -100,7 +127,7 @@
 
 <script setup>
 
-import axios from 'axios';
+import axios, { all } from 'axios';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
@@ -113,6 +140,10 @@ const sortUsername = ref('unordered');
 const sortName = ref('unordered');
 const sortSurname = ref('unordered');
 const sortPoints = ref('unordered');
+
+const copyUsers = ref([]);
+const roleFilter = ref('all');
+const typeFilter = ref('all');
 
 onMounted(() => {
     loadUsers();
@@ -129,6 +160,7 @@ function loadUsers()
         if(response.data != "")
         {
             allUsers.value = response.data.filter(user => user.username !== usernameData.value);
+            copyUsers.value = allUsers.value;
         }
         else {
             allUsers.value = '';
@@ -237,6 +269,30 @@ function sort()
             allUsers.value.sort((a, b) => b.points - a.points)
         }
 }
+
+function filterChocolate()
+{
+    allUsers.value = copyUsers.value;
+    const uniqueUsers = new Set();
+
+if (this.roleFilter === 'all' && this.typeFilter === 'all') {
+    refresh();
+} else {
+    this.allUsers.forEach(user1 => {
+        let roleMatches = this.roleFilter === 'all' || user1.role.toLowerCase() === this.roleFilter;
+        let typeMatches = this.typeFilter === 'all' //|| user1.type.toLowerCase() === this.typeFilter; 
+
+        if (roleMatches && typeMatches) {
+            uniqueUsers.add(user1);
+        }
+    });
+
+    // Update the factories list
+    allUsers.value = Array.from(uniqueUsers);
+}
+
+                 
+ }
 
 
 
@@ -347,6 +403,7 @@ template {
 .sort {
     font-family: Arial, sans-serif;
     text-align: left;
+    margin-right: 10px;
 }
 
 .sort h3 {
@@ -388,6 +445,10 @@ template {
     flex-direction: column;
     align-items: center;
 }
-
+.function{
+    display: flex;
+    justify-content: horizontal;
+    
+}
 
 </style>
