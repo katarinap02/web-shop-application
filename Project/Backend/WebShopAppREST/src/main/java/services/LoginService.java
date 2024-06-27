@@ -299,5 +299,14 @@ public class LoginService {
 		UserDAO userDao = (UserDAO) ctx.getAttribute("userDAO");
 		return userDao.getDiscount(username);
 	}
+	
+	@GET
+	@Path("/search")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<User> searchUsers(@QueryParam("name") String name, @QueryParam("surname") String surname, @QueryParam("username") String username)
+	{
+		UserDAO userDao = (UserDAO) ctx.getAttribute("userDAO");
+		return userDao.searchUsers(name, surname, username);
+	}
+	}
 
-}

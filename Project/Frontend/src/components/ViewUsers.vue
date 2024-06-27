@@ -1,5 +1,38 @@
 <template>
     <div class="function">
+
+        <div class="search">
+            <h3>Search</h3>
+           
+            <form>
+                <div>
+                    <label>Name: </label>
+                    <input type="text" name="name" v-model="searchName" required>
+                </div>
+                <div>
+
+                    <label>Surname: </label>
+                   
+                <input type="text" name="searchSurname"  v-model="searchSurname" required>
+              
+            <label>
+                Username: 
+                </label>
+                <input type="text" name="searchUsername"  v-model="searchUsername" required>
+                
+            </div>
+           
+              
+            
+            <div class="btn-container">
+            <button type="submit" class="btn btn-success press-btn1" @click.prevent="search()">Search</button>
+          
+            </div>
+
+
+            </form>
+           
+    </div>
         <div class="sort">
             <h3>Sort</h3>
             <div>
@@ -148,6 +181,14 @@ const copyUsers = ref([]);
 const roleFilter = ref('all');
 const typeFilter = ref('all');
 
+
+const searchName = ref("");
+const searchSurname = ref("");
+const searchUsername = ref("");
+
+
+
+
 onMounted(() => {
     loadUsers();
 })
@@ -289,6 +330,36 @@ function sort()
         }
 }
 
+
+function search()
+{
+   axios.get("http://localhost:8080/WebShopAppREST/rest/search/?name=" + searchName.value + "&surname=" + searchSurname.value + "&username=" + searchUsername.value )
+   .then(response => {  allUsers.value = response.data; copyUsers.value = response.data;  
+
+    allUsers.value = copyUsers.value;
+    const uniqueUsers = new Set();
+
+if (this.roleFilter === 'all' && this.typeFilter === 'all') {
+   // refresh();
+   allUsers.value = copyUsers.value;
+} else {
+    this.allUsers.forEach(user1 => {
+        let roleMatches = this.roleFilter === 'all' ||  user1.role.toLowerCase() === this.roleFilter;
+        let typeMatches = this.typeFilter === 'all' || user1.customerId == this.typeFilter; 
+
+        if (roleMatches && typeMatches) {
+            uniqueUsers.add(user1);
+        }
+    });
+
+    // Update the factories list
+    allUsers.value = Array.from(uniqueUsers);
+}
+   });
+   
+
+   
+}
 function filterChocolate()
 {
     allUsers.value = copyUsers.value;
@@ -298,7 +369,7 @@ if (this.roleFilter === 'all' && this.typeFilter === 'all') {
     refresh();
 } else {
     this.allUsers.forEach(user1 => {
-        let roleMatches = this.roleFilter === 'all' || user1.role.toLowerCase() === this.roleFilter;
+        let roleMatches = this.roleFilter === 'all' ||  user1.role.toLowerCase() === this.roleFilter;
         let typeMatches = this.typeFilter === 'all' || user1.customerId == this.typeFilter; 
 
         if (roleMatches && typeMatches) {
@@ -469,5 +540,6 @@ template {
     justify-content: horizontal;
     
 }
+
 
 </style>

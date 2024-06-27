@@ -11,7 +11,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.StringTokenizer;import javax.lang.model.element.ModuleElement.UsesDirective;
+import java.util.StringTokenizer;
+import java.util.stream.Collectors;
+
+import javax.lang.model.element.ModuleElement.UsesDirective;
 
 import beans.ChocolateFactory;
 import beans.CustomerRole;
@@ -449,6 +452,11 @@ public class UserDAO {
 		}
 		
 		return 0;
+	}
+	
+	public Collection<User> searchUsers(String name, String surname, String username)
+	{
+		return users.values().stream().filter(x -> x.getName().toLowerCase().contains(name.toLowerCase()) && x.getSurname().toLowerCase().contains(surname.toLowerCase()) && x.getUsername().toLowerCase().contains(username.toLowerCase())).collect(Collectors.toList());
 	}
 	
 
