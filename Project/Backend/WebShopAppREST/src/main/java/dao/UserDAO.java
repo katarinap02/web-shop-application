@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.StringTokenizer;import javax.lang.model.element.ModuleElement.UsesDirective;
 
 import beans.ChocolateFactory;
+import beans.CustomerRole;
 import beans.Shopping;
 import beans.User;
 import enums.Gender;
@@ -25,6 +26,7 @@ public class UserDAO {
 	private ChocolateFactoryDAO factoryDAO;
 	String path = "";
 	private ShoppingDAO shoppingDao;
+	private CustomerRoleDAO roleDao;
 	
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	
@@ -434,6 +436,20 @@ public class UserDAO {
 		return null;
 	}
 	
+	
+	public double getDiscount(String username)
+	{
+       User user = users.containsKey(username) ? users.get(username) : null;
+		
+		if(user != null)
+		{
+			roleDao = new CustomerRoleDAO(path);
+			CustomerRole role = roleDao.findById(user.getCustomerId());
+			return role.getDiscount();
+		}
+		
+		return 0;
+	}
 	
 
 	

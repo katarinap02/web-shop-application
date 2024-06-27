@@ -9,7 +9,7 @@
            
             <tr>
                 <td>Price: </td>
-                <td>{{ chocolate.price }}</td>
+                <td>{{ price }}</td>
             </tr>
             <tr>
                 <td>Type: </td>
@@ -61,6 +61,10 @@ const chocolateId = ref(route.params.id);
 const cartId = ref(route.params.cartId);
 const chocolate = ref({ name: "", price: 0, kind: "", factory: -1, type: "", grams: 0, description: "", imageUrl: "", status: false, number: 0 });
 const chocolateAmount = ref(0);
+const discount = ref(0);
+const user = ref('');
+const usernameData = ref(localStorage.getItem('userData'));
+const price = ref(0);
 
 onMounted(() => {  getChocolateId(chocolateId); })
 
@@ -69,8 +73,30 @@ function getChocolateId(chocolateId)
   {
    
      axios.get("http://localhost:8080/WebShopAppREST/rest/chocolates/getId/" + chocolateId.value)
-     .then(response => { chocolate.value = response.data; console.log(response.data)});
+     .then(response => { chocolate.value = response.data; console.log(response.data)
+
+        loadUser();
+     });
   }
+
+  function loadUser(){
+    axios.get("http://localhost:8080/WebShopAppREST/rest/getLogedUser?username=" + usernameData.value)
+    .then(response => {
+        user.value = response.data;
+        loadDiscount(user.value.username);
+    })
+    .catch(error => {
+      //  localStorage.setItem('userData', JSON.stringify(""));
+    });
+
+}
+
+
+function loadDiscount(username)
+{
+    axios.get("http://localhost:8080/WebShopAppREST/rest/getdiscount/" + username)
+    .then(response => { discount.value = response.data;  price.value = chocolate.value.price * discount.value; })
+}
 
   function addToCart()
   {
@@ -85,7 +111,7 @@ function getChocolateId(chocolateId)
         axios.post("http://localhost:8080/WebShopAppREST/rest/chocolates/" + chocolateId.value, this.chocolate)
       .then(response => { console.log(response.data);  });
 
-        axios.post("http://localhost:8080/WebShopAppREST/rest/carts/addtocart/?cartId=" + cartId.value + "&chocolateId=" + chocolateId.value + "&amount=" + chocolateAmount.value + "&price=" + chocolate.value.price + "&factoryId=" + chocolate.value.factory)
+        axios.post("http://localhost:8080/WebShopAppREST/rest/carts/addtocart/?cartId=" + cartId.value + "&chocolateId=" + chocolateId.value + "&amount=" + chocolateAmount.value + "&price=" + price.value + "&factoryId=" + chocolate.value.factory)
         .then(response => { alert("Success!"); this.router.push({name: 'ShowFactory', params: {id: chocolate.value.factory }}); });
       
     }

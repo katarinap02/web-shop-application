@@ -64,4 +64,10 @@ public class CustomerRoleDAO {
 		}
 	}
 
+	public CustomerRole findById(int customerId) {
+		// TODO Auto-generated method stub
+		CustomerRole role = roles.containsKey(customerId) ? roles.get(customerId) : null;
+		return role;
+	}
+
 }

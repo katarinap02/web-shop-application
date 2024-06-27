@@ -75,6 +75,7 @@ const shoppingCart = ref({
 const user = ref('');
 const usernameData = ref(localStorage.getItem('userData'));
 
+
 onMounted(() => {
     loadUser();
 

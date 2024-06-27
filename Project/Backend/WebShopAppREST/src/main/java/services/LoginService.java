@@ -290,5 +290,14 @@ public class LoginService {
 		UserDAO userDao = (UserDAO) ctx.getAttribute("userDAO");
 		return userDao.getCustomersByFactory(factoryId);
 	}
+	
+	@GET
+	@Path("/getdiscount/{username}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public double getDiscount(@PathParam("username") String username)
+	{
+		UserDAO userDao = (UserDAO) ctx.getAttribute("userDAO");
+		return userDao.getDiscount(username);
+	}
 
 }
