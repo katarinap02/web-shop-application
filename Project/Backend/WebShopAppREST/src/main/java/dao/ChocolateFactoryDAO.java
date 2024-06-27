@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.StringTokenizer;
+import java.util.stream.Collectors;
 
 import beans.Chocolate;
 import beans.ChocolateFactory;
@@ -27,7 +28,7 @@ public class ChocolateFactoryDAO {
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
 	private UserDAO userDao;
 	private CommentDAO commentDao;
-	
+	private ChocolateDAO chocolateDao;
 	
 	public ChocolateFactoryDAO(){	
 		ArrayList<Integer> list = new ArrayList<>();
@@ -276,6 +277,41 @@ public class ChocolateFactoryDAO {
 		return null;
 	}
 	
+	
+	private ArrayList<String> getChocolateNames(int factoryId)
+	{
+		chocolateDao = new ChocolateDAO(path);
+		ArrayList<String> result = new ArrayList<String>();
+		
+		for(Chocolate chocolate : chocolateDao.findAll())
+		{
+			if(chocolate.getFactory() == factoryId)
+				result.add(chocolate.getName());
+				
+		}
+		
+		return result;
+		
+	}
+	
+	private boolean factoryContainsChocolate(ArrayList<String> chocolateNames, String chocolate)
+	{
+		for(String name : chocolateNames)
+		{
+			if(name.toLowerCase().contains(chocolate.toLowerCase()))
+				return true;
+		}
+		
+		return false;
+	}
+	
+	public Collection<ChocolateFactory> searchFactories(String factory, String chocolate, String address, String rating)
+	{
+		if(!rating.isEmpty())
+			return factories.values().stream().filter(x -> x.getName().toLowerCase().contains(factory.toLowerCase()) && x.getLocation().getAddress().toLowerCase().contains(address.toLowerCase()) && x.getRate() == Double.parseDouble(rating) && factoryContainsChocolate(getChocolateNames(x.getId()), chocolate)).collect(Collectors.toList());
+		else
+			return factories.values().stream().filter(x -> x.getName().toLowerCase().contains(factory.toLowerCase()) && x.getLocation().getAddress().toLowerCase().contains(address.toLowerCase()) && factoryContainsChocolate(getChocolateNames(x.getId()), chocolate)).collect(Collectors.toList());
+	}
 	
 
 }

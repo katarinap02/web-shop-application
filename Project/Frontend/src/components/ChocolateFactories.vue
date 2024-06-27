@@ -1,6 +1,47 @@
 <template>
 <div class="function">
 
+    <div class="search">
+        <h3>Search</h3>
+       
+        <form>
+            <div>
+                <label>Fatory name: </label>
+                <input type="text" name="name" v-model="searchFactory" required>
+            </div>
+            <div>
+
+                <label>Chocolate name: : </label>
+               
+            <input type="text" name="searchChocolate"  v-model="searchChocolate" required>
+          
+        <label>
+            Location: 
+            </label>
+            <input type="text" name="searchLocation"  v-model="searchLocation" required>
+            
+          
+        </div>
+        <div>
+            <label>
+                Average rating: 
+                </label>
+                <input type="text" name="searchRating"  v-model="searchRating" required>
+                
+        </div>
+       
+          
+        
+        <div class="btn-container">
+        <button type="submit" class="btn btn-success press-btn1" @click.prevent="search()">Search</button>
+      
+        </div>
+
+
+        </form>
+       
+</div>
+
     
  <div class="sort">
         <h3>Sort</h3>
@@ -153,7 +194,52 @@ const chocolates = ref([]);
 const copyFactory = ref([]);
 
 
+const searchFactory = ref("");
+const searchChocolate = ref("");
+const searchLocation = ref("");
+const searchRating = ref("");
 
+
+function search()
+{
+    
+    axios.get("http://localhost:8080/WebShopAppREST/rest/factories/search/?factory=" + searchFactory.value + "&chocolate=" + searchChocolate.value + "&location=" + searchLocation.value + "&rating=" + searchRating.value)
+    .then(response => { factories.value = response.data; 
+        copyFactory.value = response.data;
+        factories.value = copyFactory.value;
+   const uniqueChocolates = new Set();
+   const uniqueFactories = new Set();
+
+if (this.kindFilter === 'all' && this.typeFilter === 'all' && this.opnenedFilter === 'all') {
+   // refresh();
+   factories.value = copyFactory.value;
+} else {
+    this.chocolates.forEach(chocolate => {
+        let kindMatches = this.kindFilter === 'all' || chocolate.kind === this.kindFilter;
+        let typeMatches = this.typeFilter === 'all' || chocolate.type === this.typeFilter; 
+        let openedMatches = this.opnenedFilter === 'all' || chocolate.opened === this.opnenedFilter; 
+
+        if (kindMatches && typeMatches && openedMatches) {
+            uniqueChocolates.add(chocolate.factory);
+        }
+    });
+
+  
+    this.factories.forEach(factory => {
+        if (uniqueChocolates.has(factory.id)) {
+            uniqueFactories.add(factory);
+        }
+    });
+
+    // Update the factories list
+    factories.value = Array.from(uniqueFactories);
+}
+
+
+
+
+    })
+}
 function loadUser(){
   axios.get("http://localhost:8080/WebShopAppREST/rest/getLogedUser?username=" + usernameData.value)
     .then(response => {
