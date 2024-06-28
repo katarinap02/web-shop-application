@@ -61,10 +61,13 @@
             </tr>
         </table>
         <div class="buttons"> 
-
-            <button v-if="user.role==='MANAGER'&& user.factory.id === factory.id" class="add" type="button" @click.prevent="goToAdd()">Add</button>
-            <button v-if="user.role==='MANAGER'&& user.factory.id === factory.id" class="delete" @click="deleteSelectedChocolate()">Delete selected</button>
-            <button v-if="user.role==='CUSTOMER'" class="delete" @click="viewCart()">View cart</button>
+            <button v-if="user.role === 'MANAGER' && user.factory && user.factory.id === factory.id" class="add" type="button" @click.prevent="goToAdd()">Add</button>
+            <button v-if="user.role === 'MANAGER' && user.factory && user.factory.id === factory.id" class="delete" @click="deleteSelectedChocolate()">Delete selected</button>
+            <button v-if="user.role === 'CUSTOMER'" class="delete" @click="viewCart()">View cart</button>
+            <div v-if="selectedChocolate && user.factory && user.factory.id === factory.id && user.role === 'WORKER'" class="changeAmount">
+                <input name="amount" type="number" v-model="chocolateAmount" :class="{'error': chocolateAmount < 0}">
+                <button class="change" type="button" @click.prevent="changeChocolateAmount()">Change amount</button>
+            </div>
         </div>
 
         <div class="comments-div">
@@ -140,6 +143,7 @@ const route = useRoute();
 const router = useRouter();
 const factoryId = ref(route.params.id);
 const selectedChocolate = ref(null);
+const selectedAmount = ref(null);
 const factory = ref({ "chocolates": [],
         "id": 0,
         "isWorking": false,
@@ -168,6 +172,7 @@ const shoppingCart = ref({
 });
 const chocolates = ref([]);
 const comments = ref([]);
+const chocolateAmount = ref('0');
 
 onMounted(() => {  getFactoryById(factoryId);  loadChocolates(factoryId); })
 
@@ -237,13 +242,25 @@ function goToAdd()
 
 function selectChocolate(chocolate)
 {
+    this.chocolateAmount = chocolate.number;
     this.selectedChocolate = chocolate;
-    console.log(this.selectedChocolate);
+    this.selectedAmount = chocolate;
 }
 function openCart()
 {
     
   
+}
+
+function changeChocolateAmount()
+{
+    if(user.value.role==='WORKER'&& user.value.factory.id === factory.value.id && this.selectChocolate !== null)
+    {
+        selectedAmount.value.number = chocolateAmount.value;
+        axios.post("http://localhost:8080/WebShopAppREST/rest/chocolates/" + selectedAmount.value.id, selectedAmount.value)
+      .then(response => { console.log(response.data); 
+       });
+    }
 }
 
 function addToCart(chocolateId)
@@ -321,6 +338,20 @@ div {
 
 .selected {
     background-color: grey; /* Change to your desired highlight color */
+}
+.error{
+      border: 2px solid red;
+  }
+
+.changeAmount {
+    display: inline;
+    align-items: center; /* Align items vertically centered */
+}
+
+.changeAmount input {
+    margin-right: 10px; /* Add some space between the input and button */
+    width: 50px;
+    text-align: center;
 }
 </style>
 
