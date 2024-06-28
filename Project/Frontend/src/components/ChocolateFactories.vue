@@ -8,15 +8,22 @@
             <div>
                 <label>Fatory name: </label>
                 <input type="text" name="name" v-model="searchFactory" required>
-            </div>
-            <div>
 
+                
                 <label>Chocolate name: : </label>
                
             <input type="text" name="searchChocolate"  v-model="searchChocolate" required>
           
+            </div>
+            <div>
+                <label>
+                    Country: 
+                    </label>
+                    <input type="text" name="searchCountry"  v-model="searchCountry" required>
+                    
+
         <label>
-            Location: 
+            Address: 
             </label>
             <input type="text" name="searchLocation"  v-model="searchLocation" required>
             
@@ -199,11 +206,13 @@ const searchChocolate = ref("");
 const searchLocation = ref("");
 const searchRating = ref("");
 
+const searchCountry = ref("");
+
 
 function search()
 {
     
-    axios.get("http://localhost:8080/WebShopAppREST/rest/factories/search/?factory=" + searchFactory.value + "&chocolate=" + searchChocolate.value + "&location=" + searchLocation.value + "&rating=" + searchRating.value)
+    axios.get("http://localhost:8080/WebShopAppREST/rest/factories/search/?factory=" + searchFactory.value + "&chocolate=" + searchChocolate.value + "&location=" + searchLocation.value + "&rating=" + searchRating.value + "&country=" + searchCountry.value)
     .then(response => { factories.value = response.data; 
         copyFactory.value = response.data;
         factories.value = copyFactory.value;
