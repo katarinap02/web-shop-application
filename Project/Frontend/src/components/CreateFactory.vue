@@ -20,6 +20,10 @@
     <td><input name="address" type="text" v-model="factory.location.address" :class = "{'error':factoryValid.location.address === ''}"></td>
 </tr>
 <tr>
+    <td>  </td>
+    <td><button v-on:click="showMap()"  class="submit">Show map</button></td>
+</tr>
+<tr>
     <td class="label">Image:</td>
     <td><input name="image" type="text" v-model="factory.logoUrl" :class = "{'error':factoryValid.logoUrl === ''}"></td>
 </tr>
@@ -50,10 +54,15 @@
 </tr>
 
     </table>
+
+    
     <button type="submit" class="submit">Create</button>
  
- 
+     
   </form>
+  <div class="map-container">
+    <div  v-show="mapClicked !== 'NO_CLICK'" id="map"></div>
+</div>
   <p v-show = "errorMsg == 'HasError'">Field inputs are invalid.</p>
 </template>
 <script setup>
@@ -61,6 +70,23 @@
 import axios from 'axios';
 import { ref, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
+
+import "ol/ol.css";
+// This is library of openlayer for handle map
+import Map from "ol/Map";
+import View from "ol/View";
+import { defaults as defaultControls, ScaleLine } from "ol/control";
+import {Tile as TileLayer, Vector as VectorLayer} from 'ol/layer';
+import {OSM, Vector as VectorSource} from 'ol/source';
+
+import { transformExtent, transform } from 'ol/proj';
+import { buffer as olExtentBuffer } from 'ol/extent';
+import { GeoJSON } from 'ol/format';
+import Select from 'ol/interaction/Select';
+import { click } from 'ol/events/condition';
+import { fromLonLat, toLonLat } from 'ol/proj';
+import Point from 'ol/geom/Point';
+import Feature from 'ol/Feature';
 
 const route = useRoute();
 const router = useRouter();
@@ -84,10 +110,18 @@ const mainManager = ref(null);
 const factoryReturn = ref('');
 const managerFactory = ref({factoryId: -1, managerUsername: ''})
 
+const serbiaExtent = transformExtent([18.817, 41.860, 23.006, 46.192], 'EPSG:4326', 'EPSG:3857');
+const centerSerbia = transform([20.9115, 44.026], 'EPSG:4326', 'EPSG:3857');
+
+const mapClicked = ref("NO_CLICK");
 onMounted(() => {
     loadManagers();
 })
 
+function showMap()
+{
+    mapClicked.value = ref("CLICKED");
+}
 function loadManagers()
 {
     axios.get('http://localhost:8080/WebShopAppREST/rest/getManagers').then(response => {
@@ -163,6 +197,77 @@ else
     
    
 }
+
+onMounted(() => {
+  
+  const bufferedExtent = olExtentBuffer(serbiaExtent, 100000);
+
+  const map = new Map({
+    target: 'map', 
+    layers: [
+      new TileLayer({
+        source: new OSM() 
+      })
+    ],
+    view: new View({
+      center: centerSerbia, 
+      zoom: 8, 
+      extent: bufferedExtent, 
+      showFullExtent: true,
+    })
+  });
+  const vectorSource = new VectorSource();
+  const vectorLayer = new VectorLayer({
+    source: vectorSource,
+  });
+  map.addLayer(vectorLayer);
+
+  // Define a select interaction to handle click events
+  const select = new Select({
+    condition: click,
+  });
+  map.addInteraction(select);
+
+  map.on('click', async (event) => {
+    const coords = event.coordinate;
+    const lonLat = toLonLat(coords, 'EPSG:3857');
+   
+ 
+    const address = await reverseGeocode(lonLat);
+    console.log('Address:', address);
+
+    factory.value.location.latitude = lonLat[1].toFixed(2);
+    factory.value.location.longitude = lonLat[0].toFixed(2);
+    factory.value.location.address = address;
+
+    
+    vectorSource.clear();
+    vectorSource.addFeature(new Feature({
+      geometry: new Point(coords),
+    }));
+  });
+
+  async function reverseGeocode(coords) {
+    const apiKey = '1e3b8927067945218adf7247a0f820e7';
+   
+  
+    const url = `https://api.opencagedata.com/geocode/v1/json?q=${coords[1]},${coords[0]}&key=${apiKey}&language=sr-Latn`;
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      console.log(data.results);
+      if (data.results.length > 0) {
+        return data.results[0].formatted;
+      } else {
+        return 'Address not found';
+      }
+    } catch (error) {
+      console.error('Error fetching address:', error);
+      return 'Error fetching address';
+    }
+  }
+
+});
 </script>
 
 <style scoped>
@@ -172,6 +277,12 @@ else
     margin: 0;
 }
 
+.map-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+}
 .fabrikaForma {
     margin: 0 auto;
     max-width: 420px;
@@ -238,4 +349,9 @@ h1 {
     height: 30px;
     margin: 5px;
 }
+
+#map {
+    width: 50%;
+    height: 100vh;
+  }
 </style>

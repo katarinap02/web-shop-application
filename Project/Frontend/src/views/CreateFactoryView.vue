@@ -13,6 +13,7 @@ import Navbar from '@/components/basic-components/Navbar.vue';
     <div>
     <CreateFactory/>
     </div>
+   
 </main>
     
 </template>

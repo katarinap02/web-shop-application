@@ -4,10 +4,7 @@
    
     <div>
         <table>
-            <tr>
-                <td>Location: </td>
-                <td>{{factory.location.latitude }} {{factory.location.longitude }} {{factory.location.address}}</td>
-            </tr>
+           
             <tr>
                 <td>Rate: </td>
                 <td>{{ factory.rate !== -1 ? factory.rate : '' }}</td>
@@ -20,7 +17,18 @@
                 <td>Working time: </td>
                 <td>{{ factory.workingHours.startHour }} - {{ factory.workingHours.endHour }} </td>
             </tr>
+
+            <tr>
+                <td>Location: </td>
+                <td>{{factory.location.latitude }} {{factory.location.longitude }} {{factory.location.address}}</td>
+            </tr>
+           
         </table>
+
+    </div>
+    <div>
+        <button v-on:click="showMap()"  class="submit">Show map</button>
+        <div  v-show="mapClicked !== 'NO_CLICK'" id="map"></div>
 
     </div>
     <br>
@@ -87,6 +95,8 @@
                 </tr>
             </table>
 
+            
+
         </div>
 
 
@@ -99,17 +109,83 @@
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
+import "ol/ol.css";
+// This is library of openlayer for handle map
+import Map from "ol/Map";
+import View from "ol/View";
+import { defaults as defaultControls, ScaleLine } from "ol/control";
+import {Tile as TileLayer, Vector as VectorLayer} from 'ol/layer';
+import {OSM, Vector as VectorSource} from 'ol/source';
 
+import { transformExtent, transform } from 'ol/proj';
+import { buffer as olExtentBuffer } from 'ol/extent';
+import { GeoJSON } from 'ol/format';
+import Select from 'ol/interaction/Select';
+import { click } from 'ol/events/condition';
+import { fromLonLat, toLonLat } from 'ol/proj';
+import Point from 'ol/geom/Point';
+import Feature from 'ol/Feature';
 
 const user = ref('');
 const usernameData = ref(localStorage.getItem('userData'));
+const serbiaExtent = transformExtent([18.817, 41.860, 23.006, 46.192], 'EPSG:4326', 'EPSG:3857');
+const centerSerbia = transform([20.9115, 44.026], 'EPSG:4326', 'EPSG:3857');
 
+const mapClicked = ref("NO_CLICK");
 onMounted(() => {
     loadUser();
 
 })
 
+function showMap()
+{
+    mapClicked.value = ref("CLICKED");
+   
+    const bufferedExtent = olExtentBuffer(serbiaExtent, 100000);
+    const center = transform([factory.value.location.longitude, factory.value.location.latitude], 'EPSG:4326', 'EPSG:3857');
 
+  const map = new Map({
+    target: 'map', 
+    layers: [
+      new TileLayer({
+        source: new OSM() 
+      })
+    ],
+    view: new View({
+      center: center, 
+      zoom: 12, 
+      extent: bufferedExtent, 
+      showFullExtent: true,
+    })
+  });
+  const vectorSource = new VectorSource();
+const vectorLayer = new VectorLayer({
+    source: vectorSource,
+});
+map.addLayer(vectorLayer);
+
+
+function addMarker(longitude, latitude) {
+  
+    vectorSource.clear();
+
+  
+    const coords = fromLonLat([longitude, latitude]);
+
+   
+    const marker = new Feature({
+        geometry: new Point(coords)
+    });
+
+   
+    vectorSource.addFeature(marker);
+}
+
+
+const factoryLongitude = factory.value.location.longitude;
+const factoryLatitude = factory.value.location.latitude;
+addMarker(factoryLongitude, factoryLatitude);
+}
 
 function loadUser(){
     axios.get("http://localhost:8080/WebShopAppREST/rest/getLogedUser?username=" + usernameData.value)
@@ -280,6 +356,7 @@ function viewCart()
     this.router.push({name: "ShowCart", params: {cartid: shoppingCart.value.id}});
 }
 
+
 </script>
 <style scoped>
 
@@ -322,5 +399,16 @@ div {
 .selected {
     background-color: grey; /* Change to your desired highlight color */
 }
+
+.map-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+}
+#map {
+    width: 25%;
+    height: 40vh;
+  }
 </style>
 
