@@ -1,21 +1,24 @@
 package beans;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import enums.Gender;
 import enums.Role;
 
 public class User {
 
-	String username;
-	String password;
-	String name;
-	String surname;
-	Gender gender;
-	LocalDate birthDate;
-	Role role;
-	ChocolateFactory factory; //ovo je uglavon null tako da nemoj da radis neprovereni get
-	boolean bloked; //kao deleted se ponasa
+	private String username;
+	private String password;
+	private String name;
+	private String surname;
+	private Gender gender;
+	private LocalDate birthDate;
+	private Role role;
+	private ChocolateFactory factory; //ovo je uglavon null tako da nemoj da radis neprovereni get
+	private boolean bloked; //kao deleted se ponasa
+	private boolean isSuspicious;
+	
 	
 	//ArrayList<Shopping> shoppings; 
 
@@ -23,9 +26,10 @@ public class User {
 
 	//Basket basket;
 
-	double points;
+	private double points;
 	// CustomerRole role;
 	private int customerId;
+	private ArrayList<LocalDate> rejectedOrders;
 	
 
 	public User() {
@@ -50,7 +54,25 @@ public class User {
 
 		this.factory = null;
 		this.customerId = customerId;
+		this.isSuspicious = false;
+		this.rejectedOrders = new ArrayList<LocalDate>();
+	} 
+	public ArrayList<LocalDate> getRejectedOrders() {
+		return rejectedOrders;
 	}
+
+	public void setRejectedOrders(ArrayList<LocalDate> rejectedOrders) {
+		this.rejectedOrders = rejectedOrders;
+	}
+
+	public boolean isSuspicious() {
+		return isSuspicious;
+	}
+
+	public void setSuspicious(boolean isSuspicious) {
+		this.isSuspicious = isSuspicious;
+	}
+
 	public int getCustomerId() {
 		return customerId;
 	}
