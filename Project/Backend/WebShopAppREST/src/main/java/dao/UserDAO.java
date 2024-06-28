@@ -19,6 +19,7 @@ import javax.lang.model.element.ModuleElement.UsesDirective;
 import beans.ChocolateFactory;
 import beans.CustomerRole;
 import beans.Shopping;
+import beans.ShoppingCart;
 import beans.User;
 import enums.Gender;
 import enums.Role;
@@ -30,7 +31,7 @@ public class UserDAO {
 	String path = "";
 	private ShoppingDAO shoppingDao;
 	private CustomerRoleDAO roleDao;
-	
+	private ShoppingCartDAO cartDao;
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	
 	public UserDAO()
@@ -144,6 +145,17 @@ public class UserDAO {
 		
 		users.put(user.getUsername(), user);
 		saveUsers(path); 
+		
+		if(user.getRole() == Role.CUSTOMER)
+		{
+			cartDao = new ShoppingCartDAO(path);
+			ShoppingCart cart = new ShoppingCart();
+			
+			cart.setCustomerName(user.getUsername());
+			cart.setFactoryId(-1);
+			cartDao.openCart(cart);
+			
+		}
 		return user;
 	}
 	

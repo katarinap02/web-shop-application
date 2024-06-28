@@ -16,6 +16,7 @@ import beans.ChocolateFactory;
 import beans.CustomerRole;
 import beans.Location;
 import beans.ShoppingCart;
+import beans.User;
 import beans.WorkingHours;
 
 public class ShoppingCartDAO {
@@ -23,11 +24,13 @@ public class ShoppingCartDAO {
 	private HashMap<Integer, ShoppingCart> carts = new HashMap<>();
 	private String path = "";
 	private ChocolateDAO chocolateDao;
+
 	public ShoppingCartDAO(String contextPath)
 	{
 		loadShoppingCarts(contextPath);
 		path = contextPath;
 		chocolateDao = new ChocolateDAO(path);
+		
 	}
 	
 	public Collection<ShoppingCart> findAll()
@@ -50,6 +53,8 @@ public class ShoppingCartDAO {
 	    System.out.println(startList.indexOf(0));
 		cart.setChocolateIds(startList);
 		cart.setOpened(true);
+		cart.setPrice(0);
+		
 		System.out.println(maxId);
 		if(cart != null)
 		{

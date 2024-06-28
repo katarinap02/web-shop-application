@@ -22,8 +22,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import beans.ChocolateFactory;
+import beans.ShoppingCart;
 import beans.User;
 import dao.ChocolateFactoryDAO;
+import dao.ShoppingCartDAO;
 import dao.UserDAO;
 import dto.ManagerFactoryDTO;
 import dto.UserDTO;
@@ -148,6 +150,7 @@ public class LoginService {
 		double points = 0;
 		int customerId = 3;
 		User user = new User(userDTO.getUsername(), userDTO.getPassword(), userDTO.getName(), userDTO.getSurname(), gender, date, role, points, customerId);
+	
 		return dao.addUser(user);
 	}
 	
