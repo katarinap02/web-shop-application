@@ -1,4 +1,4 @@
-package utils;
+/*package utils;
 import javax.annotation.Priority;
 import javax.ws.rs.Priorities;
 import javax.ws.rs.container.*;
@@ -27,4 +27,4 @@ public class AuthenticationFilter implements ContainerRequestFilter {
         String username = TokenUtils.getUsernameFromToken(token);
         requestContext.setProperty("username", username);
     }
-}
+}*/

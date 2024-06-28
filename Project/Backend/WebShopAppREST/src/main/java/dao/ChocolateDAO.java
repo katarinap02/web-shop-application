@@ -35,14 +35,20 @@ public class ChocolateDAO {
 	
 	public Collection<Chocolate> findAll()
 	{
-		return chocolates.values();
+		ArrayList<Chocolate> cList = new ArrayList<>();
+		for(Chocolate c : chocolates.values())
+		{
+			if(!c.getDeleted())
+				cList.add(c);
+		}
+		return cList;
 	}
 	
 	public Chocolate findById(int id)
 	{
 		for(Chocolate c: chocolates.values())
 		{
-			if(c.getId() == id)
+			if(c.getId() == id && !c.getDeleted())
 				return c;
 		}
 		return null;
@@ -51,7 +57,7 @@ public class ChocolateDAO {
 	public Chocolate deleteChocolate(int id)
 	{
 		Chocolate c = findById(id);
-		chocolates.remove(id);
+		c.setDeleted(true);
 		saveChocolates(path);
 		return c;
 	}
@@ -108,6 +114,7 @@ public class ChocolateDAO {
 		chocolate.setNumber(0);
 		chocolate.setStatus(false);
 		chocolate = validateChocolate(chocolate);
+		chocolate.setDeleted(false);
 		if(chocolate != null)
 		{
 			chocolates.put(chocolate.getId(), chocolate);
@@ -144,7 +151,7 @@ public class ChocolateDAO {
 		Chocolate c = chocolates.containsKey(key) ? chocolates.get(key) : null;
 		chocolate = validateChocolate(chocolate);
 		
-		if(c != null && chocolate != null)
+		if(c != null && chocolate != null && !c.getDeleted())
 		{
 			c.setName(chocolate.getName());
 			c.setPrice(chocolate.getPrice());
@@ -194,8 +201,10 @@ public class ChocolateDAO {
 					String imageUrl = st.nextToken().trim();
 					Boolean status = Boolean.parseBoolean(st.nextToken().trim());
 					int number = Integer.parseInt(st.nextToken().trim());
-					
-					chocolates.put(id, new Chocolate(id, name, price, kind, factoryId, type, grams, description, imageUrl, status, number));
+					Boolean deleted = Boolean.parseBoolean(st.nextToken().trim());
+					Chocolate c = new Chocolate(id, name, price, kind, factoryId, type, grams, description, imageUrl, status, number);
+					c.setDeleted(deleted);
+					chocolates.put(id, c);
 					
 				
 				}
@@ -232,7 +241,8 @@ public class ChocolateDAO {
 	            sb.append(chocolate.getDescription()).append(";");
 	            sb.append(chocolate.getImageUrl()).append(";");
 	            sb.append(chocolate.getStatus()).append(";");               
-	            sb.append(chocolate.getNumber()).append("\n");
+	            sb.append(chocolate.getNumber()).append(";");
+	            sb.append(chocolate.getDeleted()).append("\n");
 
 	            out.write(sb.toString());
 	            System.out.println("Written: " + sb.toString());
@@ -259,7 +269,7 @@ public class ChocolateDAO {
 		ArrayList<Chocolate> tmpList = new ArrayList<>();
 		for(Chocolate c: chocolates.values())
 		{
-			if(c.getFactory() == id)
+			if(c.getFactory() == id && !c.getDeleted())
 				tmpList.add(c);
 		}
 		return tmpList;

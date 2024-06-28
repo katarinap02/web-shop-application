@@ -29,7 +29,6 @@ import dto.ManagerFactoryDTO;
 import dto.UserDTO;
 import enums.Gender;
 import enums.Role;
-import utils.TokenUtils;
 
 @Path("")
 public class LoginService {
@@ -76,7 +75,7 @@ public class LoginService {
 	public boolean corsLogin() {
 		return true;
 	}
-	
+/*	
 	@POST
 	@Path("/login1")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -93,7 +92,7 @@ public class LoginService {
 	    System.out.println("Hello, world!");
 	    return Response.ok().entity("{\"token\": \"" + token + "\"}").build();
 	}
-	
+	*/
 	@POST
 	@Path("/login")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -210,7 +209,7 @@ public class LoginService {
 		User user = new User(userDTO.getUsername(), userDTO.getPassword(), userDTO.getName(), userDTO.getSurname(), gender, date, role, points, customerId);
 		return dao.addUser(user);
 	}
-	
+	/*
 	@GET
     @Path("/currentUser1")
     @Produces(MediaType.APPLICATION_JSON)
@@ -226,7 +225,7 @@ public class LoginService {
         }
         return Response.ok().entity(user).build();
     }
-	
+	*/
 	@GET
 	@Path("/currentUser")
 	@Produces(MediaType.APPLICATION_JSON)

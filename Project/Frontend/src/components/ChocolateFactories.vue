@@ -209,11 +209,6 @@ function search()
         factories.value = copyFactory.value;
    const uniqueChocolates = new Set();
    const uniqueFactories = new Set();
-
-if (this.kindFilter === 'all' && this.typeFilter === 'all' && this.opnenedFilter === 'all') {
-   // refresh();
-   factories.value = copyFactory.value;
-} else {
     this.chocolates.forEach(chocolate => {
         let kindMatches = this.kindFilter === 'all' || chocolate.kind === this.kindFilter;
         let typeMatches = this.typeFilter === 'all' || chocolate.type === this.typeFilter; 
@@ -233,7 +228,7 @@ if (this.kindFilter === 'all' && this.typeFilter === 'all' && this.opnenedFilter
 
     // Update the factories list
     factories.value = Array.from(uniqueFactories);
-}
+
 
 
 
@@ -400,10 +395,6 @@ function filterChocolate()
     factories.value = copyFactory.value;
    const uniqueChocolates = new Set();
    const uniqueFactories = new Set();
-
-if (this.kindFilter === 'all' && this.typeFilter === 'all' && this.opnenedFilter === 'all') {
-    refresh();
-} else {
     this.chocolates.forEach(chocolate => {
         let kindMatches = this.kindFilter === 'all' || chocolate.kind === this.kindFilter;
         let typeMatches = this.typeFilter === 'all' || chocolate.type === this.typeFilter; 
@@ -423,7 +414,7 @@ if (this.kindFilter === 'all' && this.typeFilter === 'all' && this.opnenedFilter
 
     // Update the factories list
     factories.value = Array.from(uniqueFactories);
-}
+
 
                  
  }

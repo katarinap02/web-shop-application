@@ -16,8 +16,6 @@ import java.util.Random;
 import java.util.StringTokenizer;
 import java.util.stream.Collectors;
 
-import org.apache.catalina.User;
-
 import beans.Chocolate;
 import beans.RejectedOrder;
 import beans.Shopping;

@@ -13,6 +13,7 @@ public class Chocolate {
 	private String imageUrl;
 	private Boolean status; 
     private int number; // broj cokolada na stanju
+    private Boolean deleted; 
 	public Chocolate() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -31,9 +32,16 @@ public class Chocolate {
 		this.imageUrl = imageUrl;
 		this.status = status;
 		this.number = number;
+		this.deleted = false;
 	}
 	
 	
+	public Boolean getDeleted() {
+		return deleted;
+	}
+	public void setDeleted(Boolean deleted) {
+		this.deleted = deleted;
+	}
 	public int getId() {
 		return id;
 	}

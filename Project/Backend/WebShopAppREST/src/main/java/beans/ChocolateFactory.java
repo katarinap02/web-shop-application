@@ -12,6 +12,7 @@ public class ChocolateFactory {
 	private Location location;
 	private String logoUrl;
 	private double rate;
+	private boolean deleted;
 	public ChocolateFactory() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -28,9 +29,22 @@ public class ChocolateFactory {
 		this.location = locationId;
 		this.logoUrl = logoUrl;
 		this.rate = rate;
+		this.deleted = true;
 	}
 	
 	
+	public ArrayList<Integer> getChocolateIds() {
+		return chocolateIds;
+	}
+	public void setChocolateIds(ArrayList<Integer> chocolateIds) {
+		this.chocolateIds = chocolateIds;
+	}
+	public boolean isDeleted() {
+		return deleted;
+	}
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
 	public int getId() {
 		return id;
 	}

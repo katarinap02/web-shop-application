@@ -98,6 +98,7 @@ public class ChocolateFactoryDAO {
 		factory.setChocolates(new ArrayList<Integer>()); //proveriti da li radi
 		factory.setIsWorking(false);
 		factory.setRate(-1.0);
+		factory.setDeleted(false);
 		factory = validateFactory(factory);
 		if(factory != null)
 		{
@@ -113,7 +114,7 @@ public class ChocolateFactoryDAO {
 	public ChocolateFactory deleteById(int id)
 	{
 		ChocolateFactory c = findById(id);
-		factories.remove(id);
+		c.setDeleted(true);
 		saveFactory(path);
 		return c;
 	}
@@ -134,7 +135,13 @@ public class ChocolateFactoryDAO {
 	
 	public Collection<ChocolateFactory> findAll()
 	{
-		 ArrayList<ChocolateFactory> factoryList = new ArrayList<>(factories.values());
+		
+		 ArrayList<ChocolateFactory> factoryList = new ArrayList<>();
+		 for(ChocolateFactory c : factories.values())
+		 {
+			 if(!c.isDeleted())
+				 factoryList.add(c);
+		 }
 		Collections.sort(factoryList, Comparator.comparing(ChocolateFactory::getIsWorking).reversed()); //sortira po tome da li je isWorking true
 		return factoryList;
 		
@@ -178,9 +185,12 @@ public class ChocolateFactoryDAO {
 					Location location = new Location(idLocation, latitude, longitude, address);
 					String url = st.nextToken().trim();
 					double rate = Double.parseDouble(st.nextToken().trim());
+					Boolean deleted = Boolean.parseBoolean(st.nextToken().trim());
+					ChocolateFactory c = new ChocolateFactory(id, name, chocolateIds, working, isWorking, location, url, rate);
+					c.setDeleted(deleted);
+						factories.put(id, c);
 					
 					
-					factories.put(id, new ChocolateFactory(id, name, chocolateIds, working, isWorking, location, url, rate));
 					
 				
 				}
@@ -247,8 +257,8 @@ public class ChocolateFactoryDAO {
 	            
 	            // URL and rate
 	            sb.append(factory.getLogoUrl()).append(";");
-	            sb.append(factory.getRate()).append("\n");
-
+	            sb.append(factory.getRate()).append(";");
+	            sb.append(factory.isDeleted()).append("\n");
 	            out.write(sb.toString());
 	            
 	        }
