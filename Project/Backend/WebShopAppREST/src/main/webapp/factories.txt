@@ -1,3 +1,4 @@
-0;Stark;-1;08:00;17:00;true;0;45.46;19.2;Sutjeska 3 NoviSad 21000;https://upload.wikimedia.org/wikipedia/sr/d/de/%D0%A8%D1%82%D0%B0%D1%80%D0%BA_%28%D0%BB%D0%BE%D0%B3%D0%BE%2C_2022%29.png;0.0
-1;Jaffa;-1;08:00;17:00;true;0;45.46;19.2;M.Tita 245 Crvenka 25220;https://upload.wikimedia.org/wikipedia/en/d/d0/Jaffa_Crvenka_logo.png;0.0
-2;Swisslion-Takovo;-1;08:00;17:00;true;0;45.46;19.2;VaskaPope 4 Beograd 11000;https://www.swisslion-takovo.com/wp-content/uploads/2022/09/swisslion-takovo-krug.webp;4.5
+0;Stark;-1;08:00;17:00;true;0;45.46;19.2;Sutjeska 3 NoviSad 21000;https://upload.wikimedia.org/wikipedia/sr/d/de/%D0%A8%D1%82%D0%B0%D1%80%D0%BA_%28%D0%BB%D0%BE%D0%B3%D0%BE%2C_2022%29.png;0.0;false
+1;Jaffa;-1;08:00;17:00;true;0;45.46;19.2;M.Tita 245 Crvenka 25220;https://upload.wikimedia.org/wikipedia/en/d/d0/Jaffa_Crvenka_logo.png;0.0;false
+2;Swisslion-Takovo;-1;08:00;17:00;true;0;45.46;19.2;VaskaPope 4 Beograd 11000;https://www.swisslion-takovo.com/wp-content/uploads/2022/09/swisslion-takovo-krug.webp;4.5;false
+3;1;-1;08:00;15:00;false;0;1.0;1.0;1;1;0.0;true
