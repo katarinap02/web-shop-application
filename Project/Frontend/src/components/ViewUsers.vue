@@ -336,13 +336,7 @@ function search()
    axios.get("http://localhost:8080/WebShopAppREST/rest/search/?name=" + searchName.value + "&surname=" + searchSurname.value + "&username=" + searchUsername.value )
    .then(response => {  allUsers.value = response.data; copyUsers.value = response.data;  
 
-    allUsers.value = copyUsers.value;
     const uniqueUsers = new Set();
-
-if (this.roleFilter === 'all' && this.typeFilter === 'all') {
-   // refresh();
-   allUsers.value = copyUsers.value;
-} else {
     this.allUsers.forEach(user1 => {
         let roleMatches = this.roleFilter === 'all' ||  user1.role.toLowerCase() === this.roleFilter;
         let typeMatches = this.typeFilter === 'all' || user1.customerId == this.typeFilter; 
@@ -354,7 +348,6 @@ if (this.roleFilter === 'all' && this.typeFilter === 'all') {
 
     // Update the factories list
     allUsers.value = Array.from(uniqueUsers);
-}
    });
    
 
@@ -365,9 +358,7 @@ function filterChocolate()
     allUsers.value = copyUsers.value;
     const uniqueUsers = new Set();
 
-if (this.roleFilter === 'all' && this.typeFilter === 'all') {
-    refresh();
-} else {
+
     this.allUsers.forEach(user1 => {
         let roleMatches = this.roleFilter === 'all' ||  user1.role.toLowerCase() === this.roleFilter;
         let typeMatches = this.typeFilter === 'all' || user1.customerId == this.typeFilter; 
@@ -379,7 +370,6 @@ if (this.roleFilter === 'all' && this.typeFilter === 'all') {
 
     // Update the factories list
     allUsers.value = Array.from(uniqueUsers);
-}
 
                  
  }
