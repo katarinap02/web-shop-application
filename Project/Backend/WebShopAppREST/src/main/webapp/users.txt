@@ -1,5 +1,5 @@
 ana1;123;Ana;Mujic;FEMALE;2024-06-15;WORKER;2;False;-1.0
-andjela;aa;Andjela;Andjelic;FEMALE;2024-06-29;MANAGER;-1;False;-1.0
+andjela;aa;Andjela;Andjelic;FEMALE;2024-06-29;MANAGER;3;False;-1.0
 steva;s123;Stevan;Jovanovic;MALE;2023-05-24;WORKER;1;False;-1.0
 jovan;joca;Jovan;Jovic;MALE;2024-06-15;MANAGER;0;False;-1.0
 pera123;pera;Pera;Peric;MALE;2024-11-11;ADMINISTRATOR;-1;False;-1.0
