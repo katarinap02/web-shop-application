@@ -133,7 +133,7 @@
 <div class="tabela">
         <table>
             <tr>
-                <th colspan="7">All users</th>
+                <th colspan="8">All users</th>
             </tr>
             <tr>
                 <th>Name</th>
@@ -142,6 +142,7 @@
                 <th>Points</th>
                 <th>Role</th>
                 <th>Customer type</th>
+                <th>Suspicious</th>
                 <th>Blocked</th>
             </tr>
             <tr v-for="u in allUsers" :key="u.username" :class="{ selected: selectedUser && selectedUser.username === u.username }" @click="selectUser(u)">
@@ -151,6 +152,7 @@
                 <td>{{formatPoints(u.points)}}</td>
                 <td>{{formatRole(u.role)}}</td>
                 <td>{{ formatCustomerType(u.customerId, u.role) }}</td>
+                <td>{{formatBloked(u.suspicious)}}</td>
                 <td class="td1">{{formatBloked(u.bloked)}} <button v-show = "u.role !== 'ADMINISTRATOR'" class=" btn btn-success blokButton" @click.prevent="blokUser(u.username)">block</button></td>
 
             </tr>
@@ -221,6 +223,7 @@ function loadUsers()
         {
             allUsers.value = response.data.filter(user => user.username !== usernameData.value);
             copyUsers.value = allUsers.value;
+            
         }
         else {
             allUsers.value = '';
@@ -462,12 +465,12 @@ template {
     font-size: small; /* Adjust the font size to make the button smaller */
     background-color: #5a086a;
     border: none; /* Remove the border if not needed */
-    padding: 3px 7px; /* Adjust padding for a smaller button */
+    padding: 3px 4px; /* Adjust padding for a smaller button */
     color: white; /* Set text color */
     align-items: center;
     position: absolute; /* Position the button absolutely within the <td> */
     top: 50%; /* Adjust as needed */
-    right: 15px; /* Adjust as needed */
+    right: 5px; /* Adjust as needed */
     transform: translateY(-50%);
 }
 

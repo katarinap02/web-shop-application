@@ -291,12 +291,28 @@ public class UserDAO {
 					ChocolateFactory factory = convertToFactory(factoryId);
 					double points = Double.parseDouble(st.nextToken().trim());
 					int customerId = Integer.parseInt(st.nextToken().trim());
+					boolean isSuspicious = Boolean.parseBoolean(st.nextToken().trim());
+					
+					ArrayList<LocalDate> cancelDate = new ArrayList<>();
+					
+			            String datesTokens = st.nextToken().trim();
+			            if (!datesTokens.isEmpty() && datesTokens.equals("2023-01-01")) {
+			                // Split the datesTokens string by commas
+			                String[] dateTokens = datesTokens.split(",");
+			                for (String dateStr : dateTokens) {
+			                    // Parse each date string and add it to the list
+			                    cancelDate.add(LocalDate.parse(dateStr.trim(), formatter));
+			                }
+			            }
+			        
 					User user = new User(username, password, firstName, lastName, gender, birthdate, role, points, customerId);
 					user.setFactory(factory);
 					if(bloked == true)
 					{
 						user.setBloked(true);
 					}
+					user.setSuspicious(isSuspicious);
+					user.setRejectedOrders(cancelDate);
 				users.put(username, user);
 				}
 				
@@ -344,7 +360,24 @@ public class UserDAO {
                 	sb.append("False").append(";");
                 }
                 sb.append(user.getPoints()).append(";");
-                sb.append(user.getCustomerId()).append("\n");
+                sb.append(user.getCustomerId()).append(";");
+                sb.append(user.isSuspicious()).append(";");
+                
+                ArrayList<LocalDate> cancelDates = user.getRejectedOrders();
+	            if(cancelDates == null || cancelDates.isEmpty())
+	            {
+	            	sb.append("2023-01-01").append("\n");
+	            }
+	            else {
+	            for (int i = 0; i < cancelDates.size(); i++) {
+	                sb.append(cancelDates.get(i));
+	                if (i < cancelDates.size() - 1) {
+	                    sb.append(",");
+	                }
+	            }
+	            sb.append("\n");
+	            }
+                
                 out.write(sb.toString());
                
             }
@@ -378,18 +411,43 @@ public class UserDAO {
 		
 	}
 	
-	public void decreaseCustomerPoints(String username, double price)
+	public void decreaseCustomerPoints(String username, double price) //ovde cu dodati da se stavi danasnji datum
 	{
 		User user = users.containsKey(username) ? users.get(username) : null;
 		
 		if(user != null)
 		{
 			user.setPoints(user.getPoints() - (price/1000)*133*4);
+			ArrayList<LocalDate> rejectedOrders = user.getRejectedOrders();
+			rejectedOrders.add(LocalDate.now());
+			user.setRejectedOrders(rejectedOrders);
 			saveUsers(path);
 			setCustomerRole(user);
+			checkIfSuspicious(user);
 		}
 		
 		
+	}
+	
+	public void checkIfSuspicious(User user)
+	{
+		ArrayList<LocalDate> numDates = new ArrayList<LocalDate>();
+		LocalDate today = LocalDate.now();
+
+        // Calculate the date one month ago
+        LocalDate oneMonthAgo = today.minusMonths(1);
+		for(LocalDate date : user.getRejectedOrders())
+		{
+			if(date.isAfter(oneMonthAgo) && date.isBefore(today) || date.isEqual(today))
+				numDates.add(date);
+		}
+		
+		if(numDates.size() > 5)
+		{
+			user.setSuspicious(true);
+			saveUsers(path);
+		}
+			
 	}
 	
 	private void setCustomerRole(User user) {
