@@ -7,7 +7,7 @@
            
             <tr>
                 <td>Rate: </td>
-                <td>{{ factory.rate !== -1 ? factory.rate : '' }}</td>
+                <td>{{ factory.rate !== 0 ? factory.rate : '' }}</td>
             </tr>
             <tr>
                 <td>Status: </td>

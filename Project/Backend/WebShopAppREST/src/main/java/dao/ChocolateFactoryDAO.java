@@ -296,7 +296,7 @@ public class ChocolateFactoryDAO {
 		for(Chocolate chocolate : chocolateDao.findAll())
 		{
 			if(chocolate.getFactory() == factoryId)
-				result.add(chocolate.getName());
+				result.add(chocolate.getName()); 
 				
 		}
 		
@@ -306,21 +306,34 @@ public class ChocolateFactoryDAO {
 	
 	private boolean factoryContainsChocolate(ArrayList<String> chocolateNames, String chocolate)
 	{
-		for(String name : chocolateNames)
+		
+		if(chocolateNames.size() == 0)
+		{ 	return true; }
+		else
 		{
-			if(name.toLowerCase().contains(chocolate.toLowerCase()))
-				return true;
+		    for(String name : chocolateNames)
+			{
+				if(name.toLowerCase().contains(chocolate.toLowerCase()))
+					return true;
+			}
+			
+			return false;
 		}
 		
-		return false;
+			
+		
+		
 	}
 	
-	public Collection<ChocolateFactory> searchFactories(String factory, String chocolate, String address, String rating)
+	public Collection<ChocolateFactory> searchFactories(String factory, String chocolate, String address, String rating, String country)
 	{
+		
 		if(!rating.isEmpty())
-			return factories.values().stream().filter(x -> x.getName().toLowerCase().contains(factory.toLowerCase()) && x.getLocation().getAddress().toLowerCase().contains(address.toLowerCase()) && x.getRate() == Double.parseDouble(rating) && factoryContainsChocolate(getChocolateNames(x.getId()), chocolate)).collect(Collectors.toList());
+			return factories.values().stream().filter(x -> x.getName().toLowerCase().contains(factory.toLowerCase()) && x.getLocation().getAddress().toLowerCase().contains(address.toLowerCase()) && x.getLocation().getAddress().toLowerCase().contains(country.toLowerCase()) && x.getRate() == Double.parseDouble(rating) && factoryContainsChocolate(getChocolateNames(x.getId()), chocolate) == true).collect(Collectors.toList());
 		else
-			return factories.values().stream().filter(x -> x.getName().toLowerCase().contains(factory.toLowerCase()) && x.getLocation().getAddress().toLowerCase().contains(address.toLowerCase()) && factoryContainsChocolate(getChocolateNames(x.getId()), chocolate)).collect(Collectors.toList());
+			return factories.values().stream().filter(x -> x.getName().toLowerCase().contains(factory.toLowerCase()) && x.getLocation().getAddress().toLowerCase().contains(address.toLowerCase()) && x.getLocation().getAddress().toLowerCase().contains(country.toLowerCase()) && factoryContainsChocolate(getChocolateNames(x.getId()), chocolate) == true).collect(Collectors.toList());
+		
+		
 	}
 	
 
