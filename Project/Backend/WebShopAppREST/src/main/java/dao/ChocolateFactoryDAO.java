@@ -327,14 +327,40 @@ public class ChocolateFactoryDAO {
 	
 	public Collection<ChocolateFactory> searchFactories(String factory, String chocolate, String address, String rating, String country)
 	{
-		
 		if(!rating.isEmpty())
-			return factories.values().stream().filter(x -> x.getName().toLowerCase().contains(factory.toLowerCase()) && x.getLocation().getAddress().toLowerCase().contains(address.toLowerCase()) && x.getLocation().getAddress().toLowerCase().contains(country.toLowerCase()) && x.getRate() == Double.parseDouble(rating) && factoryContainsChocolate(getChocolateNames(x.getId()), chocolate) == true).collect(Collectors.toList());
+			return factories.values().stream().filter(x -> x.getName().toLowerCase().contains(factory.toLowerCase()) && getFirstWordAfterFirstComma(x.getLocation().getAddress().toLowerCase()).contains(address.toLowerCase()) && getCountry(x.getLocation().getAddress().toLowerCase()).contains(country.toLowerCase()) && x.getRate() == Double.parseDouble(rating) && factoryContainsChocolate(getChocolateNames(x.getId()), chocolate) == true).collect(Collectors.toList());
 		else
-			return factories.values().stream().filter(x -> x.getName().toLowerCase().contains(factory.toLowerCase()) && x.getLocation().getAddress().toLowerCase().contains(address.toLowerCase()) && x.getLocation().getAddress().toLowerCase().contains(country.toLowerCase()) && factoryContainsChocolate(getChocolateNames(x.getId()), chocolate) == true).collect(Collectors.toList());
+			return factories.values().stream().filter(x -> x.getName().toLowerCase().contains(factory.toLowerCase()) && getFirstWordAfterFirstComma(x.getLocation().getAddress().toLowerCase()).contains(address.toLowerCase()) && getCountry(x.getLocation().getAddress().toLowerCase()).contains(country.toLowerCase()) && factoryContainsChocolate(getChocolateNames(x.getId()), chocolate) == true).collect(Collectors.toList());
 		
 		
 	}
+	
+	public static String getFirstWordAfterFirstComma(String address) {
+	    // Split the address by the first comma
+		String[] parts = address.split(",");
+	    
+	    // Check if there are at least two parts (to ensure postal code and city are present)
+	    if (parts.length >= 2) {
+	        // Trim and return the second part (postal code and city)
+	        return parts[1].trim();
+	    } else {
+	        return ""; // Return empty string if format doesn't match
+	    }
+	}
+	
+	public static String getCountry(String address) {
+	    // Split the address by commas
+	    String[] parts = address.split(",");
+	    
+	    // Check if there are at least three parts (to ensure country name is present)
+	    if (parts.length >= 3) {
+	        // Trim and return the third part (country)
+	        return parts[2].trim();
+	    } else {
+	        return ""; // Return empty string if country is not found
+	    }
+	}
+
 	
 
 }

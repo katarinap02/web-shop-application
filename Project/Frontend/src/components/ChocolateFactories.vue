@@ -1,16 +1,16 @@
 <template>
-<div class="function">
+<div class="function" v-if="showFunctions">
 
     <div class="search">
-        <h3>Search</h3>
+        <h3 @click="showSearch1()">Search</h3>
        
-        <form>
+        <form >
             <div>
                 <label>Fatory name: </label>
                 <input type="text" name="name" v-model="searchFactory" required>
 
                 
-                <label>Chocolate name: : </label>
+                <label>Chocolate name:</label>
                
             <input type="text" name="searchChocolate"  v-model="searchChocolate" required>
           
@@ -23,9 +23,9 @@
                     
 
         <label>
-            Address: 
+            City: 
             </label>
-            <input type="text" name="searchLocation"  v-model="searchLocation" required>
+            <input type="text" name="searchCity"  v-model="searchCity" required>
             
           
         </div>
@@ -39,8 +39,8 @@
        
           
         
-        <div class="btn-container">
-        <button type="submit" class="btn btn-success press-btn1" @click.prevent="search()">Search</button>
+        <div class="search-btn-container">
+        <button type="submit" class="btn btn-success search-btn" @click.prevent="search()">Search</button>
       
         </div>
 
@@ -52,9 +52,9 @@
     
  <div class="sort">
         <h3>Sort</h3>
-        <div>
+        <div class="container">
             <label>Factory name:</label>
-            <label>
+            <label >
         <input type="radio" name="sortName" value="ascending" v-model="sortFactoryName">
         Ascending
     </label>
@@ -67,7 +67,7 @@
         Unordered
     </label>
         </div>
-        <div>
+        <div class="container">
             <label>Location:</label>
             <label>
         <input type="radio" name="sortLocation" value="ascending" v-model="sortLocation">
@@ -82,7 +82,7 @@
         Unordered
     </label>
         </div>
-        <div>
+        <div class="container">
             <label>Average rating:</label>
             <label>
         <input type="radio" name="sortGrade" value="ascending" v-model="sortRating">
@@ -96,11 +96,12 @@
         <input type="radio" name="sortGrade" value="unordered" v-model="sortRating">
         Unordered
     </label>
-    <div class="btn-container">
-    <button class="btn btn-success press-btn1" @click.prevent="sort()">Sort</button>
-    <button class="btn btn-success press-btn1" @click.prevent="refresh()">Refresh</button>
-    </div>
+    
         </div>
+        <div class="sortbtn-container">
+    <button class="sortbtn btn-success press-btn1" @click.prevent="sort()">Sort</button>
+    <button class="sortbtn btn-success press-btn1" @click.prevent="refresh()">Refresh</button>
+    </div>
         
     </div>
     
@@ -129,7 +130,7 @@
     <select id="combo3" name="combo3" v-model="opnenedFilter">
         <option value="all">All</option>
         <option value="true">Yes</option>
-        <option value="option2">No</option>
+        <option value="false">No</option>
     </select><br>
 
     <button class="btn btn-success press-btn1" @click="filterChocolate()">Filter</button>
@@ -203,16 +204,17 @@ const copyFactory = ref([]);
 
 const searchFactory = ref("");
 const searchChocolate = ref("");
-const searchLocation = ref("");
+const searchCity = ref("");
 const searchRating = ref("");
 
 const searchCountry = ref("");
+const showFunctions = ref(true);
 
 
 function search()
 {
     
-    axios.get("http://localhost:8080/WebShopAppREST/rest/factories/search/?factory=" + searchFactory.value + "&chocolate=" + searchChocolate.value + "&location=" + searchLocation.value + "&rating=" + searchRating.value + "&country=" + searchCountry.value)
+    axios.get("http://localhost:8080/WebShopAppREST/rest/factories/search/?factory=" + searchFactory.value + "&chocolate=" + searchChocolate.value + "&location=" + searchCity.value + "&rating=" + searchRating.value + "&country=" + searchCountry.value)
     .then(response => { factories.value = response.data; 
         copyFactory.value = response.data;
         factories.value = copyFactory.value;
@@ -221,16 +223,20 @@ function search()
     this.chocolates.forEach(chocolate => {
         let kindMatches = this.kindFilter === 'all' || chocolate.kind === this.kindFilter;
         let typeMatches = this.typeFilter === 'all' || chocolate.type === this.typeFilter; 
-        let openedMatches = this.opnenedFilter === 'all' || chocolate.opened === this.opnenedFilter; 
-
-        if (kindMatches && typeMatches && openedMatches) {
+        if (kindMatches && typeMatches) {
             uniqueChocolates.add(chocolate.factory);
         }
     });
 
   
     this.factories.forEach(factory => {
-        if (uniqueChocolates.has(factory.id)) {
+                    console.log(factory.isWorking);
+            console.log(this.opnenedFilter);
+        if (uniqueChocolates.has(factory.id) && (this.opnenedFilter === 'all' || booleanToString(factory.isWorking) === this.opnenedFilter)) {
+            uniqueFactories.add(factory);
+        }
+        else if(factoryHasNoChocolate(factory) && !factory.deleted && this.kindFilter === 'all'&& this.typeFilter === 'all' && (this.opnenedFilter === 'all' || booleanToString(factory.isWorking) === this.opnenedFilter))
+        {
             uniqueFactories.add(factory);
         }
     });
@@ -244,6 +250,12 @@ function search()
 
     })
 }
+
+function showFunctions1()
+{
+    showFunctions.value = !showFunctions.value;
+}
+
 function loadUser(){
   axios.get("http://localhost:8080/WebShopAppREST/rest/getLogedUser?username=" + usernameData.value)
     .then(response => {
@@ -353,14 +365,21 @@ function sort()
 {
 
     const getThirdWord = (address) => {
-    const words = address.split(' ');
-    return words.length >= 3 ? words[2] : '';
+    const commaIndex = address.indexOf(',');
+    if (commaIndex !== -1) {
+        const partAfterComma = address.substring(commaIndex + 1).trim();
+        const words = partAfterComma.split(' ');
+        return words.length > 1 ? words[1] : ''; // Get the second word after the comma
+    }
+    return ''; // Return an empty string if no comma is found
 };
 
 if (sortLocation.value === 'ascending') {
     factories.value.sort((a, b) => {
         const wordA = getThirdWord(a.location.address).toLowerCase();
         const wordB = getThirdWord(b.location.address).toLowerCase();
+        console.log(wordA);
+        console.log(wordB);
         return wordA.localeCompare(wordB);
     });
 }
@@ -407,16 +426,21 @@ function filterChocolate()
     this.chocolates.forEach(chocolate => {
         let kindMatches = this.kindFilter === 'all' || chocolate.kind === this.kindFilter;
         let typeMatches = this.typeFilter === 'all' || chocolate.type === this.typeFilter; 
-        let openedMatches = this.opnenedFilter === 'all' || chocolate.opened === this.opnenedFilter; 
 
-        if (kindMatches && typeMatches && openedMatches) {
+        if (kindMatches && typeMatches) {
             uniqueChocolates.add(chocolate.factory);
         }
     });
 
   
     this.factories.forEach(factory => {
-        if (uniqueChocolates.has(factory.id)) {
+                    console.log(factory.isWorking);
+            console.log(this.opnenedFilter);
+        if (uniqueChocolates.has(factory.id) && (this.opnenedFilter === 'all' || booleanToString(factory.isWorking) === this.opnenedFilter)) {
+            uniqueFactories.add(factory);
+        }
+        else if(factoryHasNoChocolate(factory) && !factory.deleted &&  this.kindFilter === 'all'&& this.typeFilter === 'all' && (this.opnenedFilter === 'all' || booleanToString(factory.isWorking) === this.opnenedFilter))
+        {
             uniqueFactories.add(factory);
         }
     });
@@ -429,7 +453,22 @@ function filterChocolate()
  }
 
 
+function booleanToString(boolean)
+{
+    if(boolean)
+        return "true";
+    else
+        return "false";
+}
 
+function factoryHasNoChocolate(factoryCh)
+{
+    chocolates.value.forEach(chocolate => {
+        if(chocolate.factory === factoryCh.id)
+            return false;
+    })
+    return true;
+}
 
 
 
@@ -502,7 +541,9 @@ template {
     background-color: #5a086a;
     border: #5a086a;
 }
-
+.btn:hover {
+    background-color: #0056b3;
+}
 .press-btn{
     background-color: #5a086a;
     border: #5a086a;
@@ -514,70 +555,150 @@ template {
     background-color: rgb(245, 195, 128); /* Change to your desired highlight color */
 }
 
-.function .sort {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            text-align: left
-        }
+.sort {
+    max-width: 560px;
+    margin: 0 auto;
+    padding: 15px;
+    border: 1px solid wheat;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: wheat;
+    margin-bottom: 40px;
+    margin-left: 10px;
+}
 
-        .sort h3 {
-            font-size: 24px;
-            margin-bottom: 10px;
-            margin-left: 200px;
-        }
+.sort h3 {
+    font-size: 1.7em;
+    margin-bottom: 10px;
+    text-align: center; /* Center align the heading */
+    color: #5a086a;
+    
+}
 
-        .filter h3 {
-            font-size: 24px;
-            margin-top: 30px;
-            
-        }
+.sort-section {
+    margin-top: 20px;
+}
 
-        .sort div {
-            margin-bottom: 10px;
-        }
+.container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
 
-        .sort label {
-            display: inline-block;
-            margin-right: 10px;
-        }
+.container label {
+    display: inline-block;
+    width: 130px; /* Adjust width as needed */
+    font-weight: bold;
+    text-align: left;
+}
 
-        .sort label:first-child {
-            font-weight: bold;
-            margin-right: 15px;
-        }
+.container label:first-child {
+    margin-right: 5px; /* Add margin-right to the first label */
+}
 
-        .sort input[type="radio"] {
-            margin-right: 5px;
-        }
+.container label:not(:first-child) {
+    margin-left: 10px; /* Add margin-left to subsequent labels */
+}
 
-        .sort label input[type="radio"] + label {
-            font-weight: normal;
-        }
+.container input[type="radio"] {
+    margin-right: 5px;
+    margin-top: 20px;
+}
 
-        
-    .press-btn1 {
-            background-color: #5a086a;
-            border: none;
-            color: white;
-            margin-right: 10px; /* Adjust as needed */
-            width: 80px;
-        }
+.sort .sortbtn-container {
+    text-align: center;
+    margin-top: 40px;
+    display: flex;
+    margin-left: 180px;
+}
 
-        .btn-container {
-            display: flex; /* Use flexbox for horizontal layout */
-            height: 30px;
-            
-        }
+.sort .sortbtn {
+    padding: 5px 10px;
+    background-color: #5a086a;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-right: 20px; /* Adjust as needed */
+    width: 80px;
+}
 
-        .container {
-        display: flex;
-        justify-content: space-between;
-    }
+.sort .sortbtn:hover {
+    background-color: #0056b3;
+}
 
 
 .function{
     display: flex;
     justify-content: horizontal;
+    max-height: 400px;
 }
+
+
+.search {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid  wheat;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color:  wheat;
+    margin-bottom: 40px;
+}
+
+.search h3 {
+    font-size: 1.7em;
+    color: #5a086a;
+}
+
+.search .form-group {
+    margin-bottom: 20px;
+}
+
+.search label {
+    display: inline-block;
+    width: 130px; /* Adjust width as needed */
+    font-weight: bold;
+    text-align: left;
+}
+
+.search input[type="text"] {
+    padding: 8px;
+    font-size: 1em;
+    border: none;
+    background: transparent;
+    border-bottom: 1px solid gray;
+    border-radius: 4px;
+    width: calc(100% - 130px); /* Adjust width for better appearance */
+}
+
+.search-btn-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.search-btn {
+    padding: 5px 10px;
+    background-color: #5a086a;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    text-align: center; /* Center align text */
+    display: inline-block; /* Ensure inline-block display to center text properly */
+}
+
+.search-btn:hover {
+    background-color: #0056b3;
+}
+
+.btn-text {
+    margin-top: 5px; /* Adjust margin as needed */
+    color: #555; /* Example color */
+    font-size: 0.8em; /* Example font size */
+}
+
+
+
 
 </style>
