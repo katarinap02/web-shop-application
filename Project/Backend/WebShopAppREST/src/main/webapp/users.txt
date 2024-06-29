@@ -1,11 +1,12 @@
-ana1;123;Ana;Mujic;FEMALE;2024-06-15;WORKER;2;False;-1.0;3;false;2023-01-01
 andjela;aa;Andjela;Andjelic;FEMALE;2024-06-29;MANAGER;-1;False;-1.0;3;false;2023-01-01
 mika123;mika;Mika;Mika;MALE;1992-01-13;CUSTOMER;-1;False;4148.625;0;false;2023-01-01
 steva;s123;Stevan;Jovanovic;MALE;2023-05-24;WORKER;1;False;-1.0;3;false;2023-01-01
-jovan;joca;Jovan;Jovic;MALE;2024-06-15;MANAGER;0;False;-1.0;3;false;2023-01-01
 pera123;pera;Pera;Peric;MALE;2024-11-11;ADMINISTRATOR;-1;False;-1.0;3;false;2023-01-01
-zika123;zika;Zika;Zika;MALE;1992-01-13;CUSTOMER;-1;False;-1081.29;3;false;2024-06-28,2024-06-28
 mirko;12;Mirko;Lenic;MALE;2024-06-21;MANAGER;1;False;-1.0;3;false;2023-01-01
 natasa;natke;Natasa;Radmilovic;FEMALE;2002-08-02;MANAGER;2;False;-1.0;3;false;2023-01-01
+milica;123;Milica;Micic;FEMALE;2024-06-19;CUSTOMER;-1;False;0.0;3;false;2023-01-01
+ana1;123;Ana;Mujic;FEMALE;2024-06-15;WORKER;2;False;-1.0;3;false;2023-01-01
+jovan;joca;Jovan;Jovic;MALE;2024-06-15;MANAGER;0;False;-1.0;3;false;2023-01-01
+zika123;zika;Zika;Zika;MALE;1992-01-13;CUSTOMER;-1;False;-1081.29;3;false;2023-01-01
 lolek123;lolek;Lolek;Lolek;MALE;1992-01-13;CUSTOMER;-1;False;1525.6;2;false;2023-01-01
 bolek123;bolek;Bolek;Bolek;MALE;1992-01-13;CUSTOMER;-1;False;3065.5;1;false;2023-01-01

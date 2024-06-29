@@ -3,3 +3,5 @@
 2;Swisslion-Takovo;-1;08:00;17:00;true;0;45.46;19.2;Vaska Pope 4, 11000 Beograd, Srbija;https://www.swisslion-takovo.com/wp-content/uploads/2022/09/swisslion-takovo-krug.webp;4.5;false
 3;Bambi;-1;08:00;15:00;false;0;44.83;20.4;Tošin bunar 162a, 11080 Beograd, Srbija;https://logowik.com/content/uploads/images/332_bambi_logo.jpg;0.0;false
 4;1;-1;08:00;15:00;false;0;1.0;1.0;1;1;0.0;true
+5;1;-1;17:40;17:40;false;0;43.98;21.0;Vrletnički put 38l, Bukorovac, Srbija;1;0.0;true
+6;1;-1;18:40;18:40;false;0;44.09;21.17;Stanka Arambašića, Miloševo, Srbija;1;0.0;true

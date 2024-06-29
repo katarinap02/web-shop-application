@@ -2,11 +2,11 @@
     <div>
         <h1>Log in</h1>
         <form class="loginForm" @submit.prevent="login">
-            <div>
+            <div class="form-group">
                 <label for="username">Username:</label>
                 <input type="text" id="username" v-model="username" required>
             </div>
-            <div>
+            <div class="form-group">
                 <label for="passord">Password:</label>
                 <input type="password" id="password" v-model="password" required>
             </div>
@@ -92,16 +92,18 @@ function Register(event)
 }
 
 h1 {
-    margin-top: 10px;
-    color: #5a086a;;
+    text-align: center;
+    margin-top: 15px;
+    color: #5a086a;
+    font-weight: 300;
 }
 
 
 .loginForm label {
     color: #aaa;
     display: inline-block;
-    margin: 25px 0 15px;
-    font-size: 0.9em;
+    margin: 25px 15px 15px;
+    font-size: 0.95em;
     text-transform: uppercase;
     letter-spacing: 1px;
     font-weight: bold;
@@ -111,7 +113,7 @@ h1 {
     padding: 10px 6px;
     box-sizing: border-box;
     border: none;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #aeaeae;
     color: #555;
     display: block;
     width: 100%;
@@ -124,7 +126,7 @@ h1 {
     background-color: #5a086a;
     color: white;
     cursor: pointer;
-    margin-top: 50px;
+    margin-top: 30px;
     width: 100%;
     height: 40px;
     font-size: 0.8em;
@@ -142,4 +144,11 @@ p, a {
     display: block;
     
 }
+
+.loginForm .form-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
 </style>

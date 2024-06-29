@@ -4,3 +4,4 @@
 3;-1;lolek123;0.0;true;-1
 4;-1;kupac1;0.0;true;-1
 5;-1;kupac2;0.0;true;-1
+6;-1;milica;0.0;true;-1

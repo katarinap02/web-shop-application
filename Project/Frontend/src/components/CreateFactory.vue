@@ -1,6 +1,6 @@
 <template>
 <h1>Create factory</h1>
-  <form name="fabrikaForma" @submit="addFactory($event)" class="fabrikaForma">
+  <form name="fabrikaForma" class="fabrikaForma">
     
     <table>
         <tr>
@@ -29,11 +29,11 @@
 </tr>
 <tr>
     <td class="label">Start Hour:</td>
-    <td><input name="start" type="time" v-model="factory.workingHours.startHour"></td>
+    <td><input name="start" type="time" v-model="factory.workingHours.startHour" :class = "{'error':factoryValid.workingHours.startHour === ''}"></td>
 </tr>
 <tr>
     <td class="label">End Hour:</td>
-    <td><input name="end" type="time" v-model="factory.workingHours.endHour"></td>
+    <td><input name="end" type="time" v-model="factory.workingHours.endHour" :class = "{'error':factoryValid.workingHours.endHour === ''}"></td>
 </tr>
 <tr>
     <td class="label">Maganer</td>
@@ -56,7 +56,7 @@
     </table>
 
     
-    <button type="submit" class="submit">Create</button>
+    <button type="submit" @click="addFactory($event)" class="submit">Create</button>
  
      
   </form>
@@ -91,14 +91,17 @@ import Feature from 'ol/Feature';
 const route = useRoute();
 const router = useRouter();
 const factory = ref({ name: "",workingHours: {
-    startHour: "08:00",
-    endHour: "15:00"
+    startHour: "",
+    endHour: ""
   }, isWorking: false, location: {
     latitude: 0,
     longitude: 0,
     address: ""
   }, logoUrl: "", rate: 0});
-const factoryValid = ref({ name: "a", isWorking: false,  location: {
+const factoryValid = ref({ name: "a",workingHours: {
+    startHour: "08:00",
+    endHour: "15:00"
+  }, isWorking: false,  location: {
     latitude: 0,
     longitude: 0,
     address: "a"
@@ -146,7 +149,8 @@ function addFactory(event)
     this.factoryValid = factory.value;
   
     
-   if(!this.factoryValid.name || !this.factoryValid.logoUrl || !this.factoryValid.location.address)
+   if(!this.factoryValid.name || !this.factoryValid.logoUrl || !this.factoryValid.location.address
+    || !this.factoryValid.workingHours.endHour || !this.factoryValid.workingHours.startHour)
 {
    
     errorMsg.value = "HasError";
@@ -285,7 +289,7 @@ onMounted(() => {
 }
 .fabrikaForma {
     margin: 0 auto;
-    max-width: 420px;
+    max-width: 520px;
     background: white;
     text-align: left;
     border-radius: 10px;
@@ -293,17 +297,19 @@ onMounted(() => {
 }
 
 h1 {
-    text-align: center;
+    margin: 0 auto;
     margin-top: 10px;
     color: #5a086a;
     padding: 0;
+    background: white;
+    max-width: 520px;
 }
 
 .fabrikaForma .label {
     color: #aaa;
     display: inline-block;
     margin: 20px 0 15px;
-    font-size: 0.9em;
+    font-size: 0.95em;
     text-transform: uppercase;
     letter-spacing: 1px;
     font-weight: bold;
@@ -314,14 +320,14 @@ h1 {
     padding: 2px 6px;
     box-sizing: border-box;
     border: none;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #aeaeae;
     color: #555;
     display: block;
-    width: 100%;
+    width: 350px;
 }
 
-.error{
-    border: 2px solid red;
+.fabrikaForma .error{
+    border-bottom: 2px solid red;
 }
 
 .fabrikaForma button {
@@ -352,6 +358,32 @@ h1 {
 
 #map {
     width: 50%;
-    height: 100vh;
+    height: 80vh;
   }
+
+select {
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #aeaeae;
+    background-color: #fff;
+    color: #555;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 1em;
+}
+
+select:focus {
+    border-color: #5a086a;
+    outline: none;
+}
+
+option {
+    padding: 10px;
+    background-color: #fff;
+    color: #555;
+}
+
+option:hover {
+    background-color: #f0f0f0;
+}
 </style>
