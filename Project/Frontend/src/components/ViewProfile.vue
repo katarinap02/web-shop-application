@@ -3,25 +3,26 @@
   <form name="profilForma" class="profilForma" @submit="changeUser($event)">
     
     <table>
-        <tr>
+        
+<tr>
+    <td class="label">Name:</td>
+    <td ><input name="name" type="text" v-model="user.name"  :class = "{'error':user.name === ''}"> </td>
+</tr>
+<tr>
+    <td class="label">Surname:</td>
+    <td ><input name="surname" type="text" v-model="user.surname" :class = "{'error':user.surname === ''}"></td>
+</tr>
+<tr>
+    <td class="label">Birthdate:</td>
+    <td ><input name="birthdate" type="date" v-model="user.birthDate"></td>
+</tr>
+<tr>
     <td class="label">Username:</td>
     <td><p>{{user.username}}</p></td>
 </tr>
 <tr>
-    <td class="label">Name:</td>
-    <td><input name="name" type="text" v-model="user.name" :class = "{'error':user.name === ''}"></td>
-</tr>
-<tr>
-    <td class="label">Surname:</td>
-    <td><input name="surname" type="text" v-model="user.surname" :class = "{'error':user.surname === ''}"></td>
-</tr>
-<tr>
     <td class="label">Gender:</td>
-    <td><p>{{user.gender}} <button class="changeButton" @click="editRole()">edit</button></p></td>
-</tr>
-<tr>
-    <td class="label">Birthdate:</td>
-    <td><input name="birthdate" type="date" v-model="user.birthDate"></td>
+    <td ><p>{{user.gender}} <button class="changeButton" @click="editRole()">edit</button></p></td>
 </tr>
 <tr>
     <td class="label">Role:</td>
@@ -36,7 +37,7 @@
     <button type="submit" class="submit">Save changes</button>
   </form>
 
-   <a v-show = "user.role == 'administrator'" href="#/viewUsers">View all users</a>
+
   <p v-show = "errorMsg == 'HasError'">Field inputs are invalid.</p>
 </template>
 
@@ -135,7 +136,7 @@ else {
 
 .profilForma{
     margin: 0 auto;
-    max-width: 420px;
+    max-width: 480px;
     background: white;
     text-align: left;
     border-radius: 10px;
@@ -144,7 +145,7 @@ else {
 
 h1 {
     text-align: center;
-    margin-top: 10px;
+    margin-top: 20px;
     color: #5a086a;
 }
 
@@ -152,21 +153,33 @@ h1 {
     color: #aaa;
     display: inline-block;
     margin: 20px 0 15px;
-    font-size: 0.9em;
+    font-size: 0.95em;
     text-transform: uppercase;
     letter-spacing: 1px;
     font-weight: bold;
 
 }
 
-.profilForma input, p {
-    padding: 2px 6px;
+.profilForma input {
+    padding: 5px 10px;
     box-sizing: border-box;
     border: none;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #5a086a;
     color: #555;
     display: block;
-    width: 100%;
+    width: 320px;
+    margin-left: 10px;
+}
+
+.profilForma  p {
+    padding: 5px 10px;
+    box-sizing: border-box;
+    border: none;
+    border-bottom: 1px solid #aeaeae;
+    color: #787878;
+    display: block;
+    width: 320px;
+    margin-left: 10px;
 }
 
 .profilForma .error{
@@ -187,6 +200,7 @@ h1 {
     letter-spacing: 1px;
     font-weight: bold;
     align-content: center;
+    margin-top: 20px;
 }
 
 .profilForma button:hover {
@@ -200,7 +214,7 @@ h1 {
     font-size: 0.75em;
     text-transform: lowercase;
     padding: 0;
-    margin-left: 75px;
+    margin-left: 205px;
     background-color:gray ;
 }
 
@@ -212,5 +226,6 @@ h1 {
 a {
     vertical-align: center;
 }
+
 
 </style>

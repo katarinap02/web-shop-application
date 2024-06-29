@@ -239,7 +239,7 @@ function RegisterNew(event)
     background-color: #5a086a;
     color: white;
     cursor: pointer;
-    margin-top: 25px;
+    margin-top: 20px;
     width: 100%;
     height: 40px;
     font-size: 0.8em;
@@ -259,7 +259,7 @@ p, a {
 h1 {
     text-align: center;
     margin-top: 15px;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     color: #5a086a;
     font-weight: 300;
 }

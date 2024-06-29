@@ -298,7 +298,7 @@ onMounted(() => {
 
 h1 {
     margin: 0 auto;
-    margin-top: 10px;
+    margin-top: 20px;
     color: #5a086a;
     padding: 0;
     background: white;
@@ -344,6 +344,7 @@ h1 {
     letter-spacing: 1px;
     font-weight: bold;
     align-content: center;
+    margin-top: 5px;
 }
 
 .fabrikaForma button:hover {

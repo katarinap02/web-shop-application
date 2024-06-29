@@ -1,8 +1,41 @@
 <template>
-<div class="function" v-if="showFunctions">
+<h1>Chocolate factories</h1>
+
+
+    <div class="tabela">
+       
+        <table>
+            <tr>
+                <th>Logo</th>
+                <th>Name</th>
+                <th>Location</th>
+                <th>Average rating</th>
+                <th> </th>
+            </tr>
+            <tr v-for="b in factories" :key="b.id" :class="{ selected: selectedFactory && selectedFactory.id === b.id }" @click="selectFactory(b)">
+                <td>
+            <img :src="b.logoUrl" alt="Factory Logo" style="width: 50px; height: 50px;">
+          </td>
+                <td>{{b.name}}</td>
+                <td>{{b.location.latitude }} {{b.location.longitude }} {{b.location.address}}</td>
+                <td>{{ b.rate !== -1 ? b.rate : '' }}</td>
+
+                <td><button class="btn btn-success show-btn" v-on:click="showFactory(b.id)">Show</button></td>
+
+            </tr>
+        </table>
+        
+    </div>
+    <div>
+    <button v-if="user.role === 'ADMINISTRATOR'" class="btn btn-success press-btn" @click.prevent="goToCreateFactory()">Create factory</button>
+    <button v-if="user.role === 'ADMINISTRATOR'" class="btn btn-success press-btn" @click="deleteSelectedFactory()">Delete factory</button>
+    <button class="btn btn-success press-btn" @click="showFunctions1()">View functions</button>
+    </div>
+
+    <div class="function" v-if="showFunctions">
 
     <div class="search">
-        <h3 @click="showSearch1()">Search</h3>
+        <h3>Search</h3>
        
         <form >
             <div>
@@ -137,42 +170,6 @@
 
     </div>
 </div>
-
-    <div class="tabela">
-       
-        <table>
-            <tr>
-                <th colspan="5">
-            <div class="header-content">
-              <span class="title">Chocolate factories</span>
-            </div>
-        </th>
-            </tr>
-            <tr>
-                <th>Logo</th>
-                <th>Name</th>
-                <th>Location</th>
-                <th>Average rating</th>
-                <th> </th>
-            </tr>
-            <tr v-for="b in factories" :key="b.id" :class="{ selected: selectedFactory && selectedFactory.id === b.id }" @click="selectFactory(b)">
-                <td>
-            <img :src="b.logoUrl" alt="Factory Logo" style="width: 50px; height: 50px;">
-          </td>
-                <td>{{b.name}}</td>
-                <td>{{b.location.latitude }} {{b.location.longitude }} {{b.location.address}}</td>
-                <td>{{ b.rate !== -1 ? b.rate : '' }}</td>
-
-                <td><button class="btn btn-success show-btn" v-on:click="showFactory(b.id)">Show</button></td>
-
-            </tr>
-        </table>
-        
-    </div>
-    <div v-if="user.role === 'ADMINISTRATOR'">
-    <button class="btn btn-success press-btn" @click.prevent="goToCreateFactory()">Create factory</button>
-    <button class="btn btn-success press-btn" @click="deleteSelectedFactory()">Delete factory</button>
-    </div>
    
     
    
@@ -208,7 +205,7 @@ const searchCity = ref("");
 const searchRating = ref("");
 
 const searchCountry = ref("");
-const showFunctions = ref(true);
+const showFunctions = ref(false);
 
 
 function search()
@@ -493,6 +490,15 @@ template {
     
 }
 
+h1 {
+    margin: 0 auto;
+    color: #5a086a;
+    padding: 0;
+    background: white;
+    max-width: 520px;
+    margin-bottom: 20px;
+}
+
 .header-content {
   display: flex;
   justify-content: center;
@@ -564,7 +570,7 @@ template {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     background-color: wheat;
     margin-bottom: 40px;
-    margin-left: 10px;
+    margin-left: 20px;
 }
 
 .sort h3 {
@@ -698,6 +704,84 @@ template {
     font-size: 0.8em; /* Example font size */
 }
 
+
+.filter {
+    max-width: 580px; /* Adjust width as needed */
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid wheat;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: wheat;
+    margin-bottom: 40px; /* Consistent margin with other sections */
+    margin-left: 20px;
+}
+
+.filter h3 {
+    font-size: 1.7em;
+    margin-bottom: 10px;
+    text-align: center; /* Center align the heading */
+    color: #5a086a;
+}
+
+.filter .form-group {
+    margin-bottom: 20px;
+}
+
+.filter label {
+    display: inline-block;
+    width: 150px; /* Adjust width to match the input/select */
+    font-weight: bold;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.filter select {
+    padding: 8px;
+    font-size: 1em;
+    border: none;
+    background: transparent;
+    border: 1px solid gray;
+    border-radius: 4px;
+    width: calc(100% - 150px); /* Adjust width for better appearance */
+    margin-bottom: 10px;
+}
+
+.filter .btn-container {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.filter .btn {
+    padding: 5px 10px;
+    background-color: #5a086a;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-right: 10px; /* Adjust margin between buttons */
+    display: inline-block;
+    margin-top: 20px;
+    width: 80px;
+}
+
+.filter .btn:hover {
+    background-color: #0056b3;
+}
+
+.filter .form-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.filter .form-group label {
+    margin-right: 10px;
+}
+
+.filter .form-group select {
+    flex: 1;
+}
 
 
 
