@@ -1,140 +1,7 @@
-<template>
-    <div class="function">
-
-        <div class="search">
-            <h3>Search</h3>
-           
-            <form>
-                <div>
-                    <label>Name: </label>
-                    <input type="text" name="name" v-model="searchName" required>
-                </div>
-                <div>
-
-                    <label>Surname: </label>
-                   
-                <input type="text" name="searchSurname"  v-model="searchSurname" required>
-              
-            <label>
-                Username: 
-                </label>
-                <input type="text" name="searchUsername"  v-model="searchUsername" required>
-                
-            </div>
-           
-              
-            
-            <div class="btn-container">
-            <button type="submit" class="btn btn-success press-btn1" @click.prevent="search()">Search</button>
-          
-            </div>
-
-
-            </form>
-           
-    </div>
-        <div class="sort">
-            <h3>Sort</h3>
-            <div>
-                <label>Username: </label>
-                <label>
-            <input type="radio" name="sortUsername" value="ascending" v-model="sortUsername">
-            Ascending
-        </label>
-        <label>
-            <input type="radio" name="sortUsername" value="descending" v-model="sortUsername">
-            Descending
-        </label>
-        <label>
-            <input type="radio" name="sortUsername" value="unordered" v-model="sortUsername" >
-            Unordered
-        </label>
-            </div>
-            <div>
-                <label>Name: </label>
-                <label>
-            <input type="radio" name="sortName" value="ascending" v-model="sortName">
-            Ascending
-        </label>
-        <label>
-            <input type="radio" name="sortName" value="descending" v-model="sortName">
-            Descending
-        </label>
-        <label>
-            <input type="radio" name="sortName" value="unordered" v-model="sortName">
-            Unordered
-        </label>
-            </div>
-            <div>
-                <label>Surname: </label>
-                <label>
-            <input type="radio" name="sortSurname" value="ascending" v-model="sortSurname">
-            Ascending
-        </label>
-        <label>
-            <input type="radio" name="sortSurname" value="descending" v-model="sortSurname">
-            Descending
-        </label>
-        <label>
-            <input type="radio" name="sortSurname" value="unordered" v-model="sortSurname">
-            Unordered
-        </label>
-            </div>
-
-            <div>
-                <label>Points: </label>
-                <label>
-            <input type="radio" name="sortPoints" value="ascending" v-model="sortPoints">
-            Ascending
-        </label>
-        <label>
-            <input type="radio" name="sortPoints" value="descending" v-model="sortPoints">
-            Descending
-        </label>
-        <label>
-            <input type="radio" name="sortPoints" value="unordered" v-model="sortPoints">
-            Unordered
-        </label>
-        </div>
-        <div class="btn-container">
-        <button class="btn btn-success press-btn1" @click.prevent="sort()">Sort</button>
-        <button class="btn btn-success press-btn1" @click.prevent="refresh()">Refresh</button>
-        </div>
-        
-            </div>
-             
-
-              <div class="filter">
-        <h3>Filter</h3>
-        <label for="combo1">User role:</label>
-    <select id="combo1" name="combo1" v-model="roleFilter">
-        <option value="all">All</option>
-        <option value="administrator">Administrator</option>
-        <option value="manager">Manager</option>
-        <option value="worker">Worker</option>
-        <option value="customer">Customer</option>
-    </select><br>
-
-    <label for="combo2">Type of customer:</label>
-    <select id="combo2" name="combo2" v-model="typeFilter">
-        <option value="all">All</option>
-        <option value=0>Gold</option>
-        <option value=1>Silver</option>
-        <option value=2>Bronze</option>
-        <option value=3>Regular</option>
-    </select><br>
-
-    <button class="btn btn-success press-btn1" @click="filterChocolate()">Filter</button>
-
-    </div>
-    </div>
-            
-       
+<template> 
+<h1>All users</h1>
 <div class="tabela">
         <table>
-            <tr>
-                <th colspan="8">All users</th>
-            </tr>
             <tr>
                 <th>Name</th>
                 <th>Surname</th>
@@ -159,7 +26,135 @@
         </table>
         
     </div>
+    <button class="btn btn-success press-btn" @click="showFunctions1()">View functions</button>
+ <div class="function" v-if="showFunctions">
 
+        <div class="search">
+            <h3>Search</h3>
+           
+            <form>
+                <div>
+                    <label>Name: </label>
+                    <input type="text" name="name" v-model="searchName" required>
+                </div>
+                <div>
+
+                    <label>Surname: </label>
+                   
+                <input type="text" name="searchSurname"  v-model="searchSurname" required>
+              
+            <label>
+                Username: 
+                </label>
+                <input type="text" name="searchUsername"  v-model="searchUsername" required>
+                
+            </div>
+           
+              
+            
+            <div class="search-btn-container">
+            <button type="submit" class="search-btn btn-success press-btn1" @click.prevent="search()">Search</button>
+          
+            </div>
+
+
+            </form>
+           
+    </div>
+        <div class="sort">
+    <h3>Sort</h3>
+    <div class="container">
+        <label>Username: </label>
+        <label>
+            <input type="radio" name="sortUsername" value="ascending" v-model="sortUsername">
+            Ascending
+        </label>
+        <label>
+            <input type="radio" name="sortUsername" value="descending" v-model="sortUsername">
+            Descending
+        </label>
+        <label>
+            <input type="radio" name="sortUsername" value="unordered" v-model="sortUsername">
+            Unordered
+        </label>
+    </div>
+    <div class="container">
+        <label>Name: </label>
+        <label>
+            <input type="radio" name="sortName" value="ascending" v-model="sortName">
+            Ascending
+        </label>
+        <label>
+            <input type="radio" name="sortName" value="descending" v-model="sortName">
+            Descending
+        </label>
+        <label>
+            <input type="radio" name="sortName" value="unordered" v-model="sortName">
+            Unordered
+        </label>
+    </div>
+    <div class="container">
+        <label>Surname: </label>
+        <label>
+            <input type="radio" name="sortSurname" value="ascending" v-model="sortSurname">
+            Ascending
+        </label>
+        <label>
+            <input type="radio" name="sortSurname" value="descending" v-model="sortSurname">
+            Descending
+        </label>
+        <label>
+            <input type="radio" name="sortSurname" value="unordered" v-model="sortSurname">
+            Unordered
+        </label>
+    </div>
+    <div class="container">
+        <label>Points: </label>
+        <label>
+            <input type="radio" name="sortPoints" value="ascending" v-model="sortPoints">
+            Ascending
+        </label>
+        <label>
+            <input type="radio" name="sortPoints" value="descending" v-model="sortPoints">
+            Descending
+        </label>
+        <label>
+            <input type="radio" name="sortPoints" value="unordered" v-model="sortPoints">
+            Unordered
+        </label>
+    </div>
+    <div class="sortbtn-container">
+        <button class="sortbtn" @click.prevent="sort()">Sort</button>
+        <button class="sortbtn" @click.prevent="refresh()">Refresh</button>
+    </div>
+</div>
+
+             
+
+              <div class="filter">
+        <h3>Filter</h3>
+        <label for="combo1">User role:</label>
+    <select id="combo1" name="combo1" v-model="roleFilter">
+        <option value="all">All</option>
+        <option value="administrator">Administrator</option>
+        <option value="manager">Manager</option>
+        <option value="worker">Worker</option>
+        <option value="customer">Customer</option>
+    </select><br>
+
+    <label for="combo2">Type of customer:</label>
+    <select id="combo2" name="combo2" v-model="typeFilter">
+        <option value="all">All</option>
+        <option value=gold>Gold</option>
+        <option value=silver>Silver</option>
+        <option value=bronze>Bronze</option>
+        <option value=regular>Regular</option>
+    </select><br>
+
+    <button class="btn btn-success press-btn1" @click="filterChocolate()">Filter</button>
+
+    </div>
+    </div>
    
 </template>
 
@@ -187,6 +182,7 @@ const typeFilter = ref('all');
 const searchName = ref("");
 const searchSurname = ref("");
 const searchUsername = ref("");
+const showFunctions = ref(false);
 
 
 
@@ -198,6 +194,11 @@ onMounted(() => {
 function refresh()
 {
     loadUsers();
+}
+
+function showFunctions1()
+{
+    showFunctions.value = !showFunctions.value;
 }
 
 function formatCustomerType(customerId, userRole)
@@ -337,12 +338,12 @@ function sort()
 function search()
 {
    axios.get("http://localhost:8080/WebShopAppREST/rest/search/?name=" + searchName.value + "&surname=" + searchSurname.value + "&username=" + searchUsername.value )
-   .then(response => {  allUsers.value = response.data; copyUsers.value = response.data;  
+   .then(response => {  allUsers.value = response.data.filter(user => user.username !== usernameData.value); copyUsers.value = response.data.filter(user => user.username !== usernameData.value);  
 
     const uniqueUsers = new Set();
     this.allUsers.forEach(user1 => {
         let roleMatches = this.roleFilter === 'all' ||  user1.role.toLowerCase() === this.roleFilter;
-        let typeMatches = this.typeFilter === 'all' || user1.customerId == this.typeFilter; 
+        let typeMatches = this.typeFilter === 'all' || formatCustomerType(user1.customerId, user1.role) === this.typeFilter; 
 
         if (roleMatches && typeMatches) {
             uniqueUsers.add(user1);
@@ -364,7 +365,7 @@ function filterChocolate()
 
     this.allUsers.forEach(user1 => {
         let roleMatches = this.roleFilter === 'all' ||  user1.role.toLowerCase() === this.roleFilter;
-        let typeMatches = this.typeFilter === 'all' || user1.customerId == this.typeFilter; 
+        let typeMatches = this.typeFilter === 'all' || formatCustomerType(user1.customerId, user1.role) === this.typeFilter; 
 
         if (roleMatches && typeMatches) {
             uniqueUsers.add(user1);
@@ -389,6 +390,15 @@ function filterChocolate()
 
 template {
     height: 100%;
+}
+
+h1 {
+    margin: 0 auto;
+    color: #5a086a;
+    padding: 0;
+    background: white;
+    max-width: 520px;
+    margin-bottom: 20px;
 }
 
 .tabela {
@@ -474,6 +484,10 @@ template {
     transform: translateY(-50%);
 }
 
+.blokButton:hover {
+    background-color: #0056b3;
+}
+
 .td1 {
     position: relative; 
     width: 170px;
@@ -484,55 +498,230 @@ template {
 }
 
 .sort {
-    font-family: Arial, sans-serif;
-    text-align: left;
-    margin-right: 10px;
+    max-width: 560px;
+    margin: 0 auto;
+    padding: 15px;
+    border: 1px solid wheat;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: wheat;
+    margin-bottom: 40px;
+    margin-left: 20px;
 }
 
 .sort h3 {
-    font-size: 24px;
-   
+    font-size: 1.7em;
+    margin-bottom: 10px;
+    text-align: center; /* Center align the heading */
+    color: #5a086a;
+    
 }
 
-.sort div {
+.sort-section {
+    margin-top: 20px;
+}
+
+.container {
+    display: flex;
+    align-items: center;
     margin-bottom: 10px;
 }
 
-.sort label {
+.container label {
     display: inline-block;
-   
-}
-
-.sort label:first-child {
+    width: 130px; /* Adjust width as needed */
     font-weight: bold;
-   
+    text-align: left;
 }
 
-
-
-.sort label input[type="radio"] + label {
-    font-weight: normal;
+.container label:first-child {
+    margin-right: 5px; /* Add margin-right to the first label */
 }
 
-
-.press-btn1 {
-    background-color: #5a086a;
-    border: none;
-    color: white;
-    margin-right: 10px; /* Adjust as needed */
-    width: 80px;
-    margin-bottom: 20px;
+.container label:not(:first-child) {
+    margin-left: 10px; /* Add margin-left to subsequent labels */
 }
-.container{
+
+.container input[type="radio"] {
+    margin-right: 5px;
+    margin-top: 20px;
+}
+
+.sort .sortbtn-container {
+    text-align: center;
+    margin-top: 10px;
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    margin-left: 180px;
 }
+
+.sort .sortbtn {
+    padding: 5px 10px;
+    background-color: #5a086a;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-right: 20px; /* Adjust as needed */
+    width: 80px;
+}
+
+.sort .sortbtn:hover {
+    background-color: #0056b3;
+}
+
+
 .function{
     display: flex;
     justify-content: horizontal;
-    
+    max-height: 400px;
+   
 }
+
+
+.search {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid  wheat;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color:  wheat;
+    margin-bottom: 40px;
+}
+
+.search h3 {
+    font-size: 1.7em;
+    color: #5a086a;
+}
+
+.search .form-group {
+    margin-bottom: 20px;
+}
+
+.search label {
+    display: inline-block;
+    width: 130px; /* Adjust width as needed */
+    font-weight: bold;
+    text-align: left;
+}
+
+.search input[type="text"] {
+    padding: 8px;
+    font-size: 1em;
+    border: none;
+    background: transparent;
+    border-bottom: 1px solid gray;
+    border-radius: 4px;
+    width: calc(100% - 130px); /* Adjust width for better appearance */
+}
+
+.search-btn-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.search-btn {
+    padding: 5px 10px;
+    background-color: #5a086a;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    text-align: center; /* Center align text */
+    display: inline-block; /* Ensure inline-block display to center text properly */
+}
+
+.search-btn:hover {
+    background-color: #0056b3;
+}
+
+.btn-text {
+    margin-top: 5px; /* Adjust margin as needed */
+    color: #555; /* Example color */
+    font-size: 0.8em; /* Example font size */
+}
+
+
+.filter {
+    max-width: 580px; /* Adjust width as needed */
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid wheat;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: wheat;
+    margin-bottom: 40px; /* Consistent margin with other sections */
+    margin-left: 20px;
+}
+
+.filter h3 {
+    font-size: 1.7em;
+    margin-bottom: 10px;
+    text-align: center; /* Center align the heading */
+    color: #5a086a;
+}
+
+.filter .form-group {
+    margin-bottom: 20px;
+}
+
+.filter label {
+    display: inline-block;
+    width: 150px; /* Adjust width to match the input/select */
+    font-weight: bold;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.filter select {
+    padding: 8px;
+    font-size: 1em;
+    border: none;
+    background: transparent;
+    border: 1px solid gray;
+    border-radius: 4px;
+    width: calc(100% - 150px); /* Adjust width for better appearance */
+    margin-bottom: 10px;
+}
+
+.filter .btn-container {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.filter .btn {
+    padding: 5px 10px;
+    background-color: #5a086a;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-right: 10px; /* Adjust margin between buttons */
+    display: inline-block;
+    margin-top: 20px;
+    width: 80px;
+}
+
+.filter .btn:hover {
+    background-color: #0056b3;
+}
+
+.filter .form-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.filter .form-group label {
+    margin-right: 10px;
+}
+
+.filter .form-group select {
+    flex: 1;
+}
+
+
+
 
 
 </style>
