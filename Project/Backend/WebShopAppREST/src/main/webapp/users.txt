@@ -8,7 +8,7 @@ milica;123;Milica;Micic;FEMALE;2024-01-09;CUSTOMER;-1;True;0.0;3;false;2023-01-0
 luna;123;Luna;Lunic;FEMALE;2024-06-05;MANAGER;-1;False;-1.0;3;false;2023-01-01
 ana1;123;Ana;Mujic;FEMALE;2024-06-15;WORKER;2;False;-1.0;3;false;2023-01-01
 jovan;joca;Jovan;Jovic;MALE;2024-06-15;MANAGER;0;False;-1.0;3;false;2023-01-01
-zika123;zika;Zika;Zika;MALE;1992-01-13;CUSTOMER;-1;False;-1081.29;3;false;2023-01-01
+zika123;zika;Zika;Zika;MALE;1992-01-13;CUSTOMER;-1;False;-921.6899999999999;3;false;2023-01-01
 janko;123;Janko;Jankovic;MALE;2024-06-05;WORKER;2;False;-1.0;3;false;2023-01-01
 lolek123;lolek;Lolek;Lolek;MALE;1992-01-13;CUSTOMER;-1;False;1525.6;2;false;2023-01-01
 bolek123;bolek;Bolek;Bolek;MALE;1992-01-13;CUSTOMER;-1;False;3065.5;1;false;2023-01-01

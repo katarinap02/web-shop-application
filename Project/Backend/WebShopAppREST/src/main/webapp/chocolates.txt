@@ -4,9 +4,9 @@
 3;Milka;300.0;for eating;0;milk;290.0;ljubicasta;https://img.bazzar.cloud/JfOVxnY/rs:fit:500:500:1:1:ce/t:0/fn:screenshot-2024-01-25-122205/czM6Ly9kYXRhc3Rv/cmUuYmF6emFyLmhy/L2ZzVXZHVVRTUnlh/RGg4R1JNOGdrOGF2/dg;true;24;false
 4;Jaffa keks;150.0;for eating;1;milk;100.0;Keks sa narandzom, preliven cokoladom;https://www.jaffa.rs/wp-content/uploads/2020/07/jaffa-cakes-original-300g-500x450-c-default.png;true;30;false
 5;Jaffa napolitanke;250.0;for eating;1;white;200.0;Napolitanke sa cokoladnim kremom;https://www.jaffa.rs/wp-content/uploads/2023/07/Jaffa-Napolitanke-Creme-500x450-c-default.png;true;13;false
-6;Choco biscuit;220.0;ordinary;2;mixed;120.0;Keks preliven cokoladom;https://www.swisslion-takovo.com/wp-content/uploads/2017/12/Choco-Biscuit-125g-3.jpg;true;42;false
+6;Choco biscuit;220.0;ordinary;2;mixed;120.0;Keks preliven cokoladom;https://www.swisslion-takovo.com/wp-content/uploads/2017/12/Choco-Biscuit-125g-3.jpg;true;43;false
 7;1;1.0;1;2;1;1.0;1;1;false;0;true
 8;2;2.0;2;2;2;2.0;2;2;false;0;true
 9;3;3.0;3;2;3;3.0;3;3;false;0;true
 10;5;5.0;5;2;5;5.0;5;5;true;2;true
-11;milki;400.0;for cooking;2;black;300.0;ukusna;https://i.ebayimg.com/images/g/zk0AAOSwxjhil8bo/s-l1600.jpg;true;10;false
+11;milki;400.0;for cooking;2;black;300.0;ukusna;https://i.ebayimg.com/images/g/zk0AAOSwxjhil8bo/s-l1600.jpg;true;7;false

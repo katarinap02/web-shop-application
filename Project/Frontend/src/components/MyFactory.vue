@@ -202,8 +202,8 @@ div{
 
 
 .factory-info img {
-  width: 80px;
-  height: 80px;
+  width: 70px;
+  height: 70px;
   vertical-align: middle; /* Aligns vertically within the .factory-info container */
 }
 
