@@ -137,7 +137,7 @@ public class UserDAO {
 				return null;
 		}
 		
-		if(user.getUsername().isEmpty() || user.getPassword().isEmpty())
+		if(user.getUsername().isEmpty() || user.getPassword().isEmpty() || user.getName().isEmpty() || user.getSurname().isEmpty())
 		{
 			return null;
 		}

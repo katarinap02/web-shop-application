@@ -150,7 +150,7 @@ h1 {
 }
 
 .profilForma .label {
-    color: #aaa;
+    color: gray;
     display: inline-block;
     margin: 20px 0 15px;
     font-size: 0.95em;

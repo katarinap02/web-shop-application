@@ -91,8 +91,8 @@ import Feature from 'ol/Feature';
 const route = useRoute();
 const router = useRouter();
 const factory = ref({ name: "",workingHours: {
-    startHour: "",
-    endHour: ""
+    startHour: "08:00",
+    endHour: "15:00"
   }, isWorking: false, location: {
     latitude: 0,
     longitude: 0,
@@ -306,7 +306,7 @@ h1 {
 }
 
 .fabrikaForma .label {
-    color: #aaa;
+    color: gray;
     display: inline-block;
     margin: 20px 0 15px;
     font-size: 0.95em;

@@ -200,7 +200,7 @@ function RegisterNew(event)
 }
 
 .form label {
-    color: #aaa;
+    color: gray;
     margin: 13px 10px 10px 0; /* Adjust margin to add space between label and input */
     font-size: 0.95em;
     text-transform: uppercase;

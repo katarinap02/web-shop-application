@@ -97,8 +97,8 @@
                     <td>{{ c.commentText }}</td>
                     <td>{{ c.rate }}</td>
                   
-                    <td><button v-if="user.role === 'MANAGER' && c.statusSet == 0" class="btn btn-success show-btn" v-on:click="approveComment(c.id)">Approve</button></td>
-                    <td><button v-if="user.role === 'MANAGER' && c.statusSet == 0" class="btn btn-success show-btn" v-on:click="rejectComment(c.id)">Reject</button></td>
+                    <td v-if="user.role === 'MANAGER' && c.statusSet == 0"><button  class="btn btn-success show-btn" v-on:click="approveComment(c.id)">Approve</button></td>
+                    <td v-if="user.role === 'MANAGER' && c.statusSet == 0"><button class="btn btn-success show-btn" v-on:click="rejectComment(c.id)">Reject</button></td>
 
                 </tr>
             </table>
@@ -410,13 +410,13 @@ div {
 
 .changeAmount {
     display: inline;
-    align-items: center; /* Align items vertically centered */
+    align-items: center; 
 }
 
-.changeAmount input {
-    margin-right: 10px; /* Add some space between the input and button */
+.changeAmount input { 
     width: 50px;
     text-align: center;
+    border: 1px solid gray;
 }
 
 .factory-info {
@@ -475,6 +475,7 @@ div {
     width: 320px;
     margin-left: 10px;
 }
+
 
 .selected {
     background-color: rgb(245, 195, 128); /* Change to your desired highlight color */

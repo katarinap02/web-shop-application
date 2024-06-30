@@ -100,7 +100,7 @@ h1 {
 
 
 .loginForm label {
-    color: #aaa;
+    color: gray;
     display: inline-block;
     margin: 25px 15px 15px;
     font-size: 0.95em;
