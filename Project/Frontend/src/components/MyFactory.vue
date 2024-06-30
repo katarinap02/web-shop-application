@@ -1,39 +1,37 @@
 <template>
+<div class="factory-info">
     <h1>{{ factory.name }}</h1>
-    <img :src="factory.logoUrl" alt="Factory Logo" style="width: 200px; height: 200px;">
-   
+    <img :src="factory.logoUrl" alt="Factory Logo" class="factory-logo" >
+   </div>
     <div>
-        <table>
+        <table class="info">
             <tr>
-                <td>Location: </td>
-                <td>{{factory.location.latitude }} {{factory.location.longitude }} {{factory.location.address}}</td>
+                <td class="label">Location: </td>
+                <td><p>{{factory.location.latitude }} {{factory.location.longitude }} {{factory.location.address}}</p></td>
             </tr>
             <tr>
-                <td>Rate: </td>
-                <td>{{ factory.rate !== -1 ? factory.rate : '' }}</td>
+                <td class="label">Rate: </td>
+                <td><p>{{ factory.rate !== -1 ? factory.rate : '' }}</p></td>
             </tr>
             <tr>
-                <td>Status: </td>
-                <td :id="factory.isWorking ? 'working' : 'not working'">{{ factory.isWorking ? 'working' : 'not working' }}</td>
+                <td class="label">Status: </td>
+                <td :id="factory.isWorking ? 'working' : 'not working'"><p>{{ factory.isWorking ? 'working' : 'not working' }}</p></td>
             </tr>
             <tr>
-                <td>Working time: </td>
-                <td>{{ factory.workingHours.startHour }} - {{ factory.workingHours.endHour }} </td>
+                <td class="label"> Working time: </td>
+                <td><p>{{ factory.workingHours.startHour }} - {{ factory.workingHours.endHour }}</p> </td>
             </tr>
         </table>
-
+<div>
         <h1>Buys</h1>
 
-        <table id="orders">
+        <table id="orders" class="tabela">
             <tr>
                 <th>Order id </th>
                 <th>Factory </th>
                 <th>Date </th>
                 <th>Status </th>
                 <th>Price </th>
-                <th> </th>
-                <th> </th>
-                <th> </th>
 
             </tr>
 
@@ -50,11 +48,12 @@
         </table>
 
         <h1>Customers</h1>
-        <table id="customers">
+        <table id="customers" class="tabela">
             <tr>
                 <th>Username </th>
                 <th>Name </th>
                 <th>Surname </th>
+                <th>Points </th>
                
 
             </tr>
@@ -63,13 +62,14 @@
                <td>{{ c.username }}</td>
                 <td>{{ c.name }}</td>
                 <td>{{ c.surname }}</td>
+                <td>{{ c.points }}</td>
                
               
             </tr>
 
            
         </table>
-
+</div>
     </div>
 </template>
 <script setup>
@@ -179,14 +179,138 @@ div{
     align-items: center;
 }
 
-#orders {
-    border: 1px solid black;
-    justify-items: left;
+
+
+.factory-info {
+  display: inline-block;
+  vertical-align: middle; /* Aligns the inline-block elements vertically */
+  margin-right: 20px; /* Adjust spacing between elements */
 }
 
-#customers {
-    border: 1px solid black;
-    justify-items: left;
+.factory-info h1 {
+  display: inline-block; /* Ensures the h1 behaves as an inline-block element */
+  margin: 0; /* Removes default margin */
+  vertical-align: middle; /* Aligns vertically within the .factory-info container */
+  margin: 0 auto;
+    color: #5a086a;
+    padding: 0;
+  background: white;
+  margin-right: 20px;
+  margin-bottom: 20px;
 }
+
+
+
+.factory-info img {
+  width: 80px;
+  height: 80px;
+  vertical-align: middle; /* Aligns vertically within the .factory-info container */
+}
+
+.info{
+    margin: 0 auto;
+    max-width: 480px;
+    background: white;
+    text-align: left;
+    border-radius: 10px;
+    padding: 25px;
+    margin-bottom: 20px;
+}
+
+.info .label {
+    color: gray;
+    display: inline-block;
+    margin: 20px 0 15px;
+    font-size: 0.95em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: bold;
+
+}
+
+.info  p {
+    padding: 5px 10px;
+    box-sizing: border-box;
+    border: none;
+    border-bottom: 1px solid #aeaeae;
+    color: #787878;
+    display: block;
+    width: 320px;
+    margin-left: 10px;
+}
+
+.tabela {
+	color: #381d11;
+	background-color: wheat;
+	border-collapse: collapse;
+    margin-bottom: 30px;
+    
+    
+}
+
+.title {
+  flex-grow: 1; 
+  text-align: center;
+}
+
+.tabela th{
+    padding: 8px;
+	text-align: center;
+	border-bottom: 1px solid #ddd;
+    font-size: larger;
+    background-color: #5a086a;
+    color: antiquewhite;
+    text-align: center;
+    
+}
+.tabela td {
+	padding: 8px;
+	text-align: center;
+	border-bottom: 1px solid #ddd;
+    font-size: larger;
+}
+
+.tabela .create {
+    text-decoration: none;
+    background-color: #5a086a;
+    color: antiquewhite;
+    margin-left: auto; 
+}
+
+
+
+.tabela tr:hover {
+	background-color: beige;
+}
+
+.tabela tr:hover {
+	background-color: beige;
+}
+
+.show-btn{
+    background-color: #5a086a;
+    border: #5a086a;
+}
+.btn:hover {
+    background-color: #0056b3;
+}
+.press-btn{
+    background-color: #5a086a;
+    border: #5a086a;
+    width: 130px;
+    margin: 30px;
+}
+
+h1 {
+  margin: 0; /* Removes default margin */
+  vertical-align: middle; /* Aligns vertically within the .factory-info container */
+  margin: 0 auto;
+    color: #5a086a;
+    padding: 0;
+  background: white;
+  margin-bottom: 10px;
+}
+
+
 
 </style>

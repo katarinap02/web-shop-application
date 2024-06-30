@@ -17,7 +17,7 @@
             <img :src="b.logoUrl" alt="Factory Logo" style="width: 50px; height: 50px;">
           </td>
                 <td>{{b.name}}</td>
-                <td>{{b.location.latitude }} {{b.location.longitude }} {{b.location.address}}</td>
+                <td> {{b.location.address}} {{b.location.latitude }} {{b.location.longitude }}</td>
                 <td>{{ b.rate !== -1 ? b.rate : '' }}</td>
 
                 <td><button class="btn btn-success show-btn" v-on:click="showFactory(b.id)">Show</button></td>
@@ -167,6 +167,8 @@
     </select><br>
 
     <button class="btn btn-success press-btn1" @click="filterChocolate()">Filter</button>
+
+    
 
     </div>
 </div>
@@ -466,6 +468,7 @@ function factoryHasNoChocolate(factoryCh)
     })
     return true;
 }
+
 
 
 
@@ -781,6 +784,20 @@ h1 {
 
 .filter .form-group select {
     flex: 1;
+}
+
+.map-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  margin-bottom: 20px;
+}
+
+#map {
+  width: 10vh;
+  height: 10vh;
 }
 
 

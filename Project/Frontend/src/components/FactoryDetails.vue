@@ -1,33 +1,35 @@
 <template>
+<div class="factory-info">
     <h1>{{ factory.name }}</h1>
-    <img :src="factory.logoUrl" alt="Factory Logo" style="width: 200px; height: 200px;">
+    <img :src="factory.logoUrl" alt="Factory Logo" class="factory-logo" >
+   </div>
    
     <div>
-        <table>
+        <table class="info">
            
             <tr>
-                <td>Rate: </td>
-                <td>{{ factory.rate !== 0 ? factory.rate : '' }}</td>
+                <td class="label">Rate: </td>
+                <td><p>{{ factory.rate !== 0 ? factory.rate : '' }}</p></td>
             </tr>
             <tr>
-                <td>Status: </td>
-                <td :id="factory.isWorking ? 'working' : 'not working'">{{ factory.isWorking ? 'working' : 'not working' }}</td>
+                <td class="label">Status: </td>
+                <td :id="factory.isWorking ? 'working' : 'not working'"><p>{{ factory.isWorking ? 'working' : 'not working' }}</p></td>
             </tr>
             <tr>
-                <td>Working time: </td>
-                <td>{{ factory.workingHours.startHour }} - {{ factory.workingHours.endHour }} </td>
+                <td class="label">Working time: </td>
+                <td><p>{{ factory.workingHours.startHour }} - {{ factory.workingHours.endHour }}</p> </td>
             </tr>
 
             <tr>
-                <td>Location: </td>
-                <td>{{factory.location.latitude }} {{factory.location.longitude }} {{factory.location.address}}</td>
+                <td class="label">Location: </td>
+                <td><p>{{factory.location.latitude }} {{factory.location.longitude }} {{factory.location.address}}</p></td>
             </tr>
            
         </table>
 
     </div>
     <div>
-        <button v-on:click="showMap()"  class="submit">Show map</button>
+        <button v-on:click="showMap()"  class="btn btn-success show-btn" >Show map</button>
         <div  v-show="mapClicked !== 'NO_CLICK'" id="map"></div>
 
     </div>
@@ -35,7 +37,7 @@
     
     <div>
         <h1>Chocolates</h1>
-        <table class="tabela" id="tabelacokolada">
+        <table class="tabela">
             <tr>
             <th class="red">Name</th>
             <th class="red">Price</th>
@@ -46,6 +48,7 @@
             <th class="red">Image</th>
             <th class="red">Amount</th>
             <th class="red">In Stock</th>
+            <th v-if="user.role==='CUSTOMER'"></th>
         </tr>
 
 
@@ -61,30 +64,32 @@
           </td>
                 <td class="red">{{ c.number }}</td>
                 <td class="red" :id="c.status ? 'yes' : 'no'">{{ c.status ? 'yes' : 'no' }}</td>
-                <td><button v-if="user.role==='MANAGER' && user.factory.id === factory.id" v-on:click="goToUpdateChocolate(c.id)">Edit</button></td>
                 
               
-                <td><button v-if="user.role==='CUSTOMER'" v-on:click="addToCart(c.id)">Add to cart</button></td>
+                <td v-if="user.role==='CUSTOMER'"><button class="btn btn-success show-btn" v-on:click="addToCart(c.id)">Add to cart</button></td>
              
             </tr>
         </table>
         <div class="buttons"> 
-            <button v-if="user.role === 'MANAGER' && user.factory && user.factory.id === factory.id" class="add" type="button" @click.prevent="goToAdd()">Add</button>
-            <button v-if="user.role === 'MANAGER' && user.factory && user.factory.id === factory.id" class="delete" @click="deleteSelectedChocolate()">Delete selected</button>
-            <button v-if="user.role === 'CUSTOMER'" class="delete" @click="viewCart()">View cart</button>
+            <button v-if="user.role === 'MANAGER' && user.factory && user.factory.id === factory.id" class="btn btn-success press-btn" type="button" @click.prevent="goToAdd()">Add</button>
+            <button v-if="user.role==='MANAGER' && user.factory.id === factory.id" class="btn btn-success press-btn" @click="goToUpdateChocolate()">Edit selected</button>
+            <button v-if="user.role === 'MANAGER' && user.factory && user.factory.id === factory.id" class="btn btn-success press-btn" @click="deleteSelectedChocolate()">Delete selected</button>
+            <button v-if="user.role === 'CUSTOMER'" class="btn btn-success press-btn" @click="viewCart()">View cart</button>
             <div v-if="selectedChocolate && user.factory && user.factory.id === factory.id && user.role === 'WORKER'" class="changeAmount">
                 <input name="amount" type="number" v-model="chocolateAmount" :class="{'error': chocolateAmount < 0}">
-                <button class="change" type="button" @click.prevent="changeChocolateAmount()">Change amount</button>
+                <button class="btn btn-success press-btn" type="button"  @click.prevent="changeChocolateAmount()">Change amount</button>
             </div>
         </div>
 
-        <div class="comments-div">
+        
             <h1>Comments</h1>
-            <table class="comments">
+            <table class="tabela">
                 <tr>
                     <th>User</th>
                     <th>Comment</th>
                     <th>Rate</th>
+                    <th v-if="user.role === 'MANAGER' "></th>
+                    <th v-if="user.role === 'MANAGER' "></th>
                    
                 </tr>
                 <tr v-for="c in comments" :key="c">
@@ -92,8 +97,8 @@
                     <td>{{ c.commentText }}</td>
                     <td>{{ c.rate }}</td>
                   
-                    <td><button v-if="user.role === 'MANAGER' && c.statusSet == 0" v-on:click="approveComment(c.id)">Approve</button></td>
-                    <td><button v-if="user.role === 'MANAGER' && c.statusSet == 0" v-on:click="rejectComment(c.id)">Reject</button></td>
+                    <td><button v-if="user.role === 'MANAGER' && c.statusSet == 0" class="btn btn-success show-btn" v-on:click="approveComment(c.id)">Approve</button></td>
+                    <td><button v-if="user.role === 'MANAGER' && c.statusSet == 0" class="btn btn-success show-btn" v-on:click="rejectComment(c.id)">Reject</button></td>
 
                 </tr>
             </table>
@@ -101,9 +106,6 @@
             
 
         </div>
-
-
-    </div>
 
    
 </template>
@@ -280,7 +282,7 @@ function loadComments(factoryId)
 {
    
  
-    if(user.value.role === "CUSTOMER" || user.value.role === "UNREGISTERED")
+    if(user.value.role === "CUSTOMER" || user.value.role === "UNREGISTERED" || user.value.role === "WORKER")
     {
         loadApprovedComments(factoryId);
     }
@@ -306,9 +308,13 @@ function getFactoryById(factoryId)
      .then(response => { factory.value = response.data; console.log(response.data)});
 }
 
-function goToUpdateChocolate(chocolateId)
+function goToUpdateChocolate()
 {
-    this.router.push({ name: 'UpdateChocolate', params: { id: chocolateId } });
+    if(this.selectedChocolate != null)
+    {
+        console.log(this.selectedChocolate);
+        this.router.push({ name: 'UpdateChocolate', params: { id: this.selectedChocolate.id } });
+    }
 }
 
 function goToAdd()
@@ -377,41 +383,12 @@ function viewCart()
 </script>
 <style scoped>
 
-.comments{
-    border: 1px solid black;
-    width: 100%;
-    text-align: center;
-}
-
-.comments th{
-    border: 1px solid black;
-
-}
-
-.comments td{
-    border-right: 1px solid black;;
-}
-
-#tabelacokolada{
-    border: 1px solid black;
-}
-
-.red{
-    border: 1px solid black;
-}
 div {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.buttons {
-    margin: 20px;
-    display: inline;
-}
-.add {
-    margin-right: 100px;
-}
 
 .selected {
     background-color: grey; /* Change to your desired highlight color */
@@ -424,7 +401,7 @@ div {
     
 }
 #map {
-    width: 25%;
+    width: 40vh;
     height: 40vh;
   }
 .error{
@@ -441,5 +418,149 @@ div {
     width: 50px;
     text-align: center;
 }
+
+.factory-info {
+  display: inline-block;
+  vertical-align: middle; /* Aligns the inline-block elements vertically */
+  margin-right: 20px; /* Adjust spacing between elements */
+}
+
+.factory-info h1 {
+  display: inline-block; /* Ensures the h1 behaves as an inline-block element */
+  margin: 0; /* Removes default margin */
+  vertical-align: middle; /* Aligns vertically within the .factory-info container */
+  margin: 0 auto;
+    color: #5a086a;
+    padding: 0;
+  background: white;
+  margin-right: 20px;
+  margin-bottom: 20px;
+}
+
+
+
+.factory-info img {
+  width: 80px;
+  height: 80px;
+  vertical-align: middle; /* Aligns vertically within the .factory-info container */
+}
+
+.info{
+    margin: 0 auto;
+    max-width: 480px;
+    background: white;
+    text-align: left;
+    border-radius: 10px;
+    padding: 25px;
+}
+
+.info .label {
+    color: gray;
+    display: inline-block;
+    margin: 20px 0 15px;
+    font-size: 0.95em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: bold;
+
+}
+
+.info  p {
+    padding: 5px 10px;
+    box-sizing: border-box;
+    border: none;
+    border-bottom: 1px solid #aeaeae;
+    color: #787878;
+    display: block;
+    width: 320px;
+    margin-left: 10px;
+}
+
+.selected {
+    background-color: rgb(245, 195, 128); /* Change to your desired highlight color */
+}
+
+.tabela {
+	color: #381d11;
+	background-color: wheat;
+	border-collapse: collapse;
+    margin-bottom: 10px;
+    
+    
+}
+
+.title {
+  flex-grow: 1; 
+  text-align: center;
+}
+
+.tabela th{
+    padding: 8px;
+	text-align: center;
+	border-bottom: 1px solid #ddd;
+    font-size: larger;
+    background-color: #5a086a;
+    color: antiquewhite;
+    text-align: center;
+    
+}
+.tabela td {
+	padding: 8px;
+	text-align: center;
+	border-bottom: 1px solid #ddd;
+    font-size: larger;
+}
+
+.buttons {
+  display: inline-block;
+}
+
+.buttons button {
+  margin-right: 10px; /* Adjust spacing between buttons */
+}
+
+
+.tabela .create {
+    text-decoration: none;
+    background-color: #5a086a;
+    color: antiquewhite;
+    margin-left: auto; 
+}
+
+
+
+.tabela tr:hover {
+	background-color: beige;
+}
+
+.tabela tr:hover {
+	background-color: beige;
+}
+
+.show-btn{
+    background-color: #5a086a;
+    border: #5a086a;
+}
+.btn:hover {
+    background-color: #0056b3;
+}
+.press-btn{
+    background-color: #5a086a;
+    border: #5a086a;
+    width: 140px;
+    margin: 30px;
+}
+
+h1 {
+  margin: 0; /* Removes default margin */
+  vertical-align: middle; /* Aligns vertically within the .factory-info container */
+  margin: 0 auto;
+    color: #5a086a;
+    padding: 0;
+  background: white;
+  margin-bottom: 10px;
+}
+
+
 </style>
 
