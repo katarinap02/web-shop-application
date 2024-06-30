@@ -42,9 +42,10 @@ public class ChocolateFactoryDAO {
 	{
 		loadFactories(contextPath);
 		path = contextPath;
+		commentDao = new CommentDAO(contextPath);
 		calculateAverageGrades();
 	}
-	private void calculateAverageGrades() {
+	public void calculateAverageGrades() {
 		// TODO Auto-generated method stub
 		commentDao = new CommentDAO(path);
 		
@@ -52,12 +53,16 @@ public class ChocolateFactoryDAO {
 		{
 			Collection<Comment> comments = commentDao.getByFactoryId(f.getId());
 			double sum = 0;
-			double count = 0;
+			double count = 0; 
 			
 			for(Comment c : comments)
 			{
-				sum += c.getRate();
-				count++;
+				if(c.getApproved() == 1)
+				{
+					sum += c.getRate();
+					count++;
+				}
+				
 			}
 			
 			if(count != 0)

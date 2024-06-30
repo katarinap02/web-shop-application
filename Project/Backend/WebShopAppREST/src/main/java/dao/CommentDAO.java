@@ -10,7 +10,10 @@ import java.util.HashMap;
 import java.util.StringTokenizer;
 import java.util.stream.Collectors;
 
+import org.glassfish.hk2.api.Factory;
+
 import beans.Chocolate;
+import beans.ChocolateFactory;
 import beans.Comment;
 import beans.Shopping;
 import enums.ShoppingStatus;
@@ -74,13 +77,18 @@ public class CommentDAO {
 	public void approveComment(int commentId)
 	{
         Comment comment = comments.containsKey(commentId) ? comments.get(commentId) : null;
-		
 		if(comment != null)
 		{
 			comment.setApproved(1);
 			comment.setStatusSet(1);
 			saveComments(path);
+			
+
 		}
+		
+		
+		
+		
 	}
 	
 	public void rejectComment(int commentId)
