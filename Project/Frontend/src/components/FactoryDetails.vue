@@ -207,7 +207,20 @@ function loadUser(){
 function approveComment(commentId)
 {
     axios.get("http://localhost:8080/WebShopAppREST/rest/comments/approve/" + commentId)
-    .then(response => { alert("Success!"); refreshComments(); });
+    .then(response => {
+        alert("Success!");
+        refreshComments();
+        return axios.get('http://localhost:8080/WebShopAppREST/rest/factories/rate'); // Replace with your second request URL
+    })
+    .then(secondResponse => {
+        // Handle the response from the second request here
+        console.log("Second request success:", secondResponse.data);
+        // Add any additional logic here
+    })
+    .catch(error => {
+        // Handle errors for both requests here
+        console.error("Error occurred:", error);
+    });
 
 }
 

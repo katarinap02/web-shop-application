@@ -1,7 +1,62 @@
 <template>
     
     <h1>My orders</h1>
-     <div class = "container">
+        
+        <div class="tabela">
+            <table>
+                <tr>
+                    <th>Order id </th>
+                    <th>Factory </th>
+                    <th>Date </th>
+                    <th>Status </th>
+                    <th>Price </th>
+                  
+                    <th> </th>
+                    <th> </th>
+    
+                </tr>
+    
+                <tr  v-for="o in orders" :key="o.id">
+                   <td>{{ o.id }}</td>
+                    <td>{{ o.factoryName }}</td>
+                    <td>{{ getDate(o.dateTime) }}</td>
+                    <td>{{ o.status }}</td>
+                    <td>{{ o.price }}</td>
+                  
+                    <td><button v-on:click="viewOrderItems(o.id)" class="btn btn-success show-btn">View</button></td>
+                    <td><button v-if="o.status === 'PENDING'" class="btn btn-success show-btn" v-on:click="cancelOrder(o)">Cancel</button>
+                    <button v-else-if="o.status === 'APPROVED' && !isRated(o.id)" class="btn btn-success show-btn" v-on:click="commentClick(o)">Rate factory</button></td>
+                </tr>
+    
+               
+            </table>
+         
+        </div>
+        <form v-bind:hidden="commentClicked === 'NOT_CLICKED'">
+            <table class="forma2">
+                <tr>
+                    <td class="label">Rate factory: </td>
+                    <td><select v-model="newComment.rate">
+                        <option value="5">5</option>
+                        <option value="4">4</option>
+                        <option value="3">3</option>
+                        <option value="2">2</option>
+                        <option value="1">1</option>
+
+                    </select></td>
+                   
+                </tr>
+                <tr>
+                    <td class="label">Comment: </td>
+                    <td><input type='text' v-model="newComment.commentText"></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><button type='submit' class="btn btn-success press-btn" v-on:click="leaveComment()">Rate factory</button></td>
+                </tr>
+            </table>
+        </form>
+        <button class="btn btn-success press-btn" @click="showFunctions1()">View functions</button>
+         <div class="function" v-if="showFunctions">
 
         <div class="search">
             <h3>Search</h3>
@@ -38,7 +93,7 @@
                 
             
             <div class="btn-container">
-            <button type="submit" class="btn btn-success press-btn1" @click.prevent="search()">Search</button>
+            <button type="submit" class="btn btn-success search-btn" @click.prevent="search()">Search</button>
           
             </div>
 
@@ -48,7 +103,7 @@
     </div>
         <div class="sort">
             <h3>Sort</h3>
-            <div>
+            <div class="container">
                 <label>Factory name: </label>
                 <label>
             <input type="radio" name="sortFactoryName" value="ascending" v-model="sortFactoryName">
@@ -63,7 +118,7 @@
             Unordered
         </label>
             </div>
-            <div>
+            <div class="container">
                 <label>Price: </label>
                 <label>
             <input type="radio" name="sortPrice" value="ascending" v-model="sortPrice">
@@ -78,7 +133,7 @@
             Unordered
         </label>
             </div>
-            <div>
+            <div class="container">
                 <label>Date: </label>
                 <label>
             <input type="radio" name="sortDate" value="ascending" v-model="sortDate">
@@ -93,68 +148,12 @@
             Unordered
         </label>
             </div>
-            
+            <div class="sortbtn-container">
+        <button class="sortbtn btn-success press-btn1" @click.prevent="sort()">Sort</button>
+        <button class="sortbtn btn-success press-btn1" @click.prevent="refresh()">Refresh</button>
         </div>
-        <div class="btn-container">
-        <button class="btn btn-success press-btn1" @click.prevent="sort()">Sort</button>
-        <button class="btn btn-success press-btn1" @click.prevent="refresh()">Refresh</button>
         </div>
-
-        <form v-bind:hidden="commentClicked === 'NOT_CLICKED'">
-            <table>
-                <tr>
-                    <td>Rate factory: </td>
-                    <td><select v-model="newComment.rate">
-                        <option value="5">5</option>
-                        <option value="4">4</option>
-                        <option value="3">3</option>
-                        <option value="2">2</option>
-                        <option value="1">1</option>
-
-                    </select></td>
-                   
-                </tr>
-                <tr>
-                    <td>Comment: </td>
-                    <td><input type='text' v-model="newComment.commentText"></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td><button type='submit' v-on:click="leaveComment()">Rate factory</button></td>
-                </tr>
-            </table>
-        </form>
         
-        <div class="table">
-            <table>
-                <tr>
-                    <th>Order id </th>
-                    <th>Factory </th>
-                    <th>Date </th>
-                    <th>Status </th>
-                    <th>Price </th>
-                  
-                    <th> </th>
-                    <th> </th>
-    
-                </tr>
-    
-                <tr  v-for="o in orders" :key="o.id">
-                   <td>{{ o.id }}</td>
-                    <td>{{ o.factoryName }}</td>
-                    <td>{{ getDate(o.dateTime) }}</td>
-                    <td>{{ o.status }}</td>
-                    <td>{{ o.price }}</td>
-                  
-                    <td><button v-on:click="viewOrderItems(o.id)">View</button></td>
-                    <td><button v-if="o.status === 'PENDING'" v-on:click="cancelOrder(o)">Cancel</button>
-                    <button v-else-if="o.status === 'APPROVED' && !isRated(o.id)" v-on:click="commentClick(o)">Rate factory</button></td>
-                </tr>
-    
-               
-            </table>
-         
-        </div>
 
      </div>
     
@@ -187,6 +186,7 @@ const commentOrder = ref({id: "", chocolateIds: [], factoryId: -1, dateTime: "00
 const newComment = ref({id: 0, buyerId: "", factoryId: 0, commentText: "", rate: 0, approved: 0, statusSet: 0, orderId: ""});
 const rated = ref('FALSE');
 const allComments = ref([]);
+const showFunctions = ref(false);
 
 onMounted(() => {
     loadUser();
@@ -222,6 +222,11 @@ function isRated(orderId)
     else
       return false;
     
+}
+
+function showFunctions1()
+{
+    showFunctions.value = !showFunctions.value;
 }
 
 const orders = ref([])
@@ -364,64 +369,260 @@ function search()
 <style scoped>
 
 
-table {
-    border: 1px solid black;
-   
-    background-color: white;
+template {
+    height: 100%;
+}
+
+.tabela {
+	color: #381d11;
+	background-color: wheat;
+	border-collapse: collapse;
+	width: 65%;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    
+}
+
+h1 {
+    margin: 0 auto;
+    color: #5a086a;
+    padding: 0;
+    background: white;
+    max-width: 520px;
+    margin-bottom: 20px;
+}
+
+.header-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.title {
+  flex-grow: 1; 
+  text-align: center;
+}
+
+.tabela th{
+    padding: 8px;
+	text-align: center;
+	border-bottom: 1px solid #ddd;
+    font-size: larger;
+    background-color: #5a086a;
+    color: antiquewhite;
+    text-align: center;
+    
+}
+.tabela td {
+	padding: 8px;
+	text-align: center;
+	border-bottom: 1px solid #ddd;
+    font-size: larger;
+}
+
+.tabela .create {
+    text-decoration: none;
+    background-color: #5a086a;
+    color: antiquewhite;
+    margin-left: auto; 
+}
+
+
+
+.tabela tr:hover {
+	background-color: beige;
+}
+
+.show-btn{
+    background-color: #5a086a;
+    border: #5a086a;
+}
+.btn:hover {
+    background-color: #0056b3;
+}
+.press-btn{
+    background-color: #5a086a;
+    border: #5a086a;
+    width: 130px;
+    margin: 30px;
 }
 
 .sort {
-    font-family: Arial, sans-serif;
-   
-    text-align: left
+    max-width: 550px;
+    margin: 0 auto;
+    padding: 15px;
+    border: 1px solid wheat;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: wheat;
+    margin-bottom: 40px;
+    margin-left: 20px;
 }
 
 .sort h3 {
-    font-size: 24px;
-   
+    font-size: 1.7em;
+    margin-bottom: 10px;
+    text-align: center; /* Center align the heading */
+    color: #5a086a;
+    
 }
 
-.sort div {
+.sort-section {
+    margin-top: 20px;
+}
+
+.container {
+    display: flex;
+    align-items: center;
     margin-bottom: 10px;
 }
 
-.sort label {
+.container label {
     display: inline-block;
-   
-}
-
-.sort label:first-child {
+    width: 130px; /* Adjust width as needed */
     font-weight: bold;
-   
+    text-align: left;
 }
 
-.table{
+.container label:first-child {
+    margin-right: 5px; /* Add margin-right to the first label */
+}
+
+.container label:not(:first-child) {
+    margin-left: 10px; /* Add margin-left to subsequent labels */
+}
+
+.container input[type="radio"] {
+    margin-right: 5px;
+    margin-top: 20px;
+}
+
+.sort .sortbtn-container {
+    text-align: center;
+    margin-top: 30px;
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    margin-left: 180px;
 }
 
-
-
-.sort label input[type="radio"] + label {
-    font-weight: normal;
-}
-
-
-.press-btn1 {
+.sort .sortbtn {
+    padding: 5px 10px;
     background-color: #5a086a;
-    border: none;
     color: white;
-    margin-right: 10px; /* Adjust as needed */
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-right: 20px; /* Adjust as needed */
     width: 80px;
 }
 
+.sort .sortbtn:hover {
+    background-color: #0056b3;
+}
 
 
-.container{
+.function{
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    justify-content: horizontal;
+    max-height: 400px;
+    margin-top: 20px;
+   
+}
+
+
+.search {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid  wheat;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color:  wheat;
+    margin-bottom: 40px;
+}
+
+.search h3 {
+    font-size: 1.7em;
+    color: #5a086a;
+}
+
+.search .form-group {
+    margin-bottom: 20px;
+}
+
+.search label {
+    display: inline-block;
+    width: 130px; /* Adjust width as needed */
+    font-weight: bold;
+    text-align: left;
+}
+
+.search input {
+    padding: 8px;
+    font-size: 1em;
+    border: none;
+    background: transparent;
+    border-bottom: 1px solid gray;
+    border-radius: 4px;
+    width: calc(100% - 130px); /* Adjust width for better appearance */
+}
+
+.search-btn-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.search-btn {
+    padding: 5px 10px;
+    background-color: #5a086a;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    text-align: center; /* Center align text */
+    display: inline-block; /* Ensure inline-block display to center text properly */
+    margin-top: 20px;
+}
+
+.search-btn:hover {
+    background-color: #0056b3;
+}
+
+.btn-text {
+    margin-top: 5px; /* Adjust margin as needed */
+    color: #555; /* Example color */
+    font-size: 0.8em; /* Example font size */
+}
+
+.forma2 input {
+    padding: 5px 10px;
+    box-sizing: border-box;
+    border: none;
+    border-bottom: 1px solid #5a086a;
+    color: #555;
+    display: block;
+    width: 320px;
+    margin-left: 10px;
+}
+
+.forma2 select {
+    padding: 5px 10px;
+    box-sizing: border-box;
+    border: 1px solid #5a086a;
+    color: #555;
+    display: block;
+    width: 320px;
+    margin-left: 10px;
+}
+
+.forma2 .label {
+    color: gray;
+    font-size: 0.95em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: bold;
+
 }
 
 </style>

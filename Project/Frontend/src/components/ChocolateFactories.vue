@@ -519,6 +519,9 @@ h1 {
 	text-align: center;
 	border-bottom: 1px solid #ddd;
     font-size: larger;
+    background-color: #5a086a;
+    color: antiquewhite;
+    text-align: center;
     
 }
 .tabela td {
@@ -535,11 +538,6 @@ h1 {
     margin-left: auto; 
 }
 
-.tabela th {
-	background-color: #5a086a;
-    color: antiquewhite;
-    text-align: center;
-}
 
 
 .tabela tr:hover {

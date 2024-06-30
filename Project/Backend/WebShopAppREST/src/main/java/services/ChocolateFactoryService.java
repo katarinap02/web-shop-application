@@ -27,7 +27,7 @@ public class ChocolateFactoryService {
 	
 	@Context
 	ServletContext ctx;
-
+ 
 	
 	@PostConstruct
 	public void init()
@@ -113,6 +113,18 @@ public class ChocolateFactoryService {
 	public Collection<ChocolateFactory> searchFactories(@QueryParam("factory") String factory, @QueryParam("chocolate") String chocolate, @QueryParam("location") String location, @QueryParam("rating") String rating, @QueryParam("country") String country){
 		ChocolateFactoryDAO dao = (ChocolateFactoryDAO) ctx.getAttribute("factoryDAO");
 		return dao.searchFactories(factory, chocolate, location, rating, country);
+	}
+	
+	@GET
+	@Path("/rate")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public double reloadRate()
+	{
+		ChocolateFactoryDAO dao = (ChocolateFactoryDAO) ctx.getAttribute("factoryDAO");
+		dao.calculateAverageGrades();
+		return 1.0;
+		
 	}
 	
 
