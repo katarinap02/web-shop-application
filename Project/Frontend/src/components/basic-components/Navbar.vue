@@ -47,7 +47,7 @@
                 <a class="nav-link" href="#/login">Log in</a>
               </li>
               <li class="nav-item" v-else-if="user.role === 'ADMINISTRATOR' || 'MANAGER'">
-                <a class="nav-link" href="#/" @click.prevent="logOut">Log out</a>
+                <a class="nav-link" href="#" @click="logOut">Log out</a>
               </li>
 
 
@@ -113,11 +113,16 @@ function logOut()
     usernameData.value = "";
     const currentRoute = window.location.pathname;
     console.log(currentRoute);
-    if (currentRoute !== '/') {
-        router.push("/");
-    } else {
+    
+   router.push("/").then(() => {
+        // Only reload the page after the navigation has completed
         window.location.reload();
-    }
+    }).catch(err => {
+        // Handle the error if necessary
+        console.error("Navigation error:", err);
+    });
+    
+      
     
 }
 
