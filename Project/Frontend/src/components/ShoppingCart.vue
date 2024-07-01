@@ -14,6 +14,7 @@
             <th class="red">Description</th>
             <th class="red">Image</th>
             <th class="red">Amount</th>
+            <th></th>
            
         </tr>
 
@@ -30,18 +31,22 @@
             <img :src="c.imageUrl" alt="ChocolateImage" style="width: 50px; height: 50px;">
           </td>
           <td class="red">{{ getAmount(c.id) }}</td>
-               <td><button v-on:click="editAmount(c.id)">Edit amount</button></td>
+               <td><button class="btn btn-success edit-btn" v-on:click="editAmount(c.id)">Edit amount</button></td>
              
             </tr>
         </table>
 
-        <table>
+        <table class="price">
           <td>Price: </td>
           <td>{{ shoppingCart.price }}</td>
         </table>
 
-        <button  class="delete" @click="deleteSelectedChocolate()">Delete selected</button>
-        <button class="order" v-on:click="createOrder()">Create order</button>
+        <div class="btn-container">
+          <button  class="btn btn-success delete-btn"  @click="deleteSelectedChocolate()">Delete selected</button>
+          <button class="btn btn-success order-btn" v-on:click="createOrder()">Create order</button>
+
+        </div>
+      
         
 
  
@@ -203,10 +208,7 @@ loadItems();
 <style scoped>
 
 
-table{
-  border: 1px solid black;
 
-}
 
  div {
   display: flex;
@@ -214,15 +216,95 @@ table{
   align-items: center;
  }
 
- #tabelacokolada{
-    border: 1px solid black;
+ .price {
+  color: #5a086a;
+  font-weight: bold;
+  font-size: x-large;
+
+ }
+
+.tabela {
+	color: #381d11;
+	background-color: wheat;
+	border-collapse: collapse;
+    margin-bottom: 10px;
+    
+    
 }
 
-.red{
-    border: 1px solid black;
+.tabela th{
+  padding: 8px;
+text-align: center;
+border-bottom: 1px solid #ddd;
+  font-size: larger;
+  background-color: #5a086a;
+  color: antiquewhite;
+  text-align: center;
+  
+}
+.tabela td {
+padding: 8px;
+text-align: center;
+border-bottom: 1px solid #ddd;
+  font-size: larger;
 }
 
-.selected {
-    background-color: grey; /* Change to your desired highlight color */
+.tabela .create {
+  text-decoration: none;
+  background-color: #5a086a;
+  color: antiquewhite;
+  margin-left: auto; 
+}
+
+
+
+.tabela tr:hover {
+background-color: beige;
+}
+
+.tabela tr:hover {
+background-color: beige;
+}
+
+h1 {
+  margin-top: 20px;
+ 
+  vertical-align: middle;
+
+    color: #5a086a;
+ 
+  background: white;
+  margin-bottom: 10px;
+}
+
+.title {
+  flex-grow: 1; 
+  text-align: center;
+}
+
+.delete-btn{
+  background-color: #5a086a;
+  border: #5a086a;
+}
+.btn:hover {
+  background-color: #0056b3;
+}
+.order-btn{
+  background-color: #5a086a;
+  border: #5a086a;
+  width: 135px;
+  margin: 30px;
+}
+
+.edit-btn{
+  background-color: #5a086a;
+  border: #5a086a;
+ 
+}
+
+.btn-container{
+  display: flex;
+  flex-direction: row;
+  margin-left: 40px;
 }
 </style>

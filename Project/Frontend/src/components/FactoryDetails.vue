@@ -434,14 +434,13 @@ div {
 
 .factory-info {
   display: inline-block;
-  vertical-align: middle; /* Aligns the inline-block elements vertically */
-  margin-right: 20px; /* Adjust spacing between elements */
-}
+  vertical-align: middle; 
+  margin-right: 20px; }
 
 .factory-info h1 {
-  display: inline-block; /* Ensures the h1 behaves as an inline-block element */
-  margin: 0; /* Removes default margin */
-  vertical-align: middle; /* Aligns vertically within the .factory-info container */
+  display: inline-block; 
+  margin: 0; 
+  vertical-align: middle; 
   margin: 0 auto;
     color: #5a086a;
     padding: 0;
@@ -455,7 +454,7 @@ div {
 .factory-info img {
   width: 70px;
   height: 70px;
-  vertical-align: middle; /* Aligns vertically within the .factory-info container */
+  vertical-align: middle; 
 }
 
 .info{
@@ -491,7 +490,7 @@ div {
 
 
 .selected {
-    background-color: rgb(245, 195, 128); /* Change to your desired highlight color */
+    background-color: rgb(245, 195, 128);
 }
 
 .tabela {
@@ -530,7 +529,7 @@ div {
 }
 
 .buttons button {
-  margin-right: 10px; /* Adjust spacing between buttons */
+  margin-right: 10px; 
 }
 
 
@@ -566,8 +565,8 @@ div {
 }
 
 h1 {
-  margin: 0; /* Removes default margin */
-  vertical-align: middle; /* Aligns vertically within the .factory-info container */
+  margin: 0; 
+  vertical-align: middle; 
   margin: 0 auto;
     color: #5a086a;
     padding: 0;
