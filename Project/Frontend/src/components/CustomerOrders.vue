@@ -20,7 +20,7 @@
                    <td>{{ o.id }}</td>
                     <td>{{ o.factoryName }}</td>
                     <td>{{ getDate(o.dateTime) }}</td>
-                    <td>{{ o.status }}</td>
+                    <td>{{ formatStatus(o.status) }}</td>
                     <td>{{ o.price }}</td>
                   
                     <td><button v-on:click="viewOrderItems(o.id)" class="btn btn-success show-btn">View</button></td>
@@ -242,6 +242,11 @@ function loadCustomerOrders()
 function viewOrderItems(orderId)
 {
     alert("To be implemented");
+}
+
+function formatStatus(input)
+{
+    return input.toLowerCase();
 }
 
 function getDate(dateStr)
