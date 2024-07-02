@@ -29,7 +29,8 @@
 
     </div>
     <div>
-        <button v-on:click="showMap()"  class="btn btn-success show-btn" >Show map</button>
+        <button v-show="mapClicked == 'NO_CLICK'" v-on:click="showMap()"  class="btn btn-success show-btn" >Show map</button>
+        <button v-show="mapClicked !== 'NO_CLICK'" v-on:click="closeMap()"  class="btn btn-success show-btn" >Close map</button>
         <div  v-show="mapClicked !== 'NO_CLICK'" id="map"></div>
 
     </div>
@@ -141,6 +142,12 @@ onMounted(() => {
     loadUser();
 
 })
+
+function closeMap()
+{
+    mapClicked.value = "NO_CLICK"
+    
+}
 
 function showMap()
 {
