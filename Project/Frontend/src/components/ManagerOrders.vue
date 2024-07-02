@@ -128,6 +128,8 @@ const searchEndDate = ref("");
 const searchFactoryName = ref("");
 const showFunctions = ref(false);
 
+const router = useRouter();
+
 
 onMounted(() => {
     loadUser();
@@ -213,7 +215,7 @@ function showFunctions1()
 
 function viewOrderItems(orderId)
 {
-    alert("To be implemented");
+    this.router.push({name: "OrderDetails", params:{orderId: orderId}});
 }
 
 function rejectClick(orderId)

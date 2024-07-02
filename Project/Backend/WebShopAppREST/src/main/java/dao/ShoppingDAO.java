@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.stream.Collectors;
 
@@ -43,8 +44,61 @@ public class ShoppingDAO {
 	}
 	
 	
+	public ArrayList<Chocolate> getItemsByOrder(String orderId)
+	{
+        ArrayList<Chocolate> result = new ArrayList<Chocolate>();
+        chocolateDao = new ChocolateDAO(path);
+        
+		Shopping order = buys.containsKey(orderId) ? buys.get(orderId) : null;
+		
+		if(order != null)
+		{
+			List<Integer> chocolateIds = order.getChocolateIds();
+			 chocolateIds = removeDuplicates(chocolateIds);
+			for(Integer id : chocolateIds)
+			{
+				result.add(chocolateDao.findById(id));
+			}
+			
+			return result;
+		}
+		
+		return null;
 	
+	}
 	
+	public List<Integer> getChocolateIdsByOrder(String orderId)
+	{
+	        
+			Shopping order = buys.containsKey(orderId) ? buys.get(orderId) : null;
+			
+			if(order != null)
+			{
+				return order.getChocolateIds();
+				
+			}
+			
+			return null;
+		
+	}
+	
+	public double getPriceByOrder(String orderId)
+	{
+		Shopping order = buys.containsKey(orderId) ? buys.get(orderId) : null;
+		
+		if(order != null)
+		{
+			return order.getPrice();
+			
+		}
+		
+		return 0;
+		
+	}
+	  private static List<Integer> removeDuplicates(List<Integer> list) {
+	        Set<Integer> set = new HashSet<>(list);
+	        return new ArrayList<>(set);
+	    }
 	public Collection<Shopping> findAll()
 	{
 		 return buys.values();
@@ -65,6 +119,8 @@ public class ShoppingDAO {
 		return buys.values().stream().filter(x -> x.getFactoryId() == factoryId && x.getStatus() == ShoppingStatus.APPROVED).collect(Collectors.toList());
 	}
 	
+	
+
 	
 	public Shopping createOrder(String username)
 	{

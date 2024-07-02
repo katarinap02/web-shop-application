@@ -170,6 +170,8 @@ const user = ref('');
 const usernameData = ref(localStorage.getItem('userData'));
 const factories = ref([]);
 
+const router = useRouter();
+
 const sortFactoryName = ref('unordered');
 const sortPrice = ref('unordered');
 const sortDate = ref('unordered');
@@ -241,7 +243,7 @@ function loadCustomerOrders()
 
 function viewOrderItems(orderId)
 {
-    alert("To be implemented");
+   this.router.push({name: "OrderDetails", params:{orderId: orderId}});
 }
 
 function formatStatus(input)

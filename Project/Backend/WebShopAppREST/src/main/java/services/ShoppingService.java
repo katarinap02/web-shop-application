@@ -1,6 +1,8 @@
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
@@ -13,6 +15,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import beans.Chocolate;
 import beans.Shopping;
 import beans.ShoppingCart;
 import dao.ShoppingCartDAO;
@@ -156,6 +159,33 @@ public class ShoppingService {
 	    // Access the DAO and perform the search with the filtered parameters
 	    ShoppingDAO dao = (ShoppingDAO) ctx.getAttribute("shoppingDAO");
 	    return dao.searchShoppingsCustomer(factoryNameFilter, startPriceFilter, endPriceFilter, startDateFilter, endDateFilter, customername);
+	}
+	
+	@GET
+	@Path("/getitems/{orderId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<Chocolate> getItems(@PathParam("orderId") String orderId)
+	{
+		  ShoppingDAO dao = (ShoppingDAO) ctx.getAttribute("shoppingDAO");
+		  return dao.getItemsByOrder(orderId);
+	}
+	
+	@GET
+	@Path("/getids/{orderId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Integer> getIds(@PathParam("orderId") String orderId)
+	{
+		  ShoppingDAO dao = (ShoppingDAO) ctx.getAttribute("shoppingDAO");
+		  return dao.getChocolateIdsByOrder(orderId);
+	}
+	
+	@GET
+	@Path("/getprice/{orderId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public double getPrice(@PathParam("orderId") String orderId)
+	{
+		  ShoppingDAO dao = (ShoppingDAO) ctx.getAttribute("shoppingDAO");
+		  return dao.getPriceByOrder(orderId);
 	}
 	
 	

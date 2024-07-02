@@ -16,7 +16,7 @@ import ViewProfileView from '../views/ViewProfileView.vue';
 import ViewUsersView from '../views/ViewUsersView.vue';
 import AllUsersView from '../views/AllUsersView.vue';
 import MyFactoryView from '../views/MyFactoryView.vue';
-
+import OrderDetailsView from '@/views/OrderDetailsView.vue';
 const routes = [
   {
     path: "/",
@@ -108,7 +108,12 @@ const routes = [
     path: "/myfactory",
     name: "MyFactory",
     component: MyFactoryView
-  }
+  },
+  {
+    path: "/orderdetails/:orderId",
+    name: "OrderDetails",
+    component: OrderDetailsView
+  },
 ];
 
 const router = createRouter({
