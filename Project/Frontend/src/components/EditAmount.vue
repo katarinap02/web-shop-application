@@ -93,9 +93,9 @@ function getChocolateId(chocolateId)
       .then(response => { console.log(response.data); 
 
         axios.post("http://localhost:8080/WebShopAppREST/rest/carts/updateAmount/?cartId=" + cartId.value + "&chocolateId=" + chocolateId.value + "&amount=" + chocolateAmount.value + "&price=" + chocolate.value.price)
-        .then(response => { alert("Success!"); this.router.push({name: 'ShowCart', params: {cartid: cartId.value }}); });
+        .then(response => { alert("Success!"); });
        });
-
+        this.router.push({name: 'ShowFactory', params: {id: chocolate.value.factory }});
      
       
       

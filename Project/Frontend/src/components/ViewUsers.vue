@@ -20,7 +20,7 @@
                 <td>{{formatRole(u.role)}}</td>
                 <td>{{ formatCustomerType(u.customerId, u.role) }}</td>
                 <td>{{formatBloked(u.suspicious)}}</td>
-                <td class="td1">{{formatBloked(u.bloked)}} <button v-show = "u.role !== 'ADMINISTRATOR'" class=" btn btn-success blokButton" @click.prevent="blokUser(u.username)">block</button></td>
+                <td class="blocked-column"><label>{{formatBloked(u.bloked)}} </label><button v-show = "u.role !== 'ADMINISTRATOR'" class=" btn btn-success blokButton" @click.prevent="blokUser(u.username)">block</button></td>
 
             </tr>
         </table>
@@ -439,6 +439,8 @@ h1 {
 	text-align: center;
 	border-bottom: 1px solid #ddd;
     font-size: larger;
+    
+    
 }
 
 .tabela .create {
@@ -452,6 +454,10 @@ h1 {
 	background-color: #5a086a;
     color: antiquewhite;
     text-align: center;
+}
+
+.tabela label {
+    margin-right: 2px;
 }
 
 
@@ -477,11 +483,7 @@ h1 {
     border: none; /* Remove the border if not needed */
     padding: 3px 4px; /* Adjust padding for a smaller button */
     color: white; /* Set text color */
-    align-items: center;
-    position: absolute; /* Position the button absolutely within the <td> */
-    top: 50%; /* Adjust as needed */
-    right: 5px; /* Adjust as needed */
-    transform: translateY(-50%);
+    width: 40px;
 }
 
 .blokButton:hover {
@@ -496,6 +498,10 @@ h1 {
 .selected {
     background-color: rgb(245, 195, 128); /* Change to your desired highlight color */
 }
+
+.blocked-column {
+    background-color: wheat; /* Inherit the background color from the row */
+  }
 
 .sort {
     max-width: 560px;

@@ -1,8 +1,5 @@
 <template>
 
-
-    
-    
     <h1>{{ chocolate.name }}</h1>
     <img :src="chocolate.imageUrl" alt="Factory Logo" style="width: 300px; height: 300px;">
     <div class = "chocolate-info">
@@ -116,10 +113,11 @@ function loadDiscount(username)
       .then(response => { console.log(response.data);  
 
         axios.post("http://localhost:8080/WebShopAppREST/rest/carts/addtocart/?cartId=" + cartId.value + "&chocolateId=" + chocolateId.value + "&amount=" + chocolateAmount.value + "&price=" + price.value + "&factoryId=" + chocolate.value.factory)
-        .then(response => { alert("Success!");     this.router.push({name: 'ShowFactory', params: {id: chocolate.value.factory }}); });
+        .then(response => { alert("Success!");     });
       
       
       });
+       this.router.push({name: 'ShowFactory', params: {id: chocolate.value.factory }});
 
         
       

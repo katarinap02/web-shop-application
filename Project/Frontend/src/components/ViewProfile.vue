@@ -29,7 +29,8 @@
     <td><p>{{user.role}}</p></td>
 </tr>
 <tr v-if="factoryName !== ''">
-    <td class="label">In charge of the factory:</td>
+    <td class="label" v-if="user.role !== 'worker'">In charge of the factory:</td>
+    <td class="label" v-if="user.role === 'worker'">Works in a factory:</td>
     <td><p>{{factoryName}}</p></td>
 </tr>
 
