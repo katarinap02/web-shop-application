@@ -42,8 +42,9 @@
         </table>
 
         <div class="btn-container">
-          <button  class="btn btn-success delete-btn"  @click="deleteSelectedChocolate()">Delete selected</button>
+          <button class="btn btn-success delete-btn" v-on:click="goBack()">View chocolates</button>
           <button class="btn btn-success order-btn" v-on:click="createOrder()">Create order</button>
+          <button  class="btn btn-success delete-btn"  @click="deleteSelectedChocolate()">Delete selected</button>
 
         </div>
       
@@ -147,6 +148,11 @@ function getAmount(chocolateId)
   
 }
 
+function goBack()
+{
+  this.router.push({name: 'ShowFactory', params: {id: shoppingCart.value.factoryId }});
+}
+
 function createOrder()
 {
  
@@ -199,9 +205,7 @@ function createOrder()
 });
 
 loadItems();
-  }
-
-}
+  }}
 
 
 </script> 
@@ -285,6 +289,7 @@ h1 {
 .delete-btn{
   background-color: #5a086a;
   border: #5a086a;
+  width: 140px;
 }
 .btn:hover {
   background-color: #0056b3;

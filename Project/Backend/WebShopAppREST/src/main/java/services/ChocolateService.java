@@ -71,7 +71,7 @@ public class ChocolateService {
 		ChocolateDAO chocolateDao = (ChocolateDAO) ctx.getAttribute("chocolateDAO");
 		return chocolateDao.addChocolate(chocolate);
 		
-	}
+	} 
 	@POST
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)

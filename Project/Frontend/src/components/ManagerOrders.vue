@@ -180,7 +180,7 @@ function loadFactoryId()
 {
     alert(usernameData.value);
    axios.get("http://localhost:8080/WebShopAppREST/rest/getfactory/" + usernameData.value)
-   .then(response => { alert("uslo"); console.log(response.data); factoryId.value = response.data; alert(factoryId.value);})
+   .then(response => { console.log(response.data); factoryId.value = response.data; alert(factoryId.value);})
 }
 function loadManagerOrders()
 {

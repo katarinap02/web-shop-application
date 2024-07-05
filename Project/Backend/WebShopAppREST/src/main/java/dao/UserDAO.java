@@ -308,7 +308,7 @@ public class UserDAO {
 					ArrayList<LocalDate> cancelDate = new ArrayList<>();
 					
 			            String datesTokens = st.nextToken().trim();
-			            if (!datesTokens.isEmpty() && datesTokens.equals("2023-01-01")) {
+			            if (!datesTokens.isEmpty()) {
 			                // Split the datesTokens string by commas
 			                String[] dateTokens = datesTokens.split(",");
 			                for (String dateStr : dateTokens) {
@@ -431,8 +431,10 @@ public class UserDAO {
 		{
 			user.setPoints(user.getPoints() - (price/1000)*133*4);
 			ArrayList<LocalDate> rejectedOrders = user.getRejectedOrders();
+			System.out.println("Initial Rejected Orders: " + rejectedOrders);
 			rejectedOrders.add(LocalDate.now());
 			user.setRejectedOrders(rejectedOrders);
+			System.out.println("Updated Rejected Orders: " + user.getRejectedOrders());
 			saveUsers(path);
 			setCustomerRole(user);
 			checkIfSuspicious(user);

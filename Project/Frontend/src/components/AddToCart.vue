@@ -107,6 +107,11 @@ function loadDiscount(username)
     }
     else
     {
+        if(chocolateAmount.value == 0)
+        {
+
+        }
+        else{
                 
         chocolate.value.number = chocolate.value.number - chocolateAmount.value;
         axios.post("http://localhost:8080/WebShopAppREST/rest/chocolates/" + chocolateId.value, this.chocolate)
@@ -117,6 +122,7 @@ function loadDiscount(username)
       
       
       });
+      }
        this.router.push({name: 'ShowFactory', params: {id: chocolate.value.factory }});
 
         
