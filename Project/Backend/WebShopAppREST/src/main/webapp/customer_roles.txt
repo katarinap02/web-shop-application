@@ -1,4 +1,4 @@
 0;Gold;0.75;4000
 1;Silver;0.90;3000
-2;Bronze;95;1500
+2;Bronze;0.95;1500
 3;Regular;1;0
