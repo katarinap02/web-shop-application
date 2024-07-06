@@ -75,7 +75,7 @@ function getChocolateId(chocolateId)
   function updateAmount()
   {
     
-    alert(oldAmount);
+    
     if(chocolateAmount.value > chocolate.value.number)
     {
         alert("There is not enough chocolates");
