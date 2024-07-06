@@ -11,7 +11,7 @@
             </tr>
             <tr>
                 <td class="label">Rate: </td>
-                <td><p>{{ factory.rate !== -1 ? factory.rate : '' }}</p></td>
+                <td><p>{{ factory.rate !== -1 ? factory.rate.toFixed(2) : '' }}</p></td>
             </tr>
             <tr>
                 <td class="label">Status: </td>

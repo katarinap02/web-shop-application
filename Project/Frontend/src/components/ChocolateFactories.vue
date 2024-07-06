@@ -18,7 +18,7 @@
           </td>
                 <td>{{b.name}}</td>
                 <td> {{b.location.address}} {{b.location.latitude }} {{b.location.longitude }}</td>
-                <td>{{ b.rate !== -1 ? b.rate : '' }}</td>
+                <td>{{ b.rate !== -1 ? b.rate.toFixed(2) : '' }}</td>
 
                 <td><button class="btn btn-success show-btn" v-on:click="showFactory(b.id)">Show</button></td>
 

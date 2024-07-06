@@ -247,7 +247,7 @@ function formatPoints(point)
     {
         return ""
     }
-    else return point
+    else return point.toFixed(2)
 }
 
 function formatBloked(blok) {

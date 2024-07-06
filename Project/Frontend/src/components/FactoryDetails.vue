@@ -9,7 +9,7 @@
            
             <tr>
                 <td class="label">Rate: </td>
-                <td><p>{{ factory.rate !== 0 ? factory.rate : '' }}</p></td>
+                <td><p>{{ factory.rate !== 0 ? factory.rate.toFixed(2) : '' }}</p></td>
             </tr>
             <tr>
                 <td class="label">Status: </td>
