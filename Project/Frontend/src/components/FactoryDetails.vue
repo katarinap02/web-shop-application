@@ -75,7 +75,7 @@
             <button v-if="user.role === 'MANAGER' && user.factory && user.factory.id === factory.id" class="btn btn-success press-btn" type="button" @click.prevent="goToAdd()">Add</button>
             <button v-if="user.role==='MANAGER' && user.factory.id === factory.id" class="btn btn-success press-btn" @click="goToUpdateChocolate()">Edit selected</button>
             <button v-if="user.role === 'MANAGER' && user.factory && user.factory.id === factory.id" class="btn btn-success press-btn" @click="deleteSelectedChocolate()">Delete selected</button>
-            <button v-if="user.role === 'CUSTOMER'" class="btn btn-success press-btn" @click="viewCart()">View cart</button>
+            <button v-if="user.role === 'CUSTOMER' && shoppingCart.price != 0" class="btn btn-success press-btn" @click="viewCart()">View cart</button>
             <div v-if="selectedChocolate && user.factory && user.factory.id === factory.id && user.role === 'WORKER'" class="changeAmount">
                 <input name="amount" type="number" v-model="chocolateAmount" :class="{'error': chocolateAmount < 0}">
                 <button class="btn btn-success press-btn" type="button"  @click.prevent="changeChocolateAmount()">Change amount</button>
@@ -203,7 +203,20 @@ function loadUser(){
     axios.get("http://localhost:8080/WebShopAppREST/rest/getLogedUser?username=" + usernameData.value)
     .then(response => {
         user.value = response.data;
+        
+        axios.get("http://localhost:8080/WebShopAppREST/rest/getfactory/" + user.value.username)
+        .then( response => { managerFactory.value = response.data;  console.log(response.data); 
+            
+            axios.get('http://localhost:8080/WebShopAppREST/rest/carts/' + user.value.username)
+    .then(response => { shoppingCart.value = response.data;  
         loadComments(factoryId);
+    })
+           
+
+    })
+       
+    
+     
     })
     .catch(error => {
       //  localStorage.setItem('userData', JSON.stringify(""));
@@ -240,6 +253,8 @@ function rejectComment(commentId)
 const route = useRoute();
 const router = useRouter();
 const factoryId = ref(route.params.id);
+const managerFactory = ref(0);
+
 const selectedChocolate = ref(null);
 const selectedAmount = ref(null);
 const factory = ref({ "chocolates": [],
@@ -300,16 +315,21 @@ function refreshComments()
 
 function loadComments(factoryId)
 {
-   
+    
+      
  
-    if(user.value.role === "CUSTOMER" || user.value.role === "UNREGISTERED" || user.value.role === "WORKER")
+    if(user.value.role === "CUSTOMER" || user.value.role === "UNREGISTERED" || user.value.role === "WORKER" || managerFactory.value != factoryId.value)
     {
+        
         loadApprovedComments(factoryId);
     }
     else
     {
         axios.get("http://localhost:8080/WebShopAppREST/rest/comments/" + factoryId.value)
-        .then(response => {comments.value = response.data; console.log(response.data);})
+        .then(response => {comments.value = response.data; console.log(response.data);
+
+            
+        })
 
     }
    
@@ -373,7 +393,6 @@ function addToCart(chocolateId)
     .then(response => { shoppingCart.value = response.data;  this.router.push({name: 'AddToCart', params: {id: chocolateId, cartId: shoppingCart.value.id}}); console.log(response.data);})
     
    
-    
     
     
     

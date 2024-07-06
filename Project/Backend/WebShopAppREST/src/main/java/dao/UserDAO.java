@@ -486,7 +486,12 @@ public class UserDAO {
 		{
 			if(u.getUsername().equals(username))
 			{	
-				return u.getFactory().getId();
+				ChocolateFactory factory = u.getFactory();
+				
+				if(factory == null)
+					return -1;
+				else
+					return factory.getId();
 			
 			    
 			}

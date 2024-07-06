@@ -38,7 +38,7 @@
                 <a class="nav-link" href="#/viewUsers">All users</a>
               </li>
               
-              <li class="nav-item" v-if="user.role === 'MANAGER'">
+              <li class="nav-item" v-if="user.role === 'MANAGER' && managerFactory != -1">
                 <a class="nav-link" href="#/myfactory">My factory</a>
               </li>
 
@@ -79,6 +79,8 @@ const user = ref('');
 const usernameData = ref(localStorage.getItem('userData'));
 const router = useRouter();
 
+const managerFactory = ref(0)
+
 onMounted(() => {
     loadUser();
 
@@ -91,6 +93,11 @@ function loadUser(){
     axios.get('http://localhost:8080/WebShopAppREST/rest/getLogedUser?username=' + usernameData.value)
     .then(response => {
         user.value = response.data;
+
+        axios.get("http://localhost:8080/WebShopAppREST/rest/getfactory/" + user.value.username)
+        .then( response => { managerFactory.value = response.data;  console.log(response.data); 
+          
+    })
     })
     .catch(error => {
       //  localStorage.setItem('userData', JSON.stringify(""));
