@@ -9,4 +9,4 @@
 8;2;2.0;2;2;2;2.0;2;2;false;0;true
 9;3;3.0;3;2;3;3.0;3;3;false;0;true
 10;5;5.0;5;2;5;5.0;5;5;true;2;true
-11;milki;400.0;for cooking;2;black;310.0;ukusna;https://i.ebayimg.com/images/g/zk0AAOSwxjhil8bo/s-l1600.jpg;true;5;false
+11;milki;400.0;for cooking;2;black;310.0;ukusna;https://i.ebayimg.com/images/g/zk0AAOSwxjhil8bo/s-l1600.jpg;true;31;false

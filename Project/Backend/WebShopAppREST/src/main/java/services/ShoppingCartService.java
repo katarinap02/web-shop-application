@@ -126,6 +126,6 @@ public class ShoppingCartService {
 		return dao.getAmountOfChocolate(Integer.parseInt(cartId), Integer.parseInt(chocolateId));
 	}
 	
-	
+
 
 }

@@ -61,14 +61,17 @@ const cartId = ref(route.params.cartId);
 const chocolate = ref({ name: "", price: 0, kind: "", factory: -1, type: "", grams: 0, description: "", imageUrl: "", status: false, number: 0 });
 const chocolateAmount = ref(route.params.amount);
 const oldAmount = chocolateAmount.value;
+
 onMounted(() => {  getChocolateId(chocolateId); })
+
+
 
 
 function getChocolateId(chocolateId)
   {
    
      axios.get("http://localhost:8080/WebShopAppREST/rest/chocolates/getId/" + chocolateId.value)
-     .then(response => { chocolate.value = response.data; console.log(response.data)});
+     .then(response => { chocolate.value = response.data; console.log(response.data);  });
   }
 
 
@@ -93,7 +96,7 @@ function getChocolateId(chocolateId)
       .then(response => { console.log(response.data); 
 
         axios.post("http://localhost:8080/WebShopAppREST/rest/carts/updateAmount/?cartId=" + cartId.value + "&chocolateId=" + chocolateId.value + "&amount=" + chocolateAmount.value + "&price=" + chocolate.value.price)
-        .then(response => { });
+        .then(response => {  });
        
        });
        this.router.push({name: "ShowCart", params: {cartid: cartId.value}});

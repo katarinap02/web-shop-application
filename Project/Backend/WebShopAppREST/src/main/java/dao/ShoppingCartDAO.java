@@ -38,6 +38,8 @@ public class ShoppingCartDAO {
 		 return carts.values();
 	}
 	
+
+	
 	public ShoppingCart openCart(ShoppingCart cart)
 	{
 		Integer maxId = -1;
