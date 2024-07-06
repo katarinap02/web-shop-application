@@ -89,6 +89,7 @@ function getChocolateId(chocolateId)
     }
     else
     {
+      
         var difference = chocolateAmount.value - oldAmount;
        
         chocolate.value.number = chocolate.value.number - difference;
@@ -99,7 +100,7 @@ function getChocolateId(chocolateId)
         .then(response => {  });
        
        });
-       this.router.push({name: "ShowCart", params: {cartid: cartId.value}});
+       this.router.push({name: "ShowFactory", params: {id: chocolate.value.factory}});
      
      
       
