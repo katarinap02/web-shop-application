@@ -8,3 +8,4 @@
 7;9;-1;21:08;21:08;false;0;43.99;21.23;Sportska, 35000 Voljavče, Srbija;9;0.0;true
 8;t;-1;08:00;15:00;false;0;43.82;21.34;Moravska 98b, 35258 Opština Paraćin, Srbija;t;0.0;true
 9;p;-1;08:00;15:00;false;0;44.15;21.08;Vojvode Mišića 2, 34227 Opština Batočina, Srbija;p;0.0;true
+10;Fabrika;-1;08:00;15:00;false;0;44.81;20.43;Bulevar Arsenija Čarnojevića, 11070 Beograd, Srbija;https://media.istockphoto.com/id/186682188/photo/chocolate-bar-with-a-missing-bite-on-white-background.jpg?s=612x612&w=0&k=20&c=mOscVi0weT7rT5bKoFdSWGGZ6-Wt7dkV77ajV-rnk80=;0.0;false

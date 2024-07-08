@@ -1,1 +1,1 @@
-0;zika123;2;ko;5;1;1;EKPvY95GLb;1;zika123;2;aaa;4;1;1;3iyUgyAd4T;2;zika123;2;Really good;5;1;1;gpiGNEL11o;3;zika123;1;Very good;5;1;1;MZfeTNe17u;4;bolek123;0;Good;4;1;1;WfAhpNp6wL;
+0;zika123;2;ko;5;1;1;EKPvY95GLb;1;zika123;2;aaa;4;1;1;3iyUgyAd4T;2;zika123;2;Really good;5;1;1;gpiGNEL11o;3;zika123;1;Very good;5;1;1;MZfeTNe17u;4;bolek123;0;Good;4;1;1;WfAhpNp6wL;5;zika123;1;komenar;5;1;1;FfAiQOycZo;
